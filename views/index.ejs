@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="font-poppins w-full h-full ">
+    <!-- Hero -->
+    <div class="relative overflow-hidden">
+      <div
+        class="mx-auto max-w-screen-md py-12 px-4 sm:px-6 md:max-w-screen-xl md:py-20 lg:py-32 md:px-8"
+      >
+        <div class="md:pe-8 md:w-1/2 xl:pe-0 xl:w-5/12">
+          <!-- Title -->
+          <h1
+            class="text-3xl text-gray-800 font-bold md:text-4xl md:leading-tight lg:text-5xl lg:leading-tight"
+          >
+            Website Penukaran Prodi <span class="text-hijauUnand">Unand</span>
+          </h1>
+          <p class="mt-3 text-base text-gray-500 mb-5">
+            Website yang membantu mahasiswa dalam melakukan proses penukaran
+            prodi antar fakultas di Universitas Andalas.
+          </p>
+          <!-- End Title -->
+
+          <!-- Form -->
+          <form>
+            <div class="my-4">
+              <label for="username" class="block text-sm font-light mb-3"
+                >Username</label
+              >
+              <input
+                type="text"
+                id="username"
+                class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                placeholder="Username"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="block text-sm font-light mb-3"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                placeholder="Password"
+              />
+            </div>
+            <!-- Checkbox -->
+            <div class="flex items-center mb-5">
+              <div class="flex">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                />
+              </div>
+              <div class="ms-3">
+                <label for="remember-me" class="text-sm font-light mb-3"
+                  >Remember me</label
+                >
+              </div>
+            </div>
+            <!-- End Checkbox -->
+
+            <div class="grid">
+              <button
+                type="submit"
+                class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+
+      <div
+        class="hidden md:block md:absolute md:top-0 md:start-1/2 md:end-0 h-full bg-[url('/images/bg.jpg')] bg-no-repeat bg-center bg-cover"
+      ></div>
+      <!-- End Col -->
+    </div>
+    <!-- End Hero -->
+
+    <script src="preline.js"></script>
+  </body>
+</html>
