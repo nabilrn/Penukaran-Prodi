@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Login</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
   </head>
-  <body class="font-poppins w-full h-full ">
+  <body class="font-poppins w-full h-full">
     <!-- Hero -->
     <div class="relative overflow-hidden">
       <div
@@ -30,7 +30,7 @@
           <!-- End Title -->
 
           <!-- Form -->
-          <form>
+          <form action="/auth" method="POST">
             <div class="my-4">
               <label for="username" class="block text-sm font-light mb-3"
                 >Username</label
@@ -38,6 +38,7 @@
               <input
                 type="text"
                 id="username"
+                name="username"
                 class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="Username"
               />
@@ -49,6 +50,7 @@
               >
               <input
                 type="password"
+                name="password"
                 id="password"
                 class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="Password"

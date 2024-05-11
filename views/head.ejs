@@ -14,7 +14,7 @@
   <body class="font-poppins">
     <!-- ========== HEADER ========== -->
     <header
-      class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white text-sm py-3 sm:py-0 "
+      class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white text-sm py-3 sm:py-0"
     >
       <nav
         class="relative max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
@@ -117,7 +117,7 @@
 
             <a
               class="flex items-center gap-x-2 font-medium text-black/80 hover:text-black sm:border-s sm:border-white/30 sm:my-6 sm:ps-6"
-              href="#"
+              href="/account"
             >
               <svg
                 class="flex-shrink-0 size-4"
@@ -134,8 +134,10 @@
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
-              Log in
             </a>
+            <form action="/logout" method="post">
+              <button type="submit">logout</button>
+            </form>
           </div>
         </div>
       </nav>
@@ -148,3 +150,5 @@
         <!-- your content goes here ... -->
       </div>
     </main>
+  </body>
+</html>
