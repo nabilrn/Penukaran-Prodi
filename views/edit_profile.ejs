@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
+    <title>Edit Profile</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -24,46 +24,17 @@
         <div
           class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
         >
-          <form>
+          <form id="changeProfileForm" action="/changeProfile" method="POST">
             <div class="mb-4 sm:mb-8">
-              <label
-                for="hs-feedback-post-comment-name-1"
-                class="block mb-2 text-sm font-light"
-                >Dosen Pembimbing</label
-              >
-              <input
-                type="text"
-                id="hs-feedback-post-comment-name-1"
-                class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                placeholder="Don Pollo 123"
-              />
-            </div>
-
-            <div class="mb-4 sm:mb-8">
-              <label
-                for="hs-feedback-post-comment-email-1"
-                class="block mb-2 text-sm font-light"
+              <label for="username" class="block mb-2 text-sm font-light"
                 >NIM</label
               >
               <input
-                type="email"
-                id="hs-feedback-post-comment-email-1"
+                type="text"
+                name="newUsername"
+                id="username"
+                value="<%= user.username %>"
                 class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                placeholder="220932333990"
-              />
-            </div>
-
-            <div>
-              <label
-                for="af-submit-application-resume-cv"
-                class="block mb-2 text-sm font-light"
-                >Choose file</label
-              >
-              <input
-                type="file"
-                name="af-submit-application-resume-cv"
-                id="af-submit-application-resume-cv"
-                class="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-white text-gray-800 file:bg-gray-200 file:border-0 file:me-5 file:py-3 file:px-4"
               />
             </div>
 
@@ -81,5 +52,38 @@
       </div>
     </div>
     <!-- End Comment Form -->
+    <script>
+      const form = document.getElementById("changeProfileForm");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Mencegah form submit secara default
+
+        try {
+          const response = await fetch("/changeProfile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              newUsername: form.elements.newUsername.value,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Profile berhasil diubah
+            Swal.fire("Sukses", data.message, "success").then(() => {
+              window.location.href = "/profile";
+            });
+          } else {
+            Swal.fire("Gagal!", data.message, "error");
+          }
+        } catch (error) {
+          Swal.fire("Gagal!", "Terjadi kesalahan pada server", "error");
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

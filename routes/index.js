@@ -3,7 +3,6 @@ var router = express.Router();
 const auth = require("../controllers/auth.js");
 
 const verifyToken = require("../middleware/validToken.middleware.js");
-
 const isLogin = require("../middleware/islogin.middleware.js");
 const changePassword = require("../controllers/changePassword.js");
 // /* GET Login . */
@@ -41,6 +40,16 @@ router.post("/changePassword", verifyToken, async (req, res) => {
 });
 
 
+
+// router.post("/changeProfile", verifyToken, async (req, res) => {
+//   try {
+//     await editProfile(req, res);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Terjadi kesalahan server" });
+//   }
+// });
+router.post("/changeProfile", verifyToken, auth.editProfile);
 
 // router.post("/changeProfile", verifyToken, async (req, res) => {
 //   try {
