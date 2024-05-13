@@ -24,7 +24,32 @@ router.post("/changePassword", verifyToken, async (req, res) => {
   }
 });
 
+
 router.get("/changeProfile", verifyToken, auth.changeProfile);
+
+router.get('/login', isLogin, auth.form);
+router.post('/auth', auth.checklogin);
+router.post('/logout', verifyToken,auth.logout);
+router.post("/changePassword", verifyToken, async (req, res) => {
+  try {
+    await changePassword.changePassword(req, res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "server error" });
+  }
+});
+
+
+
+// router.post("/changeProfile", verifyToken, async (req, res) => {
+//   try {
+//     await editProfile(req, res);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Terjadi kesalahan server" });
+//   }
+// });
+router.post("/changeProfile", verifyToken, auth.editProfile);
 
 // router.post("/changeProfile", verifyToken, async (req, res) => {
 //   try {
