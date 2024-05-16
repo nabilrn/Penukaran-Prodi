@@ -16,6 +16,9 @@ router.get("/", function (req, res, next) {
 router.get("/editpassword", function (req, res, next) {
   res.render("edit_password", { title: "edit password" });
 });
+router.get("/permohonan", function (req, res, next) {
+  res.render("permohonan", { title: "permohonan" });
+});
 
 router.post("/auth", auth.checklogin);
 router.post("/logout", verifyToken, auth.logout);
@@ -28,16 +31,6 @@ router.post("/changePassword", verifyToken, async (req, res) => {
   }
 });
 router.post("/changeProfile", verifyToken, auth.editProfile);
-
-
-
-
-
-
-
-
-
-
 
 
 

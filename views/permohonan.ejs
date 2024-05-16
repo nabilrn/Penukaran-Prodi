@@ -1,0 +1,205 @@
+<%- include("head.ejs") %>
+<div class="max-w m-5 m- min-h-96 bg-white border drop-shadow-md">
+  <div
+    class="flex items-center gap-x-2 font-medium text-black/80 hover:text-black sm:border-s sm:border-white/30 sm:my-6 sm:ps-6"
+  >
+    <a
+      class="flex items-center gap-x-2 font-medium text-red-600 hover:text-black sm:border-s sm:border-white/30 sm:my-6 sm:ps-6"
+      href="#"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-megaphone"
+      >
+        <path d="m3 11 18-5v12L3 14v-3z" />
+        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+      </svg>
+      Perhatian!!
+    </a>
+  </div>
+  <div class="ml-20">
+    <p>Ketentuan Pindah Prodi</p>
+    <ul>
+      <li>1. Bukan diterima melalui jalur SNMPTN</li>
+      <li>2. Telah menyelesaikan 2 (dua) semester</li>
+      <li>3. IPK untuk 2 semester minimal 3,00 (tiga koma nol) dan</li>
+      <li>
+        4. Tidak pindah ke program studi yang memiliki tingkat keketatan masuk
+        yang lebih tinggi pada tahun yang sama.
+      </li>
+    </ul>
+  </div>
+  <div class="flex items-center mb-5 ml-20">
+    <div class="flex">
+      <input
+        id="remember-me"
+        name="remember-me"
+        type="checkbox"
+        class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+      />
+    </div>
+    <div class="ms-3">
+      <label for="remember-me" class="text-sm font-light mb-3"
+        >Saya Sudah Baca Ketentuan Pindah Prodi</label
+      >
+    </div>
+  </div>
+  <a href="#form">
+    <button
+      class="py-3 px-4 inline-flex ml-20 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-green-red disabled:opacity-50 disabled:pointer-events-none"
+    >
+      Submit
+    </button>
+  </a>
+</div>
+<section id="form">
+  <!-- form permohonan -->
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="mx-auto max-w-2xl">
+      <div class="text-center">
+        <h2 class="text-xl text-gray-800 font-bold sm:text-3xl">
+          Isikan Data Pengajuan Pindah Prodi
+        </h2>
+      </div>
+
+      <!-- Card -->
+
+      <div
+        class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
+      >
+        <form>
+          <div class="mb-4 sm:mb-8">
+            <label
+              for="hs-feedback-post-comment-name-1"
+              class="block mb-2 text-sm font-medium"
+              >Nama</label
+            >
+            <input
+              type="text"
+              id="hs-feedback-post-comment-name-1"
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              placeholder="Nama"
+            />
+          </div>
+          <div class="mb-4 sm:mb-8">
+            <label
+              for="hs-feedback-post-comment-name-1"
+              class="block mb-2 text-sm font-medium"
+              >No-Bp</label
+            >
+            <input
+              type="text"
+              id="hs-feedback-post-comment-name-1"
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              placeholder="No-Bp"
+            />
+          </div>
+
+          <div class="mb-4 sm:mb-8">
+            <label for="fakultas">Pilih Fakultas</label>
+            <select
+              name="fakultas"
+              id=""
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              <option value="1">Fakultas Teknologi Informasi</option>
+              <option value="2">Fakultas Ilmu Pengetahuan Alam</option>
+              <option value="3">Fakultas Kedokteran</option>
+              <option value="4">Fakultas Pertanian</option>
+            </select>
+          </div>
+          <div class="mb-4 sm:mb-8">
+            <label for="fakultas">Pilih Fakultas</label>
+            <select
+              name="fakultas"
+              id=""
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              <option value="1">Fakultas Teknologi Informasi</option>
+              <option value="2">Fakultas Ilmu Pengetahuan Alam</option>
+              <option value="3">Fakultas Kedokteran</option>
+              <option value="4">Fakultas Pertanian</option>
+            </select>
+          </div>
+          <div class="mb-4 sm:mb-8">
+            <label for="fakultas">Tahun Ajaran</label>
+            <select
+              name="fakultas"
+              id=""
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              <option value="1">2020/2021</option>
+              <option value="2">2021/2022</option>
+              <option value="3">2022/2023</option>
+              <option value="4">2023/2024</option>
+            </select>
+          </div>
+          <div class="mb-4 sm:mb-8">
+            <label
+              for="hs-feedback-post-comment-email-1"
+              class="block mb-2 text-sm font-medium"
+              >Semester</label
+            >
+            <input
+              type="Number"
+              id="hs-feedback-post-comment-email-1"
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              placeholder="Semester"
+            />
+          </div>
+          <div class="mb-4 sm:mb-8">
+            <label
+              for="hs-feedback-post-comment-email-1"
+              class="block mb-2 text-sm font-medium"
+              >Alamat</label
+            >
+            <input
+              type="text"
+              id="hs-feedback-post-comment-email-1"
+              class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              placeholder="Alamat"
+            />
+          </div>
+
+          <div>
+            <label
+              for="hs-feedback-post-comment-textarea-1"
+              class="block mb-2 text-sm font-medium"
+              >Alasan</label
+            >
+            <div class="mt-1">
+              <textarea
+                id="hs-feedback-post-comment-textarea-1"
+                name="hs-feedback-post-comment-textarea-1"
+                rows="3"
+                class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                placeholder="Leave your comment here..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="mt-6 grid">
+            <button
+              type="submit"
+              class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- End Card -->
+    </div>
+  </div>
+  <!-- end form permohonan -->
+</section>
+<img src="/images/logo.png" alt="" />
+<%- include("footer.ejs") %>
