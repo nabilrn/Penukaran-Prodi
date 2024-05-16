@@ -9,12 +9,15 @@ const changePassword = require("../controllers/changePassword.js");
 router.get("/login", isLogin, auth.form);
 router.get("/profile", verifyToken, auth.view_profile);
 router.get("/changeProfile", verifyToken, auth.changeProfile);
-router.get('/login', isLogin, auth.form);
+router.get("/login", isLogin, auth.form);
 router.get("/", function (req, res, next) {
   res.render("login", { title: "Home" });
 });
 router.get("/editpassword", function (req, res, next) {
   res.render("edit_password", { title: "edit password" });
+});
+router.get("/permohonan", function (req, res, next) {
+  res.render("permohonan", { title: "permohonan" });
 });
 
 router.post("/auth", auth.checklogin);
@@ -28,20 +31,5 @@ router.post("/changePassword", verifyToken, async (req, res) => {
   }
 });
 router.post("/changeProfile", verifyToken, auth.editProfile);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
