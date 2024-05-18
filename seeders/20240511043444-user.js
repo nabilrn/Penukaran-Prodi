@@ -11,7 +11,7 @@ module.exports = {
           nama: "nabil",
           username: "2211522018",
           password: await bcrypt.hash("1234", 10),
-          role: 'mahasiswa',
+          role: "mahasiswa",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -19,7 +19,31 @@ module.exports = {
           nama: "palse",
           username: "2211522020",
           password: await bcrypt.hash("garlock", 10),
-          role: 'mahasiswa',
+          role: "mahasiswa",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          nama: "triana",
+          username: "2211522008",
+          password: await bcrypt.hash("triana", 10),
+          role: "mahasiswa",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          nama: "tiara",
+          username: "231152003",
+          password: await bcrypt.hash("tiara", 10),
+          role: "mahasiswa",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          nama: "nurul",
+          username: "231152002",
+          password: await bcrypt.hash("nurul", 10),
+          role: "mahasiswa",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -27,7 +51,7 @@ module.exports = {
           nama: "admin",
           username: "admin",
           password: await bcrypt.hash("admin", 10),
-          role: 'admin',
+          role: "admin",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -37,8 +61,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    
-      await queryInterface.bulkDelete('users', null, {});
-     
+    await queryInterface.bulkDelete("users", null, {});
   },
 };
