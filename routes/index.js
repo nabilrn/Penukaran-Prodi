@@ -19,6 +19,9 @@ router.get("/editpassword", function (req, res, next) {
 router.get("/permohonan", function (req, res, next) {
   res.render("permohonan", { title: "permohonan" });
 });
+router.get("/history", function (req, res, next) {
+  res.render("history", { title: "history" });
+});
 
 router.post("/auth", auth.checklogin);
 router.post("/logout", verifyToken, auth.logout);
