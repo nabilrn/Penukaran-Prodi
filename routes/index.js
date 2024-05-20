@@ -22,6 +22,15 @@ router.get("/permohonan", function (req, res, next) {
 router.get("/history", function (req, res, next) {
   res.render("history", { title: "history" });
 });
+router.get("/admin/request/pindah_prodi", function (req, res, next) {
+  res.render("request", { title: "request-pindah prodi" });
+});
+router.get("/admin/request/pendaftaran_ulang", function (req, res, next) {
+  res.render("req_pu", { title: "request-pendaftaran ulang" });
+});
+router.get("/admin/arsip", function (req, res, next) {
+  res.render("arsip", { title: "Arsip" });
+});
 
 router.post("/auth", auth.checklogin);
 router.post("/logout", verifyToken, auth.logout);
