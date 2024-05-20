@@ -97,7 +97,53 @@
     <!-- End Hero -->
     <!-- SweetAlert JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevent form from submitting the default way
     
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+    
+        try {
+          const response = await fetch('/auth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+          });
+    
+          const result = await response.json();
+    
+          if (response.ok) {
+            // Success: Show success message
+            Swal.fire({
+              icon: 'success',
+              title: 'Login successful',
+              text: 'You will be redirected shortly',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              window.location.href = result.redirectUrl;
+            });
+          } else {
+            // Error: Show error message
+            Swal.fire({
+              icon: 'error',
+              title: 'Login failed',
+              text: result.message
+            });
+          }
+        } catch (error) {
+          console.error('Error during login:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Internal server error',
+            text: 'Please try again later'
+          });
+        }
+      });
+    </script>
     <script src="preline.js"></script>
   </body>
 </html>
