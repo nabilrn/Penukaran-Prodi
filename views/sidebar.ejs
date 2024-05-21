@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
   </head>
-  <body class="font-poppins">
+  <body class="font-poppins bg-customGray">
     <!-- ========== MAIN CONTENT ========== -->
     <!-- Sidebar Toggle -->
     <div
@@ -73,15 +73,15 @@
     <!-- Sidebar -->
     <div
       id="application-sidebar-brand"
-      class="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-green-700 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
+      class="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 drop-shadow-lg"
     >
       <div class="px-6">
         <a
-          class="flex-none text-xl font-semibold text-white"
+          class="flex-none text-xl font-semibold text-black"
           href="#"
           aria-label="Brand"
-          >Admin</a
-        >
+          ><img src="/images/logo.png" alt=""
+        /></a>
       </div>
 
       <nav
@@ -91,7 +91,7 @@
         <ul class="space-y-1.5">
           <li>
             <a
-              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
               href="/admin/dashboard"
             >
               <svg
@@ -116,7 +116,7 @@
           <li class="hs-accordion" id="users-accordion">
             <button
               type="button"
-              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@
                   <a href="/admin/request/pindah_prodi">
                     <button
                       type="button"
-                      class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                      class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
                     >
                       Pindah Prodi
 
@@ -205,7 +205,7 @@
                   <a href="/admin/request/pendaftaran_ulang">
                     <button
                       type="button"
-                      class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                      class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
                     >
                       Pendaftaran Ulang
 
@@ -233,7 +233,7 @@
           <li class="hs-accordion" id="account-accordion">
             <button
               type="button"
-              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-white hs-accordion-active:hover:bg-transparent text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +292,7 @@
               <ul class="pt-2 ps-2">
                 <li>
                   <a
-                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
                     href="#"
                   >
                     Surat Persetujuan
@@ -300,14 +300,14 @@
                 </li>
                 <li>
                   <a
-                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
                     href="#"
                     >SK Rektor
                   </a>
                 </li>
                 <li>
                   <a
-                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
                     href="#"
                   >
                     Surat Keterangan Pindah
@@ -315,7 +315,7 @@
                 </li>
                 <li>
                   <a
-                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
                     href="#"
                   >
                     Surat Perubahan No Bp
@@ -327,7 +327,7 @@
 
           <li>
             <a
-              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
               href="#"
             >
               <svg
@@ -353,7 +353,7 @@
           </li>
           <li>
             <a
-              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
               href="/admin/arsip"
             >
               <svg
@@ -379,7 +379,7 @@
             <form action="/logout" method="post">
               <button
                 type="submit"
-                class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-white hover:text-white rounded-lg hover:bg-green-600"
+                class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
