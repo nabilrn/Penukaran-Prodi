@@ -31,6 +31,9 @@ router.get("/admin/request/pendaftaran_ulang", function (req, res, next) {
 router.get("/admin/arsip", function (req, res, next) {
   res.render("arsip", { title: "Arsip" });
 });
+router.get("/admin/kontenhome", function (req, res, next) {
+  res.render("kontenhome", { title: "Konten Home" });
+});
 
 router.post("/auth", auth.checklogin);
 router.post("/logout", verifyToken, auth.logout);
