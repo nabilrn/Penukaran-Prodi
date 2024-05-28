@@ -1,4 +1,4 @@
-<%- include("head.ejs") %>
+<%- include("../head.ejs") %>
 <main id="content">
   <div class="max-w-[85rem] mx-auto py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w m-5 m- min-h-96 bg-white border drop-shadow-md">
@@ -105,35 +105,7 @@
                 />
               </div>
               <!-- pilih fakultas asal -->
-              <div class="mb-4 sm:mb-8">
-                <label for="fakultasAsal">Pilih Fakultas Asal</label>
-                <select
-                  name="fakultasAsal"
-                  id="fakultasAsalSelect"
-                  class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                >
-                  <option value="">Pilih Fakultas</option>
-                  <option value="1">Fakultas Kedokteran Gigi</option>
-                  <option value="2">Fakultas Pertanian</option>
-                  <option value="3">Fakultas Farmasi</option>
-                  <option value="4">Fakultas Teknologi Pertanian</option>
-                  <option value="5">Fakultas Hukum</option>
-                  <option value="6">Fakultas Keperawatan</option>
-                  <option value="7">Fakultas Ekonomi</option>
-                  <option value="8">Fakultas Peternakan</option>
-                  <option value="9">
-                    Fakultas Ilmu Sosial dan Ilmu Politik
-                  </option>
-                  <option value="10">Fakultas Teknik</option>
-                  <option value="11">Fakultas Kedokteran</option>
-                  <option value="12">Fakultas Kesehatan Masyarakat</option>
-                  <option value="13">Fakultas Ilmu Budaya</option>
-                  <option value="14">Fakultas Teknologi Informasi</option>
-                  <option value="15">
-                    Fakultas Matematika dan Ilmu Pengetahuan Alam
-                  </option>
-                </select>
-              </div>
+
               <div class="mb-4 sm:mb-8">
                 <label for="jurusanAsal">Pilih Jurusan Asal</label>
                 <select
@@ -142,6 +114,9 @@
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <option value="">Pilih Jurusan</option>
+                  <option value="">Teknik Komputer</option>
+                  <option value="">Sistem Informasi</option>
+                  <option value="">Informatika</option>
                 </select>
               </div>
               <!-- end pilih fakultas asal -->
@@ -185,36 +160,7 @@
                 />
               </div>
 
-              <!-- pilih fakultas tujuan-->
-              <div class="mb-4 sm:mb-8">
-                <label for="fakultasTujuan">Pilih Fakultas Tujuan</label>
-                <select
-                  name="fakultasTujuan"
-                  id="fakultasTujuanSelect"
-                  class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                >
-                  <option value="">Pilih Fakultas</option>
-                  <option value="1">Fakultas Kedokteran Gigi</option>
-                  <option value="2">Fakultas Pertanian</option>
-                  <option value="3">Fakultas Farmasi</option>
-                  <option value="4">Fakultas Teknologi Pertanian</option>
-                  <option value="5">Fakultas Hukum</option>
-                  <option value="6">Fakultas Keperawatan</option>
-                  <option value="7">Fakultas Ekonomi</option>
-                  <option value="8">Fakultas Peternakan</option>
-                  <option value="9">
-                    Fakultas Ilmu Sosial dan Ilmu Politik
-                  </option>
-                  <option value="10">Fakultas Teknik</option>
-                  <option value="11">Fakultas Kedokteran</option>
-                  <option value="12">Fakultas Kesehatan Masyarakat</option>
-                  <option value="13">Fakultas Ilmu Budaya</option>
-                  <option value="14">Fakultas Teknologi Informasi</option>
-                  <option value="15">
-                    Fakultas Matematika dan Ilmu Pengetahuan Alam
-                  </option>
-                </select>
-              </div>
+              
               <div class="mb-4 sm:mb-8">
                 <label for="jurusanTujuan">Pilih Jurusan Tujuan</label>
                 <select
@@ -223,105 +169,14 @@
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <option value="">Pilih Jurusan Tujuan</option>
+                  <option value="">Teknik Komputer</option>
+                  <option value="">Sistem Informasi</option>
+                  <option value="">Informatika</option>
                 </select>
               </div>
               <!-- end pilih fakultas tujuan -->
 
-              <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                  const fakultasAsalSelect =
-                    document.getElementById("fakultasAsalSelect");
-                  const jurusanAsalSelect =
-                    document.getElementById("jurusanAsalSelect");
-                  const fakultasTujuanSelect = document.getElementById(
-                    "fakultasTujuanSelect"
-                  );
-                  const jurusanTujuanSelect = document.getElementById(
-                    "jurusanTujuanSelect"
-                  );
-
-                  const jurusanOptions = {
-                    1: ["Pendidikan Dokter Gigi"],
-                    2: [
-                      "Ilmu dan Teknologi Pangan",
-                      "Ilmu Tanah",
-                      "Agribisnis",
-                      "Agroteknologi",
-                      "Penyuluhan dan Komunikasi Pertanian",
-                      "Proteksi Tanaman",
-                    ],
-                    3: ["Farmasi"],
-                    4: ["Teknik Pertanian", "Agroteknologi"],
-                    5: ["Ilmu Hukum"],
-                    6: ["Ilmu Keperawatan"],
-                    7: [
-                      "Manajemen",
-                      "Ilmu Ekonomi",
-                      "Akuntansi",
-                      "Manajemen Keuangan",
-                    ],
-                    8: ["Peternakan"],
-                    9: [
-                      "Ilmu Komunikasi",
-                      "Sosiologi",
-                      "Antropologi",
-                      "Ilmu Politik",
-                      "Hubungan Internasional",
-                      "Administrasi Negara",
-                    ],
-                    10: [
-                      "Teknik Lingkungan",
-                      "Teknik Mesin",
-                      "Teknik Sipil",
-                      "Teknik Industri",
-                      "Teknik Elektro",
-                    ],
-                    11: [
-                      "Kebidanan",
-                      "Pendidikan Dokter",
-                      "Psikologi",
-                      "Teknik Biomedis",
-                    ],
-                    12: ["Gizi", "Kesehatan Masyarakat"],
-                    13: [
-                      "Sejarah",
-                      "Sastra Indonesia",
-                      "Sastra Inggris",
-                      "Sastra dan Bahasa Asing",
-                      "Sastra dan Bahasa Daerah",
-                      "Sastra Jepang",
-                    ],
-                    14: ["Teknik Komputer", "Sistem Informasi", "Informatika"],
-                    15: ["Fisika", "Kimia", "Biologi", "Matematika"],
-                  };
-
-                  function updateJurusanOptions(fakultasSelect, jurusanSelect) {
-                    const fakultasValue = fakultasSelect.value;
-                    const options = jurusanOptions[fakultasValue] || [];
-
-                    jurusanSelect.innerHTML =
-                      '<option value="">Pilih Jurusan</option>';
-                    options.forEach((jurusan) => {
-                      const option = document.createElement("option");
-                      option.value = jurusan;
-                      option.text = jurusan;
-                      jurusanSelect.add(option);
-                    });
-                  }
-
-                  fakultasAsalSelect.addEventListener("change", function () {
-                    updateJurusanOptions(fakultasAsalSelect, jurusanAsalSelect);
-                  });
-
-                  fakultasTujuanSelect.addEventListener("change", function () {
-                    updateJurusanOptions(
-                      fakultasTujuanSelect,
-                      jurusanTujuanSelect
-                    );
-                  });
-                });
-              </script>
-
+           
               <div>
                 <label
                   for="hs-feedback-post-comment-textarea-1"
@@ -357,4 +212,4 @@
   </div>
 </main>
 
-<%- include("footer.ejs") %>
+<%- include("../footer.ejs") %>

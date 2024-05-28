@@ -29,15 +29,20 @@ const checklogin = async (req, res) => {
 
     res.cookie("token", token, { httpOnly: true });
 
-    let redirectUrl = '/';
-    if (user.role === 'mahasiswa') {
-      redirectUrl = '/mahasiswa/home';
-    } else if (user.role === 'admin') {
-      redirectUrl = '/admin/dashboard';
+    let redirectUrl = "/";
+    if (user.role === "mahasiswa") {
+      redirectUrl = "/mahasiswa/home";
+    } else if (user.role === "admin") {
+      redirectUrl = "/admin/dashboard";
+    } else if (user.role === "kajur") {
+      redirectUrl = "/kajur/home";
+    } else if (user.role === "dekan") {
+      redirectUrl = "/dekan/home";
     }
 
-    return res.status(200).json({ auth: true, token: token, redirectUrl: redirectUrl });
-
+    return res
+      .status(200)
+      .json({ auth: true, token: token, redirectUrl: redirectUrl });
   } catch (err) {
     console.error("Error during login: ", err);
     res.status(500).json({ message: "Internal server error" });
@@ -46,17 +51,13 @@ const checklogin = async (req, res) => {
 
 const changeProfile = async (req, res) => {
   const user = await User.findByPk(req.userId);
-  res.render("edit_profile", { user });
-  // return user;
-  // console.log(req.cookies.token)
+  res.render("./mahasiswa/edit_profile", { user });
 };
 
 const view_profile = async (req, res) => {
   const profile = await User.findByPk(req.userId);
-  res.render("account", { profile });
-
+  res.render("./mahasiswa/account", { profile });
 };
-
 
 const editProfile = async (req, res) => {
   try {

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/additional.css" />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
@@ -91,7 +93,7 @@
         <ul class="space-y-1.5">
           <li>
             <a
-              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
+              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200 hs-accordion-active:bg-gray-200"
               href="/admin/dashboard"
             >
               <svg
@@ -114,9 +116,10 @@
           </li>
 
           <li class="hs-accordion" id="users-accordion">
-            <button
+            <a
+              href="/admin/request"
               type="button"
-              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
+              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200 hs-accordion-active:bg-gray-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -151,89 +154,13 @@
               >
                 <path d="m18 15-6-6-6 6" />
               </svg>
-
-              <svg
-                class="hs-accordion-active:hidden ms-auto block size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
-
-            <div
-              id="users-accordion-child"
-              class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
-            >
-              <ul
-                class="hs-accordion-group ps-3 pt-2"
-                data-hs-accordion-always-open
-              >
-                <li class="hs-accordion" id="users-accordion-sub-1">
-                  <a href="/admin/request/pindah_prodi">
-                    <button
-                      type="button"
-                      class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
-                    >
-                      Pindah Prodi
-
-                      <svg
-                        class="hs-accordion-active:block ms-auto hidden size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m18 15-6-6-6 6" />
-                      </svg>
-                    </button>
-                  </a>
-                </li>
-                <li class="hs-accordion" id="users-accordion-sub-2">
-                  <a href="/admin/request/pendaftaran_ulang">
-                    <button
-                      type="button"
-                      class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
-                    >
-                      Pendaftaran Ulang
-
-                      <svg
-                        class="hs-accordion-active:block ms-auto hidden size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m18 15-6-6-6 6" />
-                      </svg>
-                    </button>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            </a>
           </li>
 
           <li class="hs-accordion" id="account-accordion">
             <button
               type="button"
-              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
+              class="hs-accordion-toggle w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-black hs-accordion-active:hover:bg-transparent text-sm text-black hover:text-black rounded-lg hover:bg-gray-200 hs-accordion-active:bg-gray-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -351,30 +278,7 @@
               Konten Home
             </a>
           </li>
-          <li>
-            <a
-              class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-black hover:text-black rounded-lg hover:bg-gray-200"
-              href="/admin/arsip"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-archive"
-              >
-                <rect width="20" height="5" x="2" y="3" rx="1" />
-                <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
-                <path d="M10 12h4" />
-              </svg>
-              Arsip
-            </a>
-          </li>
+
           <li>
             <form action="/logout" method="post">
               <button
