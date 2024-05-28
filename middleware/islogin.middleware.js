@@ -20,6 +20,10 @@ function isLogin(req, res, next) {
       return res.redirect("/mahasiswa/home");
     } else if (req.userRole == "admin") {
       return res.redirect("/admin/dashboard");
+    } else if (req.userRole == "kajur") {
+      return res.redirect("/kajur/home");
+    } else if (req.userRole == "dekan") {
+      return res.redirect("/dekan/home");
     }
   }
 

@@ -55,6 +55,22 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          nama: "Husnil Kamil",
+          username: "198201182008121002",
+          password: await bcrypt.hash("husnilk", 10),
+          role: "kajur",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          nama: "Ahmad Syafruddin Indrapriyatna",
+          username: "196307071991031000",
+          password: await bcrypt.hash("ahmad", 10),
+          role: "dekan",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

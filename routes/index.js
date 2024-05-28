@@ -17,22 +17,23 @@ router.get("/editpassword", function (req, res, next) {
   res.render("edit_password", { title: "edit password" });
 });
 router.get("/permohonan", function (req, res, next) {
-  res.render("permohonan", { title: "permohonan" });
+  res.render("./mahasiswa/permohonan", { title: "permohonan" });
+});
+router.get("/validasi", function (req, res, next) {
+  res.render("./admin/validasipp", { title: "validasi permohonan" });
 });
 router.get("/history", function (req, res, next) {
-  res.render("history", { title: "history" });
+  res.render("./mahasiswa/history", { title: "history" });
 });
-router.get("/admin/request/pindah_prodi", function (req, res, next) {
-  res.render("request", { title: "request-pindah prodi" });
+router.get("/admin/request", function (req, res, next) {
+  res.render("./admin/request", { title: "request-pindah prodi" });
 });
-router.get("/admin/request/pendaftaran_ulang", function (req, res, next) {
-  res.render("req_pu", { title: "request-pendaftaran ulang" });
-});
+
 router.get("/admin/arsip", function (req, res, next) {
   res.render("arsip", { title: "Arsip" });
 });
 router.get("/admin/kontenhome", function (req, res, next) {
-  res.render("kontenhome", { title: "Konten Home" });
+  res.render("./admin/kontenhome", { title: "Konten Home" });
 });
 
 router.post("/auth", auth.checklogin);

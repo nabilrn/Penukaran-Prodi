@@ -1,0 +1,62 @@
+<%- include("../sidebar.ejs") %>
+
+<div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
+  
+
+  
+<body class="bg-gray-100">
+    <div class="container mx-auto ">
+        <h1 class="text-3xl font-bold mb-4">Preview PDF</h1>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div id="pdf-preview" class="border border-gray-300"></div>
+            <div class="mt-4">
+                <button id="downloadBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded " disabled >
+                    Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script>
+        const pdfPreview = document.getElementById('pdf-preview');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // URL atau data PDF yang ingin Anda tampilkan
+        const pdfUrl = 'https://example.com/file.pdf';
+
+        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+            pdf.getPage(1).then(function(page) {
+                const desiredWidth = pdfPreview.clientWidth;
+                const viewport = page.getViewport({ scale: 1 });
+                const scale = desiredWidth / viewport.width;
+                const scaledViewport = page.getViewport({ scale: scale });
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = scaledViewport.height;
+                canvas.width = scaledViewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: scaledViewport
+                };
+                page.render(renderContext);
+
+                pdfPreview.appendChild(canvas);
+            });
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+
+        downloadBtn.addEventListener('click', function() {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pdfUrl;
+            downloadLink.download = 'file.pdf';
+            downloadLink.click();
+        });
+    </script>
+    <script src="/preline.js"></script>
+
+</body>
+</html>
