@@ -7,5 +7,17 @@ const role = require("../middleware/checkrole.middleware");
 router.get("/home", verifyToken, role("mahasiswa"), function (req, res, next) {
   res.render("./mahasiswa/home", { title: "Home" });
 });
+router.get("/profile", verifyToken, auth.view_profile);
+router.get("/changeProfile", verifyToken, auth.changeProfile);
 
+router.post("/changeProfile", verifyToken, auth.editProfile);
+
+
+router.get("/permohonan", function (req, res, next) {
+  res.render("./mahasiswa/permohonan", { title: "permohonan" });
+});
+
+router.get("/history", function (req, res, next) {
+  res.render("./mahasiswa/history", { title: "history" });
+});
 module.exports = router;

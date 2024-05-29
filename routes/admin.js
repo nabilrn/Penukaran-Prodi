@@ -8,4 +8,17 @@ router.get("/dashboard", verifyToken, role("admin"), function (req, res, next) {
   res.render("./admin/admin", { title: "admin" });
 });
 
+router.get("/validasi", function (req, res, next) {
+  res.render("./admin/validasipp", { title: "validasi permohonan" });
+});
+
+router.get("/request", function (req, res, next) {
+  res.render("./admin/request", { title: "request-pindah prodi" });
+});
+
+router.get("/kontenhome", function (req, res, next) {
+  res.render("./admin/kontenhome", { title: "Konten Home" });
+});
+
+
 module.exports = router;

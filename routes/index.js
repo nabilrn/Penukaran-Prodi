@@ -7,34 +7,15 @@ const isLogin = require("../middleware/islogin.middleware.js");
 const changePassword = require("../controllers/changePassword.js");
 
 router.get("/login", isLogin, auth.form);
-router.get("/profile", verifyToken, auth.view_profile);
-router.get("/changeProfile", verifyToken, auth.changeProfile);
-router.get("/login", isLogin, auth.form);
+
 router.get("/", function (req, res, next) {
   res.render("login", { title: "Home" });
 });
 router.get("/editpassword", function (req, res, next) {
   res.render("edit_password", { title: "edit password" });
 });
-router.get("/permohonan", function (req, res, next) {
-  res.render("./mahasiswa/permohonan", { title: "permohonan" });
-});
-router.get("/validasi", function (req, res, next) {
-  res.render("./admin/validasipp", { title: "validasi permohonan" });
-});
-router.get("/history", function (req, res, next) {
-  res.render("./mahasiswa/history", { title: "history" });
-});
-router.get("/admin/request", function (req, res, next) {
-  res.render("./admin/request", { title: "request-pindah prodi" });
-});
 
-router.get("/admin/arsip", function (req, res, next) {
-  res.render("arsip", { title: "Arsip" });
-});
-router.get("/admin/kontenhome", function (req, res, next) {
-  res.render("./admin/kontenhome", { title: "Konten Home" });
-});
+
 
 router.post("/auth", auth.checklogin);
 router.post("/logout", verifyToken, auth.logout);
@@ -46,6 +27,6 @@ router.post("/changePassword", verifyToken, async (req, res) => {
     res.status(500).json({ message: "server error" });
   }
 });
-router.post("/changeProfile", verifyToken, auth.editProfile);
+
 
 module.exports = router;
