@@ -4,8 +4,7 @@ module.exports = {
     "./views/*.{html,js,ejs}",
     "./views/mahasiswa/*.{html,js,ejs}",
     "./views/admin/*.{html,js,ejs}",
-    "./views/kajur/*.{html,js,ejs}",
-    "./views/dekan/*.{html,js,ejs}",
+    "./views/lptik/*.{html,js,ejs}",
     "node_modules/preline/dist/*.js",
   ],
   theme: {

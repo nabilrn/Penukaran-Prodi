@@ -24,7 +24,7 @@
         <div
           class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
         >
-          <form id="changeProfileForm" action="/changeProfile" method="POST">
+          <form id="changeProfileForm" action="/ubahProfile" method="POST">
             <div class="mb-4 sm:mb-8">
               <label for="username" class="block mb-2 text-sm font-light"
                 >NIM</label
@@ -59,7 +59,7 @@
         event.preventDefault(); // Mencegah form submit secara default
 
         try {
-          const response = await fetch("/changeProfile", {
+          const response = await fetch("/mahasiswa/ubahProfile", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -74,7 +74,7 @@
           if (response.ok) {
             // Profile berhasil diubah
             Swal.fire("Sukses", data.message, "success").then(() => {
-              window.location.href = "/profile";
+              window.location.href = "/mahasiswa/profile";
             });
           } else {
             Swal.fire("Gagal!", data.message, "error");
@@ -84,6 +84,7 @@
         }
       });
     </script>
-    <script src="sweetalert2.all.min.js"></script>
+    <script src="/sweetalert2.all.min.js"></script>
+    <script src="/preline.js"></script>
   </body>
 </html>

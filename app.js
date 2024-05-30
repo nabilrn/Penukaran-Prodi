@@ -9,8 +9,8 @@ dotenv.config();
 var indexRouter = require("./routes/index");
 const mahasiswaRouter = require("./routes/mahasiswa");
 const adminRouter = require("./routes/admin");
-const kajurRouter = require("./routes/kajur");
-const dekanRouter = require("./routes/dekan");
+const lptikRouter = require("./routes/lptik");
+
 
 var app = express();
 
@@ -29,8 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/mahasiswa", mahasiswaRouter);
 app.use("/admin", adminRouter);
-app.use("/kajur", kajurRouter);
-app.use("/dekan", dekanRouter);
+app.use("/lptik", lptikRouter);
 
 
 // catch 404 and forward to error handler
