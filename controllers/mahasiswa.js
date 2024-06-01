@@ -1,14 +1,17 @@
 
-const { User } = require("../models/index");
+const { User, Mahasiswa } = require("../models/index");
+
 
 const changeProfile = async (req, res) => {
     const user = await User.findByPk(req.userId);
     res.render("./mahasiswa/edit_profile", { user });
   };
-const view_profile = async (req, res) => {
-    const profile = await User.findByPk(req.userId);
-    res.render("./mahasiswa/account", { profile });
-  };
+
+const detail = async (req, res) => {
+    const user = await User.findByPk(req.userId);
+    const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+    res.render("./mahasiswa/account", { user, mahasiswa });
+};
 const editProfile = async (req, res) => {
     try {
       const { newUsername } = req.body;
@@ -31,6 +34,6 @@ const editProfile = async (req, res) => {
   };
 module.exports = {
     changeProfile,
-    view_profile,
     editProfile,
+    detail
 }

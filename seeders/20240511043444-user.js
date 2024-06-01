@@ -1,14 +1,13 @@
 "use strict";
 const bcrypt = require("bcrypt");
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
       "users",
       [
         {
-          nama: "nabil",
+          nama: "Nabil Rizki Navisa",
           username: "2211522018",
           password: await bcrypt.hash("1234", 10),
           role: "mahasiswa",
@@ -16,15 +15,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          nama: "palse",
-          username: "2211522020",
-          password: await bcrypt.hash("garlock", 10),
-          role: "mahasiswa",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          nama: "triana",
+          nama: "Triana Zahara Nurhaliza",
           username: "2211522008",
           password: await bcrypt.hash("triana", 10),
           role: "mahasiswa",
@@ -32,7 +23,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          nama: "tiara",
+          nama: "Tiara Putri Adhaini",
           username: "231152003",
           password: await bcrypt.hash("tiara", 10),
           role: "mahasiswa",
@@ -40,7 +31,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          nama: "nurul",
+          nama: "Nurul Fauziyah",
           username: "231152002",
           password: await bcrypt.hash("nurul", 10),
           role: "mahasiswa",
@@ -63,7 +54,6 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        
       ],
       {}
     );
