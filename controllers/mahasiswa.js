@@ -1,39 +1,50 @@
-
 const { User, Mahasiswa } = require("../models/index");
+const upload = require('../middleware/multerConfig');
 
 
 const changeProfile = async (req, res) => {
-    const user = await User.findByPk(req.userId);
-    res.render("./mahasiswa/edit_profile", { user });
-  };
+  const user = await User.findByPk(req.userId);
+  const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+  res.render("./mahasiswa/edit_profile", { user, mahasiswa });
+};
 
 const detail = async (req, res) => {
-    const user = await User.findByPk(req.userId);
-    const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
-    res.render("./mahasiswa/account", { user, mahasiswa });
+  const user = await User.findByPk(req.userId);
+  const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+  res.render("./mahasiswa/account", { user, mahasiswa });
 };
-const editProfile = async (req, res) => {
-    try {
-      const { newUsername } = req.body;
-      if (!newUsername) {
-        return res.status(400).json({ message: "Username baru tidak valid" });
-      }
-  
-      const user = await User.findByPk(req.userId);
-      if (!user) {
-        return res.status(404).json({ message: "Pengguna tidak ditemukan" });
-      }
-  
-      await user.update({ username: newUsername });
-  
-      return res.status(200).json({ message: "Profil berhasil diperbarui" });
-    } catch (error) {
-      console.error("Error updating profile: ", error);
-      return res.status(500).json({ message: "Terjadi kesalahan server" });
+
+const editProfile = async (req, res, next) => {
+  try {
+    const { alamat } = req.body;
+    const userId = req.userId;
+    const mahasiswa = await Mahasiswa.findOne({ where: { userId: userId } });
+
+    if (!mahasiswa) {
+      return res.status(404).json({ message: "Mahasiswa tidak ditemukan" });
     }
-  };
+
+    mahasiswa.alamat = alamat;
+    await mahasiswa.save();
+
+    res.status(200).json({ message: "profil berhasil diubah" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const uploadProfilePicture = (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    return res.status(200).json({ message: 'File uploaded successfully', file: `data/user_${req.userId}/${req.file.filename}` });
+  });
+};
+
 module.exports = {
-    changeProfile,
-    editProfile,
-    detail
-}
+  changeProfile,
+  editProfile,
+  detail,
+  uploadProfilePicture
+};

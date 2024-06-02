@@ -10,53 +10,166 @@
       rel="stylesheet"
     />
   </head>
-  <body class="font-poppins">
+  <body class="font-poppins bg-customGray">
     <!-- Comment Form -->
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-      <div class="mx-auto max-w-2xl">
-        <div class="text-center">
-          <h2 class="text-xl text-gray-800 font-bold sm:text-3xl">
-            Ubah Profil
-          </h2>
+    <!-- Card Section -->
+    <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto">
+      <!-- Card -->
+      <div class="bg-white rounded-xl shadow p-4 sm:p-7">
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-gray-800">Profile</h2>
+          <p class="text-sm text-gray-600">
+            Manage your name, password and account settings.
+          </p>
         </div>
 
-        <!-- Card -->
-        <div
-          class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
+        <form
+          id="changeProfileForm"
+          action="/ubahProfile"
+          method="POST"
+          enctype="multipart/form-data"
         >
-          <form id="changeProfileForm" action="/ubahProfile" method="POST">
-            <div class="mb-4 sm:mb-8">
-              <label for="username" class="block mb-2 text-sm font-light"
-                >NIM</label
+          <!-- Grid -->
+          <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
+            <!-- End Col -->
+
+            <div class="sm:col-span-3">
+              <label
+                for="af-account-full-name"
+                class="inline-block text-sm text-gray-800 mt-2.5"
               >
+                Nama
+              </label>
+            </div>
+            <!-- End Col -->
+
+            <div class="sm:col-span-9">
+              <div class="sm:flex">
+                <input
+                  id="af-account-email"
+                  type="text"
+                  class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                  value="<%= user.nama %>"
+                  disabled
+                />
+              </div>
+            </div>
+            <!-- End Col -->
+
+            <div class="sm:col-span-3">
+              <label
+                for="af-account-email"
+                class="inline-block text-sm text-gray-800 mt-2.5"
+              >
+                Username
+              </label>
+            </div>
+            <!-- End Col -->
+
+            <div class="sm:col-span-9">
               <input
+                id="af-account-email"
                 type="text"
-                name="newUsername"
-                id="username"
+                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 value="<%= user.username %>"
-                class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                disabled
               />
             </div>
-
-            <div class="mt-6 grid">
-              <button
-                type="submit"
-                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
+            <!-- End Col -->
+            <div class="sm:col-span-3">
+              <label
+                for="af-account-email"
+                class="inline-block text-sm text-gray-800 mt-2.5"
               >
-                Submit
-              </button>
+                Fakultas
+              </label>
             </div>
-          </form>
-        </div>
-        <!-- End Card -->
+            <!-- End Col -->
+
+            <div class="sm:col-span-9">
+              <input
+                id="af-account-email"
+                type="text"
+                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                value="<%= mahasiswa.fakultas %>"
+                disabled
+              />
+            </div>
+            <!-- End Col -->
+            <div class="sm:col-span-3">
+              <label
+                for="af-account-email"
+                class="inline-block text-sm text-gray-800 mt-2.5"
+              >
+                Departemen
+              </label>
+            </div>
+            <!-- End Col -->
+
+            <div class="sm:col-span-9">
+              <input
+                id="af-account-email"
+                type="text"
+                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                value="<%= mahasiswa.departemen %>"
+                disabled
+              />
+            </div>
+            <!-- End Col -->
+            <div class="sm:col-span-3">
+              <label
+                for="af-account-email"
+                class="inline-block text-sm text-gray-800 mt-2.5"
+              >
+                Alamat
+              </label>
+            </div>
+            <!-- End Col -->
+
+            <div class="sm:col-span-9">
+              <input
+                id="alamat"
+                name="alamat"
+                type="text"
+                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                value="<%= mahasiswa.alamat %>"
+              />
+            </div>
+            <!-- End Col -->
+          </div>
+          <!-- End Grid -->
+
+          <div class="mt-5 flex justify-end gap-x-2">
+            <button
+              onclick="back()"
+              type="button"
+              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
       </div>
+      <!-- End Card -->
     </div>
+    <!-- End Card Section -->
     <!-- End Comment Form -->
+    <script>
+      function back() {
+        window.history.back();
+      }
+    </script>
     <script>
       const form = document.getElementById("changeProfileForm");
 
       form.addEventListener("submit", async (event) => {
-        event.preventDefault(); // Mencegah form submit secara default
+        event.preventDefault(); // Prevent the form from submitting by default
 
         try {
           const response = await fetch("/mahasiswa/ubahProfile", {
@@ -65,18 +178,20 @@
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              newUsername: form.elements.newUsername.value,
+              alamat: form.elements.alamat.value,
             }),
           });
 
-          const data = await response.json();
-
           if (response.ok) {
-            // Profile berhasil diubah
-            Swal.fire("Sukses", data.message, "success").then(() => {
-              window.location.href = "/mahasiswa/profile";
-            });
+            // Profile was successfully updated
+            Swal.fire("Sukses", "Profile berhasil diubah", "success").then(
+              () => {
+                window.location.href = "/mahasiswa/profile";
+              }
+            );
           } else {
+            // There was an error updating the profile
+            const data = await response.json();
             Swal.fire("Gagal!", data.message, "error");
           }
         } catch (error) {
@@ -84,6 +199,7 @@
         }
       });
     </script>
+
     <script src="/sweetalert2.all.min.js"></script>
     <script src="/preline.js"></script>
   </body>

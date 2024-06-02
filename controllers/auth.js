@@ -47,11 +47,9 @@ const checklogin = async (req, res) => {
   }
 };
 
-
-
 function logout(req, res) {
   res.clearCookie("token");
-  res.redirect("/login");
+  res.redirect("/auth/login");
 }
 
 module.exports = {

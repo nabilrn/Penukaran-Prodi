@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const auth = require("../controllers/auth.js");
 const mahasiswa = require("../controllers/mahasiswa.js");
 const verifyToken = require("../middleware/validToken.middleware.js");
 const role = require("../middleware/checkrole.middleware");
@@ -19,6 +18,8 @@ router.get("/permohonan", function (req, res, next) {
 router.get("/history", function (req, res, next) {
   res.render("./mahasiswa/history", { title: "history" });
 });
+
+router.post('/upload', verifyToken,  mahasiswa.uploadProfilePicture);
 
 router.post("/ubahProfile", verifyToken, mahasiswa.editProfile);
 

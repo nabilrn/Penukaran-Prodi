@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       fp: DataTypes.STRING,
       alamat: DataTypes.STRING,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       sequelize,

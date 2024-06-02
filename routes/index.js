@@ -6,19 +6,20 @@ const verifyToken = require("../middleware/validToken.middleware.js");
 const isLogin = require("../middleware/islogin.middleware.js");
 const changePassword = require("../controllers/changePassword.js");
 
-router.get("/login", isLogin, auth.form);
-
 router.get("/", function (req, res, next) {
-  res.render("login", { title: "Home" });
+  res.redirect("/auth/login");
 });
+
+router.get("/auth/login", isLogin, auth.form);
+
 router.get("/editpassword", function (req, res, next) {
   res.render("edit_password", { title: "edit password" });
 });
 
+router.post("/auth/login", auth.checklogin);
 
-
-router.post("/auth", auth.checklogin);
 router.post("/logout", verifyToken, auth.logout);
+
 router.post("/changePassword", verifyToken, async (req, res) => {
   try {
     await changePassword.changePassword(req, res);
@@ -27,6 +28,5 @@ router.post("/changePassword", verifyToken, async (req, res) => {
     res.status(500).json({ message: "server error" });
   }
 });
-
 
 module.exports = router;
