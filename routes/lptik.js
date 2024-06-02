@@ -7,5 +7,8 @@ const role = require("../middleware/checkrole.middleware");
 router.get("/home", verifyToken, role("lptik"), function (req, res, next) {
   res.render("./lptik/home", { title: "Home" });
 });
+router.get("/surat", verifyToken, role("lptik"), function (req, res, next) {
+  res.render("./lptik/buatsurat", { title: "Buat Surat" });
+});
 
 module.exports = router;
