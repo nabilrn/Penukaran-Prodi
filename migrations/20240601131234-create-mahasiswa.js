@@ -28,9 +28,7 @@ module.exports = {
       ttd: {
         type: Sequelize.STRING
       },
-      fp: {
-        type: Sequelize.STRING
-      },
+      
       alamat: {
         type: Sequelize.STRING
       },
