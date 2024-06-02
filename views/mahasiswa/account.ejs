@@ -287,6 +287,7 @@
             <div class="flex gap-x-2">
               <div class="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
                 <img
+                  id="profileImage"
                   src="/user_<%= user.id %>/profile.jpg"
                   alt="Profile Picture"
                   class="object-cover w-full h-full"
@@ -294,17 +295,22 @@
               </div>
               <form action="/mahasiswa/upload" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center" id="uploadForm">
                 <div class="relative">
-                  <input type="file" id="profilePic" name="profilePic" class="hidden" onchange="previewProfilePicture(event)">
+                  <input type="file" id="profilePic" name="profilePic" class="hidden" onchange="previewProfilePicture(event); toggleUploadButton(event);">
                   <label for="profilePic" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 cursor-pointer" id="uploadPhotoLabel">
-                    <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" x2="12" y1="3" y2="15"/>
+                    </svg>
                     Upload photo
                   </label>
                 </div>
-                <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none mt-2" id="uploadButton">
+                <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none mt-2 hidden" id="uploadButton">
                   Upload
                 </button>
               </form>
             </div>
+            
             
             
          
@@ -382,31 +388,31 @@
     </div>
     <h2>Upload File</h2>
     <script>
-       function previewProfilePicture(event) {
-        const input = event.target;
-        if (input.files && input.files[0]) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            document.getElementById("profilePic").src = e.target.result;
-          };
-          reader.readAsDataURL(input.files[0]);
+      function previewProfilePicture(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          const profileImage = document.getElementById('profileImage');
+          profileImage.src = e.target.result;
+        };
+    
+        if (file) {
+          reader.readAsDataURL(file);
         }
       }
-      
     </script>
+    <script>function toggleUploadButton(event) {
+      const uploadButton = document.getElementById('uploadButton');
+      if (event.target.files.length > 0) {
+        uploadButton.classList.remove('hidden');
+      } else {
+        uploadButton.classList.add('hidden');
+      }
+    }</script>
+    
    <script>
-    document.getElementById('uploadButton').addEventListener('click', function() {
-      document.getElementById('uploadButton').style.display = 'none';
-    });
-  
-    document.getElementById('uploadPhotoLabel').addEventListener('click', function() {
-      document.getElementById('uploadButton').style.display = 'block';
-    });
-  
-    // Check if the page is reloading
-    if (performance.navigation.type === 1) {
-      document.getElementById('uploadButton').style.display = 'none';
-    }
+   
   
     document.getElementById('uploadForm').addEventListener('submit', async function(event) {
       event.preventDefault(); // Prevent the default form submission

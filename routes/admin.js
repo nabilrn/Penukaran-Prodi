@@ -13,11 +13,17 @@ router.get("/validasi", function (req, res, next) {
 });
 
 router.get("/request", function (req, res, next) {
-  res.render("./admin/request", { title: "request-pindah prodi" });
+  res.render("./admin/request", { title: "request" });
 });
 
-router.get("/kontenhome", function (req, res, next) {
-  res.render("./admin/kontenhome", { title: "Konten Home" });
+router.get("/notif", function (req, res, next) {
+  res.render("./admin/notif", { title: "Notification" });
+});
+router.get("/surat", function (req, res, next) {
+  res.render("./admin/buatsurat", { title: "Buat Surat" });
+});
+router.get("/history", function (req, res, next) {
+  res.render("./admin/history", { title: "History" });
 });
 
 
