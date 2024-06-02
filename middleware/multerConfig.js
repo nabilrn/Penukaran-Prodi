@@ -1,15 +1,23 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs-extra');
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const userId = req.userId; // Get user ID from request
-    const dir = path.join(__dirname, '../data', `user_${userId}`);
-    cb(null, dir);
+  destination: async (req, file, cb) => {
+    try {
+      const userId = req.userId; // Make sure this is set correctly
+      const dir = path.join(__dirname, '../data', `user_${userId}`);
+      
+      // Ensure directory exists
+      await fs.ensureDir(dir);
+      
+      cb(null, dir);
+    } catch (err) {
+      cb(err);
+    }
   },
   filename: (req, file, cb) => {
-    
-    cb(null, `profile.jpg`);
+    cb(null, 'profile.jpg');
   }
 });
 

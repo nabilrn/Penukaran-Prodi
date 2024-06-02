@@ -8,32 +8,28 @@ module.exports = {
     );
 
     const dataMahasiswa = users.map((user) => {
-      let fakultas, departemen, alamat, fp="default_path";
+      let fakultas, departemen, alamat;
 
       switch (user.username) {
         case "2211522018":
           fakultas = "Fakultas Teknologi Informasi";
           departemen = "Sistem Informasi";
           alamat = "Jalan Mawar No. 1";
-          fp = "pic/Souta.jpg";
           break;
         case "2211522008":
           fakultas = "Fakultas Teknologi Informasi";
           departemen = "Sistem Informasi";
           alamat = "Jalan Melati No. 2";
-          fp = "pic/Suzume.webp";
           break;
         case "231152003":
           fakultas = "Fakultas Teknologi Informasi";
           departemen = "Sistem Informasi";
           alamat = "Jalan Kenanga No. 3";
-          fp = "pic/Suzume.webp";
           break;
         case "231152002":
           fakultas = "Fakultas Teknologi Informasi";
           departemen = "Sistem Informasi";
           alamat = "Jalan Cempaka No. 4";
-          fp = "pic/Suzume.webp";
           break;
         default:
           fakultas = "Unknown";
@@ -47,7 +43,6 @@ module.exports = {
         fakultas,
         departemen,
         ttd: "null",
-        fp,
         alamat,
         createdAt: new Date(),
         updatedAt: new Date(),
