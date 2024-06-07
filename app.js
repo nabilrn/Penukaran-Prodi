@@ -25,6 +25,7 @@ app.use('/pic', express.static(path.join(__dirname, 'pic')));
 app.use(express.static(path.join(__dirname, "./node_modules/preline/dist")));
 app.use(express.static(path.join(__dirname, "./node_modules/sweetalert2/dist")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "middleware")));
 app.use(express.static(path.join(__dirname, "data")));
 
 app.use("/", indexRouter);

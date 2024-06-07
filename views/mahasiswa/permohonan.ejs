@@ -77,67 +77,12 @@
           <div
             class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
           >
-            <form>
+            <form action="/mahasiswa/permohonan" method="POST">
               <div class="mb-4 sm:mb-8">
-                <label
-                  for="hs-feedback-post-comment-name-1"
-                  class="block mb-2 text-sm font-medium"
-                  >Nama</label
-                >
-                <input
-                  type="text"
-                  id="hs-feedback-post-comment-name-1"
-                  class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                  placeholder="Nama"
-                />
-              </div>
-              <div class="mb-4 sm:mb-8">
-                <label
-                  for="hs-feedback-post-comment-name-1"
-                  class="block mb-2 text-sm font-medium"
-                  >No-Bp</label
-                >
-                <input
-                  type="text"
-                  id="hs-feedback-post-comment-name-1"
-                  class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                  placeholder="No-Bp"
-                />
-              </div>
-              <!-- pilih fakultas asal -->
-
-              <div class="mb-4 sm:mb-8">
-                <label for="jurusanAsal">Pilih Jurusan Asal</label>
+                <label for="tahunAjaran">Tahun Ajaran</label>
                 <select
-                  name="jurusanAsal"
-                  id="jurusanAsalSelect"
-                  class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                >
-                  <option value="">Pilih Jurusan</option>
-                  <option value="">Teknik Komputer</option>
-                  <option value="">Sistem Informasi</option>
-                  <option value="">Informatika</option>
-                </select>
-              </div>
-              <!-- end pilih fakultas asal -->
-              <div class="mb-4 sm:mb-8">
-                <label
-                  for="hs-feedback-post-comment-email-1"
-                  class="block mb-2 text-sm font-medium"
-                  >Alamat</label
-                >
-                <input
-                  type="text"
-                  id="hs-feedback-post-comment-email-1"
-                  class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                  placeholder="Alamat"
-                />
-              </div>
-              <div class="mb-4 sm:mb-8">
-                <label for="fakultas">Tahun Ajaran</label>
-                <select
-                  name="fakultas"
-                  id=""
+                  name="tahunAjaran"
+                  id="tahunAjaran"
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <option value="1">2020/2021</option>
@@ -147,49 +92,44 @@
                 </select>
               </div>
               <div class="mb-4 sm:mb-8">
-                <label
-                  for="hs-feedback-post-comment-email-1"
-                  class="block mb-2 text-sm font-medium"
+                <label for="semester" class="block mb-2 text-sm font-medium"
                   >Semester</label
                 >
                 <input
                   type="Number"
-                  id="hs-feedback-post-comment-email-1"
+                  id="semester"
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Semester"
+                  name="semester"
                 />
               </div>
 
-              
               <div class="mb-4 sm:mb-8">
-                <label for="jurusanTujuan">Pilih Jurusan Tujuan</label>
+                <label for="departemen_tujuan">Pilih Jurusan Tujuan</label>
                 <select
-                  name="jurusanTujuan"
-                  id="jurusanTujuanSelect"
+                  name="departemen_tujuan"
+                  id="departemen_tujuan"
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <option value="">Pilih Jurusan Tujuan</option>
-                  <option value="">Teknik Komputer</option>
-                  <option value="">Sistem Informasi</option>
-                  <option value="">Informatika</option>
+                  <option value="Teknik Komputer">Teknik Komputer</option>
+                  <option value="Sistem Informasi">Sistem Informasi</option>
+                  <option value="Informatika">Informatika</option>
                 </select>
               </div>
               <!-- end pilih fakultas tujuan -->
 
-           
               <div>
-                <label
-                  for="hs-feedback-post-comment-textarea-1"
-                  class="block mb-2 text-sm font-medium"
+                <label for="alasan" class="block mb-2 text-sm font-medium"
                   >Alasan</label
                 >
                 <div class="mt-1">
                   <textarea
-                    id="hs-feedback-post-comment-textarea-1"
-                    name="hs-feedback-post-comment-textarea-1"
+                    id="alasan"
+                    name="alasan"
                     rows="3"
                     class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                    placeholder="Leave your comment here..."
+                    placeholder="masukan alasan pindah prodi"
                   ></textarea>
                 </div>
               </div>

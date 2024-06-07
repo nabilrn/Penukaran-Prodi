@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         onDelete: "CASCADE",
       });
+      Mahasiswa.hasOne(models.Permohonan, { 
+        foreignKey: 'mahasiswa_id', 
+        onDelete: 'CASCADE' 
+      });
     }
   }
   Mahasiswa.init(

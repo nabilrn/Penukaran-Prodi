@@ -22,5 +22,6 @@ router.get("/history", function (req, res, next) {
 router.post('/upload', verifyToken,  mahasiswa.uploadProfilePicture);
 
 router.post("/ubahProfile", verifyToken, mahasiswa.editProfile);
+router.post('/permohonan', verifyToken, mahasiswa.submitPermohonanPindah);
 
 module.exports = router;
