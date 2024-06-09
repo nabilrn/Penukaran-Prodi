@@ -21,6 +21,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      tahunAjaran: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      semester: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      alasan: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      
 
       status: {
         type: Sequelize.ENUM('diajukan', 'diterima', 'ditolak', 'selesai'),

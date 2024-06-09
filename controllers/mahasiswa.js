@@ -1,6 +1,5 @@
 const { User, Mahasiswa, Permohonan } = require("../models/index");
-const upload = require('../middleware/multerConfig');
-
+const upload = require("../middleware/multerConfig");
 
 const changeProfile = async (req, res) => {
   const user = await User.findByPk(req.userId);
@@ -12,6 +11,20 @@ const detail = async (req, res) => {
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
   res.render("./mahasiswa/account", { user, mahasiswa });
+};
+
+const history = async (req, res) => {
+  const user = await User.findByPk(req.userId);
+  const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+  const permohonan = await Permohonan.findAll({
+    where: { mahasiswa_id: mahasiswa.id },
+  });
+  res.render("./mahasiswa/history", {
+    user,
+    mahasiswa,
+    permohonan,
+    title: "History",
+  });
 };
 
 const editProfile = async (req, res, next) => {
@@ -38,9 +51,13 @@ const uploadProfilePicture = (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    return res.status(200).json({ message: 'File uploaded successfully', file: `data/user_${req.userId}/${req.file.filename}` });
+    return res.status(200).json({
+      message: "File uploaded successfully",
+      file: `data/user_${req.userId}/${req.file.filename}`,
+    });
   });
 };
+
 const submitPermohonanPindah = async (req, res, next) => {
   try {
     const { tahunAjaran, semester, alasan, departemen_tujuan } = req.body;
@@ -52,12 +69,17 @@ const submitPermohonanPindah = async (req, res, next) => {
       return res.status(404).json({ message: "Data mahasiswa tidak ditemukan" });
     }
 
+    // Cek apakah mahasiswa memilih jurusan yang sama
+    if (mahasiswa.departemen === departemen_tujuan) {
+      return res.status(400).json({ message: "Tidak bisa melakukan permohonan pindah ke jurusan yang sama dengan saat ini" });
+    }
+
     // Cek apakah permohonan sebelumnya sudah selesai
-    let previousPermohonan = await Permohonan.findOne({ 
-      where: { mahasiswa_id: mahasiswa.id }, 
-      order: [ [ 'createdAt', 'DESC' ]],
+    let previousPermohonan = await Permohonan.findOne({
+      where: { mahasiswa_id: mahasiswa.id },
+      order: [["createdAt", "DESC"]],
     });
-    if (previousPermohonan && previousPermohonan.status !== 'selesai') {
+    if (previousPermohonan && previousPermohonan.status !== "selesai") {
       return res.status(400).json({ message: "Permohonan sebelumnya belum selesai" });
     }
 
@@ -70,15 +92,84 @@ const submitPermohonanPindah = async (req, res, next) => {
       departemen_tujuan: departemen_tujuan,
     });
 
-    res.status(200).json({ message: "Permohonan pindah berhasil disimpan", permohonan: permohonan });
+    res.status(200).json({
+      message: "Permohonan pindah berhasil disimpan",
+      permohonan: permohonan,
+    });
   } catch (error) {
     next(error);
   }
 };
+
+
+const deletePermohonan = async (req, res, next) => {
+  try {
+    console.log("Request body:", req.body); // Log the request body to verify permohonanId presence
+    const permohonanId = req.body.permohonanId;
+    if (!permohonanId) {
+      return res.status(400).json({ message: "permohonanId is required" });
+    }
+
+    const permohonan = await Permohonan.findByPk(permohonanId);
+    console.log("Found permohonan:", permohonan); // Log the found permohonan for debugging
+
+    if (!permohonan) {
+      return res.status(404).json({ message: "Permohonan tidak ditemukan" });
+    }
+
+    if (permohonan.mahasiswa_id !== req.userId) {
+      return res.status(403).json({ message: "Akses ditolak" });
+    }
+
+    await permohonan.destroy();
+    res.status(200).json({ message: "Permohonan berhasil dihapus" });
+  } catch (error) {
+    console.error("Error deleting permohonan:", error); // Log any errors encountered
+    next(error);
+  }
+};
+
+const editPermohonan = async (req, res, next) => {
+  try {
+    const { permohonanId, tahunAjaran, semester, alasan, departemen_tujuan } = req.body;
+
+    // Find the permohonan by ID
+    const permohonan = await Permohonan.findByPk(permohonanId);
+    if (!permohonan) {
+      return res.status(404).json({ message: "Permohonan tidak ditemukan" });
+    }
+
+    // Check if the user owns this permohonan
+    const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+    if (permohonan.mahasiswa_id !== mahasiswa.id) {
+      return res.status(403).json({ message: "Akses ditolak" });
+    }
+
+    // Check if the new department is the same as the current one
+    if (mahasiswa.departemen === departemen_tujuan) {
+      return res.status(400).json({ message: "Tidak bisa memilih jurusan yang sama dengan saat ini" });
+    }
+
+    // Update the permohonan with new data
+    permohonan.tahunAjaran = tahunAjaran;
+    permohonan.semester = semester;
+    permohonan.alasan = alasan;
+    permohonan.departemen_tujuan = departemen_tujuan;
+    await permohonan.save();
+
+    res.status(200).json({ message: "Permohonan berhasil diubah", permohonan });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
+  deletePermohonan,
+  history,
   changeProfile,
   editProfile,
   detail,
   uploadProfilePicture,
-  submitPermohonanPindah
+  submitPermohonanPindah,
+  editPermohonan
 };

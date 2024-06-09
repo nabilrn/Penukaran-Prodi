@@ -1,0 +1,11 @@
+<!-- Permohonan Detail Modal -->
+<div class="modal-body">
+    <p>Permohonan ID: <%= permohonan.id %></p>
+    <p class="text-sm text-gray-500">Nama: <%= permohonan.Mahasiswa.User.nama %></p>
+    <p class="text-sm text-gray-500">NIM: <%= permohonan.Mahasiswa.User.username %></p>
+    <p class="text-sm text-gray-500">Departemen: <%= permohonan.Mahasiswa.departemen %></p>
+    <p class="text-sm text-gray-500">Departemen Tujuan: <%= permohonan.departemen_tujuan %></p>
+    <p class="text-sm text-gray-500">Tanggal Pengajuan: <%= new Date(permohonan.createdAt).toLocaleDateString() %></p>
+    <p class="text-sm text-gray-500">Tanggal Update: <%= new Date(permohonan.updatedAt).toLocaleDateString() %></p>
+  </div>
+  
