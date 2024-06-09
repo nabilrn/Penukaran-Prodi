@@ -25,6 +25,9 @@ router.get("/surat", function (req, res, next) {
 router.get("/history", function (req, res, next) {
   res.render("./admin/history", { title: "History" });
 });
+router.get("/buatsurat", function (req, res, next) {
+  res.render("./admin/buatsurat", { title: "buatsurat" });
+});
 
 
 module.exports = router;

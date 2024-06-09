@@ -18,6 +18,9 @@ router.get("/permohonan", function (req, res, next) {
 router.get("/history", function (req, res, next) {
   res.render("./mahasiswa/history", { title: "history" });
 });
+router.get("/notification", function (req, res, next) {
+  res.render("./mahasiswa/notification", { title: "notification" });
+});
 
 router.post('/upload', verifyToken,  mahasiswa.uploadProfilePicture);
 
