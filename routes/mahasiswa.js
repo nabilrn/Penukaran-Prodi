@@ -23,6 +23,11 @@ router.post('/permohonan', verifyToken, mahasiswa.submitPermohonanPindah);
 router.post('/permohonan/edit', verifyToken, mahasiswa.editPermohonan);
 
 
+router.get("/notification", function (req, res, next) {
+  res.render("./mahasiswa/notification", { title: "notification" });
+});
+
+
 
 
 module.exports = router;
