@@ -42,7 +42,6 @@ module.exports = {
         userId: user.id,
         fakultas,
         departemen,
-        ttd: "null",
         alamat,
         createdAt: new Date(),
         updatedAt: new Date(),

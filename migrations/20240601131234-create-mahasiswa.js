@@ -25,9 +25,7 @@ module.exports = {
       departemen: {
         type: Sequelize.STRING
       },
-      ttd: {
-        type: Sequelize.STRING
-      },
+   
       
       alamat: {
         type: Sequelize.STRING
