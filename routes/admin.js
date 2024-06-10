@@ -14,10 +14,10 @@ router.get("/validasi", function (req, res, next) {
 
 router.get("/request", verifyToken, admin.listPermohonan);
 // Define route
-router.get("/request/:id", verifyToken, admin.getPermohonanDetail);
 router.get("/notif", function (req, res, next) {
   res.render("./admin/notif", { title: "Notification" });
 });
+router.get("/request/:id", verifyToken, admin.getPermohonanDetail);
 router.get("/surat", function (req, res, next) {
   res.render("./admin/buatsurat", { title: "Buat Surat" });
 });

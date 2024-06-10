@@ -1,11 +1,87 @@
-<!-- Permohonan Detail Modal -->
-<div class="modal-body">
-    <p>Permohonan ID: <%= permohonan.id %></p>
-    <p class="text-sm text-gray-500">Nama: <%= permohonan.Mahasiswa.User.nama %></p>
-    <p class="text-sm text-gray-500">NIM: <%= permohonan.Mahasiswa.User.username %></p>
-    <p class="text-sm text-gray-500">Departemen: <%= permohonan.Mahasiswa.departemen %></p>
-    <p class="text-sm text-gray-500">Departemen Tujuan: <%= permohonan.departemen_tujuan %></p>
-    <p class="text-sm text-gray-500">Tanggal Pengajuan: <%= new Date(permohonan.createdAt).toLocaleDateString() %></p>
-    <p class="text-sm text-gray-500">Tanggal Update: <%= new Date(permohonan.updatedAt).toLocaleDateString() %></p>
+<%- include("../sidebar.ejs") %>
+<div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
+  <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+    <dl class="sm:divide-y sm:divide-gray-200">
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <h3 class="font-bold md:text-xl md:leading-tight">Detail</h3>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Nama</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= permohonanDetail.Mahasiswa.User.nama %>
+        </dd>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">No BP</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= permohonanDetail.Mahasiswa.User.username %>
+        </dd>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Fakultas</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          Teknologi Informasi
+        </dd>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Departemen</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= permohonanDetail.Mahasiswa.departemen %>
+        </dd>
+      </div>
+
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Alamat</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= permohonanDetail.Mahasiswa.alamat %>
+        </dd>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">Departemen Tujuan</dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= permohonanDetail.departemen_tujuan %>
+        </dd>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+          Terhitung Mulai Semester <%= permohonanDetail.semester %> Tahun
+          Akademik <%= permohonanDetail.tahunAjaran %> Dengan Alasan : <br /><%=
+          permohonanDetail.alasan %>
+        </dd>
+      </div>
+      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6">
+        <div class="flex justify-start space-x-2">
+          <!-- Back Button -->
+          <a href="javascript:history.back()">
+            <button
+              type="button"
+              class="bg-gray-600 text-white py-2 px-4 rounded font-semibold hover:bg-gray-700 focus:outline-none"
+            >
+              Back
+            </button>
+          </a>
+
+          <!-- Tolak Button -->
+          <a href="">
+            <button
+              type="submit"
+              class="bg-red-600 text-white py-2 px-4 rounded font-semibold hover:bg-red-700 focus:outline-none"
+            >
+              Tolak
+            </button>
+          </a>
+
+          <!-- Terima Button -->
+          <a href="">
+            <button
+              type="submit"
+              class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
+            >
+              Terima
+            </button>
+          </a>
+        </div>
+      </div>
+    </dl>
   </div>
-  
+</div>

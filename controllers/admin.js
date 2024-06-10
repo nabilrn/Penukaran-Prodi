@@ -13,7 +13,7 @@ const listPermohonan = async (req, res, next) => {
           attributes: ["departemen"],
         },
       ],
-      attributes: ["departemen_tujuan", "createdAt", "updatedAt"],
+      attributes: ["id", "departemen_tujuan", "createdAt", "updatedAt"],
     });
 
     res.render("./admin/request", { permohonanList, title: "Request" });
@@ -22,36 +22,51 @@ const listPermohonan = async (req, res, next) => {
   }
 };
 
-const getPermohonanDetail = async (req, res) => {
+const getPermohonanDetail = async (req, res, next) => {
   try {
-    const permohonanId = req.params.id;
-    const permohonan = await Permohonan.findByPk(permohonanId, {
+    const id = req.params.id;
+    console.log("ID received:", id); // Debugging statement
+
+    if (!id) {
+      return res.status(400).send("Invalid ID");
+    }
+
+    const permohonanDetail = await Permohonan.findOne({
+      where: { id },
       include: [
         {
           model: Mahasiswa,
           include: {
             model: User,
-            attributes: ['nama', 'username'],
+            attributes: ["nama", "username"],
           },
-          attributes: ['departemen'],
+          attributes: ["departemen", "alamat"],
         },
+      ],
+      attributes: [
+        "departemen_tujuan",
+        "semester",
+        "tahunAjaran",
+        "createdAt",
+        "updatedAt",
+        "alasan",
       ],
     });
 
-    if (!permohonan) {
-      return res.status(404).render('error', { message: 'Permohonan not found' });
+    if (!permohonanDetail) {
+      return res.status(404).send("Permohonan not found");
     }
 
-    // Render the permohonanDetail view with the retrieved data
-    res.render('./admin/permohonanDetail', { permohonan });
+    res.render("./admin/permohonanDetail", {
+      permohonanDetail,
+      title: "Request Detail",
+    });
   } catch (error) {
-    console.error('Error fetching permohonan:', error);
-    res.status(500).render('error', { message: 'An error occurred' });
+    next(error);
   }
 };
 
-
 module.exports = {
   listPermohonan,
-  getPermohonanDetail
+  getPermohonanDetail,
 };
