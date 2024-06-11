@@ -98,10 +98,10 @@
                       <span class="text-gray-600"><%= permohonan.departemen_tujuan %></span>
                     </td>
                     <td class="px-4 py-2">
-                      <span class="text-gray-600"><%= new Date(permohonan.createdAt).toLocaleDateString() %></span>
+                      <span class="text-gray-600"><%= permohonan.createdAt %></span>
                     </td>
                     <td class="px-4 py-2">
-                      <span class="text-gray-600"><%= new Date(permohonan.updatedAt).toLocaleDateString() %></span>
+                      <span class="text-gray-600"><%= permohonan.updatedAt %></span>
                     </td>
                     <td class="px-4 py-2">
                       <a href="/admin/request/<%= permohonan.id %>" class="details-icon py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-black">

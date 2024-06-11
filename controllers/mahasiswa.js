@@ -57,7 +57,6 @@ const uploadProfilePicture = (req, res) => {
     });
   });
 };
-
 const submitPermohonanPindah = async (req, res, next) => {
   try {
     const { tahunAjaran, semester, alasan, departemen_tujuan } = req.body;
@@ -66,24 +65,33 @@ const submitPermohonanPindah = async (req, res, next) => {
     // Cek apakah data mahasiswa sudah ada
     let mahasiswa = await Mahasiswa.findOne({ where: { userId: userId } });
     if (!mahasiswa) {
-      return res.status(404).json({ message: "Data mahasiswa tidak ditemukan" });
+      return res
+        .status(404)
+        .json({ message: "Data mahasiswa tidak ditemukan" });
+    }
+    if (semester <= 2) {
+      return res
+        .status(400)
+        .json({ message: "Belum Menyelesaikan 2 semester perkuliahan" });
     }
 
-    // Cek apakah mahasiswa memilih jurusan yang sama
     if (mahasiswa.departemen === departemen_tujuan) {
-      return res.status(400).json({ message: "Tidak bisa melakukan permohonan pindah ke jurusan yang sama dengan saat ini" });
+      return res.status(400).json({
+        message:
+          "Tidak bisa melakukan permohonan pindah ke jurusan yang sama dengan saat ini",
+      });
     }
 
-    // Cek apakah permohonan sebelumnya sudah selesai
     let previousPermohonan = await Permohonan.findOne({
       where: { mahasiswa_id: mahasiswa.id },
       order: [["createdAt", "DESC"]],
     });
     if (previousPermohonan && previousPermohonan.status !== "selesai") {
-      return res.status(400).json({ message: "Permohonan sebelumnya belum selesai" });
+      return res
+        .status(400)
+        .json({ message: "Permohonan sebelumnya belum selesai" });
     }
 
-    // Simpan permohonan pindah ke database
     const permohonan = await Permohonan.create({
       mahasiswa_id: mahasiswa.id,
       tahunAjaran: tahunAjaran,
@@ -101,6 +109,9 @@ const submitPermohonanPindah = async (req, res, next) => {
   }
 };
 
+module.exports = {
+  submitPermohonanPindah,
+};
 
 const deletePermohonan = async (req, res, next) => {
   try {
@@ -109,7 +120,6 @@ const deletePermohonan = async (req, res, next) => {
     if (!permohonanId) {
       return res.status(400).json({ message: "permohonanId is required" });
     }
-
     const permohonan = await Permohonan.findByPk(permohonanId);
     console.log("Found permohonan:", permohonan); // Log the found permohonan for debugging
 
@@ -120,7 +130,6 @@ const deletePermohonan = async (req, res, next) => {
     if (permohonan.mahasiswa_id !== req.userId) {
       return res.status(403).json({ message: "Akses ditolak" });
     }
-
     await permohonan.destroy();
     res.status(200).json({ message: "Permohonan berhasil dihapus" });
   } catch (error) {
@@ -131,26 +140,23 @@ const deletePermohonan = async (req, res, next) => {
 
 const editPermohonan = async (req, res, next) => {
   try {
-    const { permohonanId, tahunAjaran, semester, alasan, departemen_tujuan } = req.body;
-
-    // Find the permohonan by ID
+    const { permohonanId, tahunAjaran, semester, alasan, departemen_tujuan } =
+      req.body;
     const permohonan = await Permohonan.findByPk(permohonanId);
     if (!permohonan) {
       return res.status(404).json({ message: "Permohonan tidak ditemukan" });
     }
-
-    // Check if the user owns this permohonan
-    const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+    const mahasiswa = await Mahasiswa.findOne({
+      where: { userId: req.userId },
+    });
     if (permohonan.mahasiswa_id !== mahasiswa.id) {
       return res.status(403).json({ message: "Akses ditolak" });
     }
-
-    // Check if the new department is the same as the current one
     if (mahasiswa.departemen === departemen_tujuan) {
-      return res.status(400).json({ message: "Tidak bisa memilih jurusan yang sama dengan saat ini" });
+      return res.status(400).json({
+        message: "Tidak bisa memilih jurusan yang sama dengan saat ini",
+      });
     }
-
-    // Update the permohonan with new data
     permohonan.tahunAjaran = tahunAjaran;
     permohonan.semester = semester;
     permohonan.alasan = alasan;
@@ -171,5 +177,5 @@ module.exports = {
   detail,
   uploadProfilePicture,
   submitPermohonanPindah,
-  editPermohonan
+  editPermohonan,
 };
