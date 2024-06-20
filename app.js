@@ -3,7 +3,9 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const http = require("http");
 const dotenv = require("dotenv");
+const socketIo = require("socket.io");
 dotenv.config();
 
 var indexRouter = require("./routes/index");
@@ -12,6 +14,11 @@ const adminRouter = require("./routes/admin");
 const lptikRouter = require("./routes/lptik");
 
 var app = express();
+
+// Create HTTP server and integrate Socket.IO
+const server = http.createServer(app);
+const io = socketIo(server);
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "/views"));
@@ -49,6 +56,22 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+// Pass Socket.IO instance to controllers
+app.set("io", io);
+
+// WebSocket connection handler
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("register", (userId) => {
+    socket.join(userId.toString());
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
 
 module.exports = app;

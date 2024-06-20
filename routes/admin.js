@@ -28,4 +28,7 @@ router.get("/buatsurat", function (req, res, next) {
   res.render("./admin/buatsurat", { title: "buatsurat" });
 });
 
+router.post("/reject", verifyToken, admin.rejectPermohonan);
+router.post("/accept", verifyToken, admin.acceptPermohonan);
+
 module.exports = router;
