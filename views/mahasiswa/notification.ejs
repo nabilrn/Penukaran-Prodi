@@ -1,145 +1,82 @@
 <%- include("../head.ejs") %>
-<div class="max-w m-5 min-h-96 bg-white border drop-shadow-md">
-    <div class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-green-800 text-sm py-3 sm:py-2 drop-shadow-lg">
-        <h1 class="text-sm text-white m-2">
-            Notification
-        </h1>
-    </div>
-    <div>
-        <!-- Table Section -->
-        <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-            <!-- Card -->
-            <div class="flex flex-col">
-                <div class="-m-1.5 overflow-x-auto">
-                    <div class="p-1.5 min-w-full inline-block align-middle">
-                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                            <!-- Header -->
-                            <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
-                                <!-- Input -->
-                                <div class="sm:col-span-1">
-                                    <label for="hs-as-table-product-review-search" class="sr-only">Search</label>
-                                    <div class="relative">
-                                        <input type="text" id="hs-as-table-product-review-search" name="hs-as-table-product-review-search" class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Search">
-                                        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
-                                            <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Input -->
 
-                                <div class="hs-dropdown [--placement:bottom-right] relative inline-block" data-hs-dropdown-auto-close="inside">
-                                    <button id="hs-as-table-table-filter-dropdown" type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                                        <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
-                                        Filter
-                                        <span class="ps-2 text-xs font-semibold text-blue-600 border-s border-gray-200">
-                                            1
-                                        </span>
-                                    </button>
-                                    <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-48 z-10 bg-white shadow-md rounded-lg mt-2">
-                                        <div class="divide-y divide-gray-200">
-                                            <label for="hs-as-filters-dropdown-all" class="flex py-2.5 px-3">
-                                                <input type="checkbox" class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" id="hs-as-filters-dropdown-all" checked>
-                                                <span class="ms-3 text-sm text-gray-800">All</span>
-                                            </label>
-                                            <label for="hs-as-filters-dropdown-published" class="flex py-2.5 px-3">
-                                                <input type="checkbox" class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" id="hs-as-filters-dropdown-published">
-                                                <span class="ms-3 text-sm text-gray-800">Published</span>
-                                            </label>
-                                            <label for="hs-as-filters-dropdown-pending" class="flex py-2.5 px-3">
-                                                <input type="checkbox" class="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" id="hs-as-filters-dropdown-pending">
-                                                <span class="ms-3 text-sm text-gray-800">Pending</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Header -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const socket = io();
 
-                        <!-- Table -->
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-start">
-                                        <div class="flex items-center gap-x-2">
-                                            <span class="text-xs font-semibold uppercase tracking-wide text-gray-800">
-                                                notification
-                                            </span>
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
+    // Register the userId to the socket connection
+    socket.emit('register', '<%= userId %>');
 
-                            <tbody class="divide-y divide-gray-200">
-                                <tr class="bg-white hover:bg-gray-50">
-                                    <td class="size-px whitespace-nowrap align-top">
-                                        <a class="block p-6" href="#">
-                                            <div class="flex items-center gap-x-3">
-                                                <div class="grow">
-                                                    <span class="text-sm font-semibold text-gray-800 flex justify-between mb-4">
-                                                        <div class="text-left">
-                                                            <p>Pindah Prodi Disetujui!!!</p>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <p>dd/mm/yyyy</p>
-                                                        </div>
-                                                    </span>
-                                                    <span class="text-sm text-gray-500 flex justify-between mb-4">
-                                                        <div class="text-left">
-                                                            <p>Selamat! Permohonan pindah prodi Anda telah disetujui <br>
-                                                                Anda sekarang resmi terdaftar di program studi Manajemen Fakultas Ekonomi dan Bisnis <br>
-                                                                Silakan cek email Anda untuk informasi lebih lanjut mengenai prosedur administrasi</p>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <p>hh:mm</p>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tbody class="divide-y divide-gray-200">
-                              
-                                   
-                        </table>
-                        <!-- End Table -->
+    // Handle new notifications
+    socket.on('newNotification', (notification) => {
+      const notificationsContainer = document.querySelector('.notifications-container');
+      
+      const notificationElement = document.createElement('div');
+      notificationElement.className = 'notification-card bg-white border border-gray-200 rounded-lg p-4 hover:bg-gray-50';
+      
+      let detailContent = notification.detail;
+      if (detailContent.endsWith('.pdf')) {
+        detailContent = `<a href="http://localhost:3000/download/${notification.detail}" download>${notification.detail}</a>`;
+      }
 
-                        <!-- Footer -->
-                        <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200">
-                            <div class="max-w-sm space-y-3">
-                                <select class="py-2 px-3 pe-9 block border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option selected>5</option>
-                                    <option>6</option>
-                                </select>
-                            </div>
+      notificationElement.innerHTML = `
+        <h3 class="notification-title text-lg font-semibold">${notification.judul}</h3>
+        <p class="notification-meta text-sm text-gray-600">
+          <span class="font-medium">Tanggal:</span> ${formatDate(notification.createdAt)}
+        </p>
+        <p class="notification-meta text-sm text-gray-600">
+          <span class="font-medium">Waktu:</span> ${formatTime(notification.createdAt)}
+        </p>
+        <p class="notification-detail mt-2">${detailContent}</p>
+      `;
 
-                            <div>
-                                <div class="inline-flex gap-x-2">
-                                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                                        Prev
-                                    </button>
+      notificationsContainer.prepend(notificationElement);
+    });
 
-                                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                                        Next
-                                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Footer -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Card -->
-    </div>
-    <!-- End Table Section -->
-</div>
-  </body>
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+      return day + " " + month + " " + year;
+    }
+
+    function formatTime(dateString) {
+      const date = new Date(dateString);
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    }
+  });
+</script>
+</head>
+<body class="bg-gray-100">
+  <div class="notifications-container flex flex-col items-center gap-4 p-4">
+    <% notifications.forEach(notification => { %>
+      <div class="notification-card w-full max-w-2xl bg-white border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+        <h3 class="notification-title text-lg font-semibold"><%= notification.judul %></h3>
+        <p class="notification-meta text-sm text-gray-600">
+          <span class="font-medium">Tanggal:</span> <%= formatDate(notification.createdAt) %>
+        </p>
+        <p class="notification-meta text-sm text-gray-600">
+          <span class="font-medium">Waktu:</span> <%= formatTime(notification.createdAt) %>
+        </p>
+        <p class="notification-detail mt-2">
+          <% if (notification.detail.endsWith('.pdf')) { %>
+            <a href="http://localhost:3000/pdf/<%= notification.detail %>" download><%= notification.detail %></a>
+          <% } else { %>
+            <%= notification.detail %>
+          <% } %>
+        </p>
+      </div>
+    <% }); %>
+  </div>
+</body>
+
 </html>

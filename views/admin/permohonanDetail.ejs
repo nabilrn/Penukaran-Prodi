@@ -29,7 +29,6 @@
           <%= permohonanDetail.Mahasiswa.departemen %>
         </dd>
       </div>
-
       <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">Alamat</dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -61,27 +60,79 @@
             </button>
           </a>
 
-          <!-- Tolak Button -->
-          <a href="">
+          <!-- Message for permohonan selesai -->
+          <% if (permohonanDetail.status === "selesai") { %>
+            <span class="text-green-600 font-semibold">
+              Permohonan selesai
+            </span>
+          <% } %>
+
+          <!-- Conditionally render Tolak and Terima buttons based on status -->
+          <% if (permohonanDetail.status !== "selesai") { %>
+            <!-- Tolak Button -->
             <button
-              type="submit"
+              type="button"
               class="bg-red-600 text-white py-2 px-4 rounded font-semibold hover:bg-red-700 focus:outline-none"
+              data-hs-overlay="#hs-modal-upgrade-to-pro"
             >
               Tolak
             </button>
-          </a>
 
-          <!-- Terima Button -->
-          <a href="">
-            <button
-              type="submit"
-              class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
-            >
-              Terima
-            </button>
-          </a>
+            <!-- Terima Button -->
+            <form action="/admin/accept" method="post">
+              <!-- Tambahkan input tersembunyi untuk menyimpan permohonanId -->
+              <input type="hidden" name="permohonanId" value="<%= permohonanId %>">
+              <button
+                type="submit"
+                class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
+              >
+                Terima
+              </button>
+            </form>
+          <% } %>
         </div>
       </div>
     </dl>
   </div>
 </div>
+<!-- modal -->
+
+<div id="hs-modal-upgrade-to-pro" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
+  <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm pointer-events-auto">
+      <div class="p-4 sm:p-7">
+        <div class="text-center">
+          <h2 class="block text-xl sm:text-2xl font-semibold text-gray-800">Pilih alasan penolakan</h2>
+        </div>
+        <form id="reject-form" method="post" action="/admin/reject">
+          <div class="mt-8 sm:mt-10 divide-y divide-gray-200">
+            <div class="mb-4 sm:mb-8">
+              <select name="alasanPenolakan" id="edit-departemen_tujuan" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required>
+                <option value="">Pilih Alasan Penolakan</option>
+                <option value="Departemen Baru Tidak Mau Menerima">Departemen Baru Tidak Mau Menerima</option>
+                <option value="Departemen Saat Ini tidak mengizinkan">Departemen Saat Ini tidak mengizinkan</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="permohonanId" value="<%= permohonanId %>"> <!-- Pastikan untuk meneruskan ID yang sesuai -->
+
+          <!-- Footer -->
+          <div class="flex justify-end items-center gap-x-2 p-4 sm:px-7 border-t">
+            <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-modal-upgrade-to-pro">
+              Cancel
+            </button>
+            <button class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none" type="submit">
+              Submit
+            </button>
+          </div>
+          <!-- End Footer -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
+
+<script src="/preline.js"></script>
+</body>
+</html>

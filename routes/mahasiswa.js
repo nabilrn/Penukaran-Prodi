@@ -21,7 +21,7 @@ router.post('/upload', verifyToken, mahasiswa.uploadProfilePicture);
 router.post("/ubahProfile", verifyToken, mahasiswa.editProfile);
 router.post('/permohonan', verifyToken, mahasiswa.submitPermohonanPindah);
 router.post('/permohonan/edit', verifyToken, mahasiswa.editPermohonan);
-
+router.get("/notification", verifyToken, mahasiswa.getNotifications);
 
 router.get("/notification", function (req, res, next) {
   res.render("./mahasiswa/notification", { title: "notification" });

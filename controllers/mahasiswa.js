@@ -1,5 +1,6 @@
-const { User, Mahasiswa, Permohonan } = require("../models/index");
+const { User, Mahasiswa, Permohonan, Notification,} = require("../models/index");
 const upload = require("../middleware/multerConfig");
+const { Op } = require('sequelize');
 
 const changeProfile = async (req, res) => {
   const user = await User.findByPk(req.userId);
@@ -14,6 +15,28 @@ const detail = async (req, res) => {
 };
 
 const history = async (req, res) => {
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getMonth()]; // January is 0!
+    const year = date.getFullYear();
+
+    return day + " " + month + " " + year;
+  }
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
   const permohonan = await Permohonan.findAll({
@@ -24,6 +47,7 @@ const history = async (req, res) => {
     mahasiswa,
     permohonan,
     title: "History",
+    formatDate,
   });
 };
 
@@ -169,7 +193,54 @@ const editPermohonan = async (req, res, next) => {
   }
 };
 
+const getNotifications = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+
+    const notifications = await Notification.findAll({
+      where: { 
+        userId: userId,
+        judul: { [Op.not]: 'Pemberitahuan Nim Baru Mahasiswa' } // Tambahkan kondisi untuk tidak memuat notifikasi dengan judul ini
+      },
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.render("./mahasiswa/notification", {
+      notifications,
+      userId,  // Pass userId to the template
+      title: "Notification",
+      formatDate,
+      formatTime,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const monthNames = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+  return day + " " + month + " " + year;
+}
+
+function formatTime(dateString) {
+  const date = new Date(dateString);
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+
 module.exports = {
+  getNotifications,
   deletePermohonan,
   history,
   changeProfile,
