@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Feedback.init({
+  Feedback.init(
+    {
     pesan: DataTypes.STRING,
   }, {
     sequelize,
