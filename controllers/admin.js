@@ -213,6 +213,81 @@ const getNotif = async (req, res) => {
   }
 };
 
+const updateUsername = async (req, res, next) => {
+  try {
+    let { permohonanBpId, nimBaru } = req.body;
+
+    // Log the incoming permohonanBpId and nimBaru for debugging
+    console.log("Received permohonanBpId:", permohonanBpId);
+    console.log("Received nimBaru:", nimBaru);
+
+    // Convert permohonanBpId to integer if necessary
+    permohonanBpId = parseInt(permohonanBpId, 10);
+
+    if (isNaN(permohonanBpId)) {
+      return res.status(400).json({ message: "Invalid permohonanBpId" });
+    }
+
+    // Find the corresponding PermohonanBp record with Mahasiswa and User included
+    const permohonanBp = await PermohonanBp.findByPk(permohonanBpId, {
+      include: [{ model: Mahasiswa, include: User }],
+    });
+
+    if (!permohonanBp) {
+      return res.status(404).json({ message: "Permohonan BP not found" });
+    }
+
+    // Check if permohonanBp.Mahasiswa and permohonanBp.Mahasiswa.User are defined
+    if (!permohonanBp.Mahasiswa || !permohonanBp.Mahasiswa.User) {
+      return res.status(404).json({ message: "Mahasiswa or User not found" });
+    }
+
+    // Update the username (NIM Baru) of the associated User
+    await permohonanBp.Mahasiswa.User.update({ username: nimBaru });
+
+    // Find Permohonan associated with Mahasiswa
+    const permohonan = await Permohonan.findOne({
+      where: { mahasiswa_id: permohonanBp.Mahasiswa.id },
+    });
+
+    if (!permohonan) {
+      return res.status(404).json({ message: "Permohonan not found" });
+    }
+
+    // Update status in Permohonan model to 'selesai' and departemen in Mahasiswa model
+    await permohonan.update({
+      status: "selesai",
+    });
+
+    await permohonanBp.Mahasiswa.update({
+      departemen: permohonan.departemen_tujuan,
+    });
+
+    // Create a new notification for the user
+    const notification = await Notification.create({
+      userId: permohonanBp.Mahasiswa.User.id,
+      judul: "Nomor BP Anda Telah Berubah",
+      detail:
+        "Selamat Anda Telah Pindah Ke Prodi Yang Baru. Silahkan Ambil Surat Keterangan Pindah Prodi ke admin Departemen Bersangkutan.",
+    });
+
+    // Emit the notification event via socket
+    const io = req.app.get("io");
+    io.to(permohonanBp.Mahasiswa.User.id.toString()).emit("newNotification", {
+      judul: notification.judul,
+      detail: notification.detail,
+      createdAt: notification.createdAt,
+    });
+
+    res
+      .status(200)
+      .json({ message: "NIM successfully updated and notification sent" });
+  } catch (error) {
+    console.error("Error in updateUsername function:", error);
+    next(error);
+  }
+};
+
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -251,4 +326,5 @@ module.exports = {
   rejectPermohonan,
   getPermohonanDetail,
   getNotif,
+  updateUsername,
 };

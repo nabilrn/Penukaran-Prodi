@@ -30,5 +30,6 @@ router.get("/buatsurat", function (req, res, next) {
 
 router.post("/reject", verifyToken, admin.rejectPermohonan);
 router.post("/accept", verifyToken, admin.acceptPermohonan);
+router.post("/updateNim", verifyToken, admin.updateUsername);
 
 module.exports = router;
