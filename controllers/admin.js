@@ -1,4 +1,4 @@
-const { Permohonan, User, Mahasiswa, Notification, } = require("../models/index");
+const { Permohonan, User, Mahasiswa, Notification, Feedback,} = require("../models/index");
 const sequelize = require("sequelize");
 const path = require("path");
 const fs = require("fs");
@@ -288,6 +288,15 @@ const updateUsername = async (req, res, next) => {
   }
 };
 
+const getAllFeedback = async (req, res, next) => {
+  try {
+    const feedbacks = await Feedback.findAll();
+    res.render("./admin/feedback", { feedbacks, title: "Feedback" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -327,4 +336,5 @@ module.exports = {
   getPermohonanDetail,
   getNotif,
   updateUsername,
+  getAllFeedback,
 };

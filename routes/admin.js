@@ -14,6 +14,8 @@ router.get("/validasi", function (req, res, next) {
 });
 
 router.get("/request", verifyToken, admin.listPermohonan);
+
+router.get("/feeback", verifyToken, admin.getAllFeedback);
 // Define route
 router.get("/notif", verifyToken, admin.getNotif);
 
