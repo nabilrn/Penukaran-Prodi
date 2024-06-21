@@ -3,15 +3,16 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class PermohonanBp extends Model {
     static associate(models) {
-      PermohonanBp.belongsTo(models.User, {
-        foreignKey: "userId",
+      PermohonanBp.belongsTo(models.Mahasiswa, {
+        foreignKey: "mahasiswaId",
         onDelete: "CASCADE",
       });
     }
   }
   PermohonanBp.init(
     {
-      userId: DataTypes.INTEGER,
+      mahasiswaId: DataTypes.INTEGER,
+      bpBaru: DataTypes.STRING,
       status: DataTypes.ENUM("diajukan", "selesai"),
     },
     {
