@@ -190,6 +190,29 @@ const acceptPermohonan = async (req, res, next) => {
   }
 };
 
+const getNotif = async (req, res) => {
+  try {
+    const userId = req.user ? req.user.id : null; // Pastikan req.user tersedia atau null jika tidak ada
+
+    const notifications = await Notification.findAll({
+      where: {
+        judul: "Pemberitahuan Nim Baru Mahasiswa",
+      },
+      order: [["createdAt", "DESC"]], // Order by creation date descending
+    });
+    res.render("./admin/notif", {
+      notifications,
+      title: "Notification",
+      formatDate,
+      formatTime,
+      userId, // Kirim userId ke template
+    });
+  } catch (error) {
+    console.error("Error fetching notifications: ", error);
+    res.status(500).json({ error: "Failed to fetch notifications" });
+  }
+};
+
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -227,4 +250,5 @@ module.exports = {
   acceptPermohonan,
   rejectPermohonan,
   getPermohonanDetail,
+  getNotif,
 };
