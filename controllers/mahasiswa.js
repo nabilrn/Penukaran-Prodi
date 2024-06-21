@@ -1,4 +1,4 @@
-const { User, Mahasiswa, Permohonan, Notification,} = require("../models/index");
+const { User, Mahasiswa, Permohonan, Notification,Feedback,} = require("../models/index");
 const upload = require("../middleware/multerConfig");
 const { Op } = require('sequelize');
 
@@ -238,6 +238,22 @@ function formatTime(dateString) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
+const sendFeedback = async (req, res, next) => {
+  try {
+    console.log('Body Request:', req.body); // Log data body request
+
+    const { heroInput } = req.body; // Mengambil input dari form dengan nama 'hero-input'
+
+    // Membuat entri baru untuk feedback ke dalam database
+    const feedback = await Feedback.create({
+      pesan: heroInput,
+    });
+
+    res.status(201).json({ message: 'Feedback successfully sent', feedback });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getNotifications,
@@ -249,4 +265,5 @@ module.exports = {
   uploadProfilePicture,
   submitPermohonanPindah,
   editPermohonan,
+  sendFeedback,
 };
