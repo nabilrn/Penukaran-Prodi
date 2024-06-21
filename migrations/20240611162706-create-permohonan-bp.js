@@ -9,16 +9,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
+      mahasiswaId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "Mahasiswas",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      bpBaru: { 
+        type: Sequelize.STRING,
+         allowNull: true },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

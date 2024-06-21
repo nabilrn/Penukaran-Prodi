@@ -1,10 +1,9 @@
 <%- include("../sidebar.ejs") %>
 <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
-  <h3 class=" font-bold md:text-xl md:leading-tight ">Request Pindah Prodi</h3>
+  <h3 class="font-bold md:text-xl md:leading-tight">Request Pindah Prodi</h3>
 
   <div class="max-w-[85rem] mx-auto py-10 px-4 sm:px-6 lg:px-8">
-  
-   <!-- Table Section -->
+    <!-- Table Section -->
     <!-- Card -->
     <div class="flex flex-col">
       <div class="-m-1.5 overflow-x-auto">
@@ -55,7 +54,6 @@
             <!-- End Header -->
 
             <!-- Table -->
-
             <table class="min-w-full divide-y divide-gray-200 text-sm">
               <thead class="bg-gray-50">
                 <tr>
@@ -69,56 +67,109 @@
                     <span class="font-semibold text-gray-800">Departemen</span>
                   </th>
                   <th scope="col" class="px-4 py-2 text-start">
-                    <span class="font-semibold text-gray-800">Departemen Tujuan</span>
+                    <span class="font-semibold text-gray-800"
+                      >Departemen Tujuan</span
+                    >
                   </th>
                   <th scope="col" class="px-4 py-2 text-start">
-                    <span class="font-semibold text-gray-800">Tanggal Pengajuan</span>
+                    <span class="font-semibold text-gray-800"
+                      >Tanggal Pengajuan</span
+                    >
                   </th>
                   <th scope="col" class="px-4 py-2 text-start">
-                    <span class="font-semibold text-gray-800">Tanggal Update</span>
+                    <span class="font-semibold text-gray-800"
+                      >Tanggal Update</span
+                    >
+                  </th>
+                  <th scope="col" class="px-4 py-2 text-start">
+                    <span class="font-semibold text-gray-800">Status</span>
                   </th>
                   <th scope="col" class="px-4 py-2 text-start">
                     <span class="font-semibold text-gray-800">Detail</span>
+                  </th>
+                  <th scope="col" class="px-4 py-2 text-center">
+                    <span class="font-semibold text-gray-800">Aksi</span>
                   </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
                 <% permohonanList.forEach(permohonan => { %>
-                  <tr>
-                    <td class="px-4 py-2">
-                      <span class="text-gray-800"><%= permohonan.Mahasiswa.User.nama %></span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <span class="text-gray-800"><%= permohonan.Mahasiswa.User.username %></span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <span class="text-gray-800"><%= permohonan.Mahasiswa.departemen %></span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <span class="text-gray-600"><%= permohonan.departemen_tujuan %></span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <span class="text-gray-600"><%= permohonan.createdAt %></span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <span class="text-gray-600"><%= permohonan.updatedAt %></span>
-                    </td>
-                    <td class="px-4 py-2">
-                      <a href="/admin/request/<%= permohonan.id %>" class="details-icon py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                      </a>
-                    </td>
-                  </tr>
+                <tr>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-800"
+                      ><%= permohonan.Mahasiswa.User.nama %></span
+                    >
+                  </td>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-800"
+                      ><%= permohonan.Mahasiswa.User.username %></span
+                    >
+                  </td>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-800"
+                      ><%= permohonan.Mahasiswa.departemen %></span
+                    >
+                  </td>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-600"
+                      ><%= permohonan.departemen_tujuan %></span
+                    >
+                  </td>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-600"
+                      ><%= formatDate(permohonan.createdAt) %></span
+                    >
+                  </td>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-600"
+                      ><%= formatDate(permohonan.updatedAt) %></span
+                    >
+                  </td>
+                  <td class="px-4 py-2">
+                    <span class="text-gray-600"><%= permohonan.status %></span>
+                  </td>
+                  <td class="px-4 py-2">
+                    <a
+                      href="/admin/request/<%= permohonan.id %>"
+                      class="details-icon py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-black"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-ellipsis"
+                      >
+                        <circle cx="12" cy="12" r="1" />
+                        <circle cx="19" cy="12" r="1" />
+                        <circle cx="5" cy="12" r="1" />
+                      </svg>
+                    </a>
+                  </td>
+                  <td class="px-4 py-2">
+                    <% if (permohonan.status === 'selesai') { %>
+                    <a
+                      href="/admin/buatsurat/<%= permohonan.id  %>"
+                      class="complete-action-button py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg bg-green-500 text-white"
+                    >
+                      Buat Surat
+                    </a>
+                    <% } %>
+                  </td>
+                </tr>
                 <% }) %>
               </tbody>
             </table>
-            
-            
-          
-                        
-<!-- End Modal -->
-<!-- end modal -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="/preline.js"></script>
-  </body>
-</html>

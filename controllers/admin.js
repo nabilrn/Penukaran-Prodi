@@ -1,4 +1,10 @@
-const { Permohonan, User, Mahasiswa, Notification, } = require("../models/index");
+const {
+  Permohonan,
+  User,
+  Mahasiswa,
+  PermohonanBp,
+  Notification,
+} = require("../models/index");
 const sequelize = require("sequelize");
 const path = require("path");
 const fs = require("fs");
@@ -51,7 +57,8 @@ const listPermohonan = async (req, res, next) => {
         "status",
       ],
     });
-        res.render("./admin/request", {
+
+    res.render("./admin/request", {
       permohonanList,
       title: "Request",
       formatDate,
@@ -64,7 +71,6 @@ const listPermohonan = async (req, res, next) => {
 const getPermohonanDetail = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log("ID received:", id); // Debugging statement
 
     if (!id) {
       return res.status(400).send("Invalid ID");
@@ -89,6 +95,7 @@ const getPermohonanDetail = async (req, res, next) => {
         "createdAt",
         "updatedAt",
         "alasan",
+        "status",
       ],
     });
 
@@ -98,8 +105,8 @@ const getPermohonanDetail = async (req, res, next) => {
 
     res.render("./admin/permohonanDetail", {
       permohonanDetail,
+      permohonanId: id, // Pastikan permohonanId tersedia di template
       title: "Request Detail",
-      permohonanId: permohonanDetail.id
     });
   } catch (error) {
     next(error);
@@ -166,7 +173,7 @@ const acceptPermohonan = async (req, res, next) => {
       return res.status(404).json({ message: "Mahasiswa tidak ditemukan." });
     }
 
-    // Create a new PermohonanBp record using mahasiswa.userId
+    // Create a new PermohonanBp record using mahasiswaId
     const permohonanBp = await PermohonanBp.create({
       mahasiswaId: mahasiswa.id, // Use mahasiswa's id to establish the relationship
       status: "diajukan",
@@ -175,7 +182,7 @@ const acceptPermohonan = async (req, res, next) => {
     const notification = await Notification.create({
       userId: mahasiswa.userId,
       judul: "Permohonan diterima",
-      detail: `Permohonan anda telah diterima.`,
+      detail: "Permohonan anda telah diterima.",
     });
 
     const io = req.app.get("io");
@@ -220,7 +227,6 @@ function formatTime(dateString) {
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${hours}:${minutes}:${seconds}`;
 }
-
 
 module.exports = {
   listPermohonan,
