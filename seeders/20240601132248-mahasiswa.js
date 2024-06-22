@@ -14,7 +14,12 @@ module.exports = {
         case "2211522018":
           fakultas = "Fakultas Teknologi Informasi";
           departemen = "Sistem Informasi";
-          alamat = "Jalan Mawar No. 1";
+          alamat = "Jalan Kandang Padati";
+          break;
+        case "2211522020":
+          fakultas = "Fakultas Teknologi Informasi";
+          departemen = "Sistem Informasi";
+          alamat = "Semen Padang Hospital";
           break;
         case "2211522008":
           fakultas = "Fakultas Teknologi Informasi";
@@ -35,7 +40,6 @@ module.exports = {
           fakultas = "Unknown";
           departemen = "Unknown";
           alamat = "Unknown";
-          fp = "Unknown"
       }
 
       return {

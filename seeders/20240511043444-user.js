@@ -15,6 +15,14 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          nama: "Naufal",
+          username: "2211522020",
+          password: await bcrypt.hash("palse", 10),
+          role: "mahasiswa",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
           nama: "Triana Zahara Nurhaliza",
           username: "2211522008",
           password: await bcrypt.hash("triana", 10),
