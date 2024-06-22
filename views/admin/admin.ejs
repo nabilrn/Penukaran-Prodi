@@ -1,5 +1,120 @@
 <%- include("../sidebar.ejs") %>
-
-<div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72 " ></div>
+<div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72 " >
+    <h3 class=" font-bold md:text-xl md:leading-tight ">Permohonan</h3>
+    <div class="max-w-[85rem] mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+<div class="flex flex-col bg-white border shadow-sm rounded-xl">
+    <div class="p-4 md:p-5 flex justify-between gap-x-3">
+      <div>
+        <p class="text-xs uppercase  tracking-wide text-gray-500">
+          Diajukan
+        </p>
+        <div class="mt-1 flex items-center gap-x-2">
+          <h3 class="mt-1 text-xl font-medium text-gray-800">
+            <%= statusCounts.diajukan  %>
+          </h3>
+        </div>
+      </div>
+      <div class="flex-shrink-0 flex justify-center items-center size-[46px] bg-green-600 text-white rounded-full">
+        <svg class="flex-shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
+      </div>
+    </div>  
+    <a class="py-3 px-4 md:px-5 inline-flex justify-between items-center text-sm text-gray-600 border-t border-gray-200 hover:bg-gray-50 rounded-b-xl" href="/admin/request">
+      View reports
+      <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+  </div>
+  <div class="flex flex-col bg-white border shadow-sm rounded-xl">
+    <div class="p-4 md:p-5 flex justify-between gap-x-3">
+      <div>
+        <p class="text-xs uppercase tracking-wide text-gray-500">
+          Diterima
+        </p>
+        <div class="mt-1 flex items-center gap-x-2">
+          <h3 class="mt-1 text-xl font-medium text-gray-800">
+            <%= statusCounts.diterima  %>
+          </h3>
+        </div>
+      </div>
+      <div class="flex-shrink-0 flex justify-center items-center size-[46px] bg-green-600 text-white rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+    </div>
+    <a class="py-3 px-4 md:px-5 inline-flex justify-between items-center text-sm text-gray-600 border-t border-gray-200 hover:bg-gray-50 rounded-b-xl" href="/admin/request">
+      View reports
+      <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+  </div>
+  <div class="flex flex-col bg-white border shadow-sm rounded-xl">
+    <div class="p-4 md:p-5 flex justify-between gap-x-3">
+      <div>
+        <p class="text-xs uppercase tracking-wide text-gray-500">
+          Ditolak 
+        </p>
+        <div class="mt-1 flex items-center gap-x-2">
+          <h3 class="mt-1 text-xl font-medium text-gray-800">
+            <%= statusCounts.ditolak  %>
+          </h3>
+        </div>
+      </div>
+      <div class="flex-shrink-0 flex justify-center items-center size-[46px] bg-green-600 text-white rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-off"><path d="m2 2 20 20"/><path d="M8.35 2.69A10 10 0 0 1 21.3 15.65"/><path d="M19.08 19.08A10 10 0 1 1 4.92 4.92"/></svg>
+      </div>
+    </div>
+    <a class="py-3 px-4 md:px-5 inline-flex justify-between items-center text-sm text-gray-600 border-t border-gray-200 hover:bg-gray-50 rounded-b-xl" href="/admin/request">
+      View reports
+      <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+  </div>  
+<div class="flex flex-col bg-white border shadow-sm rounded-xl">
+    <div class="p-4 md:p-5 flex justify-between gap-x-3">
+      <div>
+        <p class="text-xs uppercase tracking-wide text-gray-500">
+          Selesai
+        </p>
+        <div class="mt-1 flex items-center gap-x-2">
+          <h3 class="mt-1 text-xl font-medium text-gray-800">
+            <%= statusCounts.selesai  %>
+        </h3>
+        </div>
+      </div>
+      <div class="flex-shrink-0 flex justify-center items-center size-[46px] bg-green-600 text-white rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-check"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>
+      </div>
+    </div>
+    <a class="py-3 px-4 md:px-5 inline-flex justify-between items-center text-sm text-gray-600 border-t border-gray-200 hover:bg-gray-50 rounded-b-xl" href="/admin/request">
+      View reports
+      <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+  </div>
+</div>
+</div>
+</div>
+<script src="/preline.js"></script>
+<script src="/socket.io/socket.io.js"></script> <!-- Pastikan path ini benar -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const socket = io();
+    socket.emit('register', 'user_6'); 
+    socket.on('newNotification', function(notification) {
+      const notificationPopup = document.createElement('div');
+      notificationPopup.className = 'notification-popup fixed top-5 right-5 bg-white border border-gray-300 shadow-md rounded-md p-4 z-50';
+      notificationPopup.innerHTML = `
+        <div class="notification-content">
+          <h2 class="notification-title text-lg font-semibold">${notification.judul}</h2>
+          <p class="notification-detail text-sm text-gray-600">${notification.detail}</p>
+        </div>
+        <button class="close-button text-gray-500 hover:text-gray-700">&times;</button>
+      `;
+      document.body.appendChild(notificationPopup);
+      setTimeout(function() {
+        notificationPopup.remove();
+      }, 5000);
+      notificationPopup.querySelector('.close-button').addEventListener('click', function() {
+        notificationPopup.remove();
+      });
+    });
+  });
+</script>
 </body>
 </html>

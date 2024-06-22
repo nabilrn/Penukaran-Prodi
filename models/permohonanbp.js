@@ -1,18 +1,26 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, ENUM } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class PermohonanBp extends Model {
     static associate(models) {
-      PermohonanBp.belongsTo(models.User, {
-        foreignKey: "userId",
+      PermohonanBp.belongsTo(models.Mahasiswa, {
+        foreignKey: "mahasiswaId",
+        onDelete: "CASCADE",
+      });
+      PermohonanBp.belongsTo(models.Permohonan, {
+        foreignKey: "permohonan_id",
         onDelete: "CASCADE",
       });
     }
   }
   PermohonanBp.init(
     {
-      userId: DataTypes.INTEGER,
-      status: DataTypes.ENUM("diajukan", "selesai"),
+      mahasiswaId: DataTypes.INTEGER,
+      permohonan_id: DataTypes.INTEGER,
+      bpBaru: DataTypes.STRING,
+      status: {
+        type: ENUM("diajukan", "selesai"),
+      },
     },
     {
       sequelize,

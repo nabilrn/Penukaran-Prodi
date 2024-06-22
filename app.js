@@ -1,17 +1,22 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const dotenv = require("dotenv");
+const http = require("http");
+const socketIo = require("socket.io");
 dotenv.config();
 
-var indexRouter = require("./routes/index");
+const indexRouter = require("./routes/index");
 const mahasiswaRouter = require("./routes/mahasiswa");
 const adminRouter = require("./routes/admin");
 const lptikRouter = require("./routes/lptik");
 
-var app = express();
+const app = express();
+
+// Create HTTP server and integrate Socket.IO
+const server = http.createServer(app);
+const io = socketIo(server);
 
 // view engine setup
 app.set("views", path.join(__dirname, "/views"));
@@ -29,6 +34,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "middleware")));
 app.use(express.static(path.join(__dirname, "data")));
+app.use(express.static(path.join(__dirname, "document")));
 
 app.use("/", indexRouter);
 app.use("/mahasiswa", mahasiswaRouter);
@@ -39,16 +45,32 @@ app.use("/lptik", lptikRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
+app.use((req, res, next) => {
+  res.locals.encrypt = encrypt; // Make encrypt function available in EJS templates
+  next();
+});
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render("error");
 });
 
-module.exports = app;
+// Pass Socket.IO instance to controllers
+app.set("io", io);
+
+// WebSocket connection handler
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("register", (userId) => {
+    socket.join(userId.toString());
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
+module.exports = { app, server };

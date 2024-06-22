@@ -2,14 +2,13 @@
 const { Model, ENUM } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Permohonan extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Permohonan.belongsTo(models.Mahasiswa, {
         foreignKey: "mahasiswa_id",
+        onDelete: "CASCADE",
+      });
+      Permohonan.hasOne(models.PermohonanBp, {
+        foreignKey: "permohonan_id",
         onDelete: "CASCADE",
       });
     }
@@ -33,7 +32,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      status: DataTypes.ENUM('diajukan', 'diterima', 'ditolak', 'selesai'),
+      status: {
+        type: ENUM('diajukan', 'diterima', 'ditolak', 'selesai'),
+      },
     },
     {
       sequelize,
