@@ -18,11 +18,8 @@ const getAllPermohonanBp = async (req, res, next) => {
           model: Mahasiswa,
           include: [
             {
-              model: Permohonan,
-              attributes: ['departemen_tujuan', 'createdAt', 'updatedAt', 'status'],
-              separate: true,
-              order: [['createdAt', 'DESC']],
-              limit: 1,  // Fetch only the latest Permohonan
+              model: Permohonan, 
+              attributes: ['departemen_tujuan', 'createdAt', 'updatedAt'],
             },
             {
               model: User,
@@ -30,12 +27,8 @@ const getAllPermohonanBp = async (req, res, next) => {
             },
           ],
         },
-        {
-          model: Permohonan,
-          attributes: ['departemen_tujuan'],
-        }
       ],
-      attributes: ['id', 'bpBaru', 'createdAt', 'updatedAt', 'status'],
+      attributes: ['id', 'createdAt', 'updatedAt', 'status'],
     });
 
     res.render('lptik/home', { permohonanBps, title: 'Home', formatDate });
@@ -44,40 +37,46 @@ const getAllPermohonanBp = async (req, res, next) => {
   }
 };
 
-
-
 const updateNim = async (req, res) => {
   const { nimBaru, permohonanBpId } = req.body;
-  const io = req.app.get("io"); 
-  try {
-    // Check if the new NIM is the same as an existing username
-    const existingUser = await User.findOne({ where: { username: nimBaru } });
-    if (existingUser) {
-      return res.status(400).json({ error: 'NIM cannot be the same as an existing username' });
-    }
+  const io = req.app.get("io"); // Get io instance from app
 
+  try {
     const permohonanBp = await PermohonanBp.findByPk(permohonanBpId, {
       include: [{ model: Mahasiswa, include: [User] }],
     });
+
     if (!permohonanBp) {
-      return res.status(404).json({ error: 'PermohonanBp not found' });
+      return res.status(404).send('PermohonanBp not found');
     }
+
+    // Update bpBaru and status
     permohonanBp.bpBaru = nimBaru;
     permohonanBp.status = 'selesai';
     await permohonanBp.save();
+
     const mahasiswaUserId = permohonanBp.Mahasiswa.User.id;
+
     const notification = await Notification.create({
       userId: mahasiswaUserId,
       judul: 'Pemberitahuan Nim Baru Mahasiswa',
       detail: `Nim baru untuk mahasiswa dengan no BP ${permohonanBp.Mahasiswa.User.username} adalah ${nimBaru}`,
     });
+
+    // Kirim notifikasi real-time kepada user dengan ID 6
     io.to('user_6').emit('newNotification', notification);
-    res.status(200).json({ message: 'NIM updated successfully' });
+
+    res.redirect('/lptik/home');
   } catch (error) {
-    console.error('Error updating NIM:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(error);
+    res.status(500).send('Internal Server Error');
   }
 };
+
+
+
+
+
 
 module.exports = { 
   getAllPermohonanBp,

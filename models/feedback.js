@@ -13,12 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Feedback.init(
     {
-      pesan: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: "Feedback",
-    }
-  );
+
+    pesan: DataTypes.STRING,
+  }, {
+    sequelize,
+    modelName: 'Feedback',
+  });
   return Feedback;
 };
