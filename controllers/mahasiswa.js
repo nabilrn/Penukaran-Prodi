@@ -1,4 +1,13 @@
-const { User, Mahasiswa, Permohonan, Notification,Feedback,} = require("../models/index");
+
+const {
+  User,
+  Mahasiswa,
+  Permohonan,
+  PermohonanBp,
+  Notification,
+  Feedback,
+} = require("../models/index");
+
 const upload = require("../middleware/multerConfig");
 const { Op } = require('sequelize');
 
@@ -133,14 +142,11 @@ const submitPermohonanPindah = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  submitPermohonanPindah,
-};
-
 const deletePermohonan = async (req, res, next) => {
   try {
     console.log("Request body:", req.body); // Log the request body to verify permohonanId presence
     const permohonanId = req.body.permohonanId;
+    const permohonanBp = await PermohonanBp.findByPk(permohonanId);
     if (!permohonanId) {
       return res.status(400).json({ message: "permohonanId is required" });
     }
@@ -155,6 +161,7 @@ const deletePermohonan = async (req, res, next) => {
       return res.status(403).json({ message: "Akses ditolak" });
     }
     await permohonan.destroy();
+    await permohonanBp.destroy();
     res.status(200).json({ message: "Permohonan berhasil dihapus" });
   } catch (error) {
     console.error("Error deleting permohonan:", error); // Log any errors encountered
@@ -238,6 +245,13 @@ function formatTime(dateString) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
+
+const home = async (req, res) => {
+  const user = await User.findByPk(req.userId);
+  const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+  res.render("./mahasiswa/home", { user, mahasiswa, userId: req.userId, title: "Home"});
+};
+
 const sendFeedback = async (req, res, next) => {
   try {
     console.log('Body Request:', req.body); // Log data body request
@@ -256,6 +270,7 @@ const sendFeedback = async (req, res, next) => {
 };
 
 module.exports = {
+  sendFeedback,
   getNotifications,
   deletePermohonan,
   history,
@@ -266,4 +281,5 @@ module.exports = {
   submitPermohonanPindah,
   editPermohonan,
   sendFeedback,
+  home,
 };

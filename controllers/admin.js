@@ -1,4 +1,12 @@
-const { Permohonan, User, Mahasiswa, Notification, Feedback,} = require("../models/index");
+const {
+  Permohonan,
+  User,
+  Mahasiswa,
+  Notification,
+  PermohonanBp,
+  Feedback,
+} = require("../models/index");
+
 const sequelize = require("sequelize");
 const path = require("path");
 const fs = require("fs");
@@ -51,7 +59,8 @@ const listPermohonan = async (req, res, next) => {
         "status",
       ],
     });
-        res.render("./admin/request", {
+
+    res.render("./admin/request", {
       permohonanList,
       title: "Request",
       formatDate,
@@ -64,7 +73,6 @@ const listPermohonan = async (req, res, next) => {
 const getPermohonanDetail = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log("ID received:", id); // Debugging statement
 
     if (!id) {
       return res.status(400).send("Invalid ID");
@@ -89,6 +97,7 @@ const getPermohonanDetail = async (req, res, next) => {
         "createdAt",
         "updatedAt",
         "alasan",
+        "status",
       ],
     });
 
@@ -98,8 +107,44 @@ const getPermohonanDetail = async (req, res, next) => {
 
     res.render("./admin/permohonanDetail", {
       permohonanDetail,
+      permohonanId: id, // Pastikan permohonanId tersedia di template
       title: "Request Detail",
-      permohonanId: permohonanDetail.id
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const dataSurat = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(400).send("Invalid ID");
+    }
+
+    const suratData = await Permohonan.findOne({
+      where: { id },
+      include: [
+        {
+          model: Mahasiswa,
+          include: {
+            model: User,
+            attributes: ["nama", "username"],
+          },
+          attributes: ["departemen"],
+        },
+      ],
+    });
+
+    if (!suratData) {
+      return res.status(404).send("Permohonan not found");
+    }
+
+    res.render("./admin/buatsurat", {
+      suratData,
+      permohonanId: id,
+      title: "Buat Surat",
     });
   } catch (error) {
     next(error);
@@ -190,6 +235,40 @@ const acceptPermohonan = async (req, res, next) => {
   }
 };
 
+
+const getDashboardData = async (req, res, next) => {
+  try {
+    const countByStatus = await Permohonan.findAll({
+      attributes: [
+        "status",
+        [sequelize.fn("COUNT", sequelize.col("status")), "count"],
+      ],
+      group: ["status"],
+    });
+
+    // Initialize statusCounts with default values
+    const statusCounts = {
+      diajukan: 0,
+      diterima: 0,
+      ditolak: 0,
+      selesai: 0,
+    };
+
+    // Update statusCounts with actual values from the database
+    countByStatus.forEach((record) => {
+      statusCounts[record.status] = record.getDataValue("count");
+    });
+
+    res.render("./admin/admin", {
+      title: "Dashboard",
+      statusCounts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 const getNotif = async (req, res) => {
   try {
     const userId = req.user ? req.user.id : null; // Pastikan req.user tersedia atau null jika tidak ada
@@ -213,6 +292,65 @@ const getNotif = async (req, res) => {
   }
 };
 
+const getAllPermohonanBp = async (req, res, next) => {
+  try {
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
+    }
+
+    const permohonanBps = await PermohonanBp.findAll({
+      include: [
+        {
+          model: Mahasiswa,
+          include: [
+            {
+              model: Permohonan,
+              attributes: ["departemen_tujuan", "createdAt", "updatedAt"],
+            },
+            {
+              model: User,
+              attributes: ["nama", "username"],
+            },
+          ],
+        },
+      ],
+      attributes: [
+        "id",
+        "mahasiswaId",
+        "createdAt",
+        "updatedAt",
+        "bpBaru",
+        "status",
+      ],
+    });
+
+    res.render("./admin/history", {
+      permohonanBps,
+      title: "History",
+      formatDate,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 const updateUsername = async (req, res, next) => {
   try {
     let { permohonanBpId, nimBaru } = req.body;
@@ -328,9 +466,15 @@ function formatTime(dateString) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-
 module.exports = {
+  generatePdf,
+  dataSurat,
+  updateUsername,
+  getAllFeedback,
+  getAllPermohonanBp,
+  getNotif,
   listPermohonan,
+  getDashboardData,
   acceptPermohonan,
   rejectPermohonan,
   getPermohonanDetail,
