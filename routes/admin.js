@@ -6,11 +6,9 @@ const role = require("../middleware/checkrole.middleware");
 const path = require("path");
 
 router.get("/dashboard", verifyToken, role("admin"), admin.getDashboardData);
-
 router.get("/validasi", function (req, res, next) {
   res.render("./admin/validasipp", { title: "validasi permohonan" });
 });
-
 router.get("/request", verifyToken, admin.listPermohonan);
 
 router.get("/feeback", verifyToken, admin.getAllFeedback);

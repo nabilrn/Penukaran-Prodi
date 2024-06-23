@@ -1,4 +1,3 @@
-
 const {
   User,
   Mahasiswa,
@@ -21,6 +20,17 @@ const detail = async (req, res) => {
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
   res.render("./mahasiswa/account", { user, mahasiswa });
+};
+
+
+const dataPermohonan = async (req, res) => {
+  const user = await User.findByPk(req.userId);
+  const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
+  res.render("./mahasiswa/permohonan", {
+    user,
+    mahasiswa,
+    title: "Permohonan",
+  });
 };
 
 const history = async (req, res) => {
@@ -65,14 +75,11 @@ const editProfile = async (req, res, next) => {
     const { alamat } = req.body;
     const userId = req.userId;
     const mahasiswa = await Mahasiswa.findOne({ where: { userId: userId } });
-
     if (!mahasiswa) {
       return res.status(404).json({ message: "Mahasiswa tidak ditemukan" });
     }
-
     mahasiswa.alamat = alamat;
     await mahasiswa.save();
-
     res.status(200).json({ message: "profil berhasil diubah" });
   } catch (error) {
     next(error);
@@ -90,22 +97,23 @@ const uploadProfilePicture = (req, res) => {
     });
   });
 };
+
 const submitPermohonanPindah = async (req, res, next) => {
   try {
     const { tahunAjaran, semester, alasan, departemen_tujuan } = req.body;
     const userId = req.userId;
-
-    // Cek apakah data mahasiswa sudah ada
     let mahasiswa = await Mahasiswa.findOne({ where: { userId: userId } });
+
     if (!mahasiswa) {
       return res
         .status(404)
         .json({ message: "Data mahasiswa tidak ditemukan" });
     }
+
     if (semester <= 2) {
       return res
         .status(400)
-        .json({ message: "Belum Menyelesaikan 2 semester perkuliahan" });
+        .json({ message: "Belum menyelesaikan 2 semester perkuliahan" });
     }
 
     if (mahasiswa.departemen === departemen_tujuan) {
@@ -119,6 +127,7 @@ const submitPermohonanPindah = async (req, res, next) => {
       where: { mahasiswa_id: mahasiswa.id },
       order: [["createdAt", "DESC"]],
     });
+
     if (previousPermohonan && previousPermohonan.status !== "selesai") {
       return res
         .status(400)
@@ -127,15 +136,15 @@ const submitPermohonanPindah = async (req, res, next) => {
 
     const permohonan = await Permohonan.create({
       mahasiswa_id: mahasiswa.id,
-      tahunAjaran: tahunAjaran,
-      semester: semester,
-      alasan: alasan,
-      departemen_tujuan: departemen_tujuan,
+      tahunAjaran,
+      semester,
+      alasan,
+      departemen_tujuan,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       message: "Permohonan pindah berhasil disimpan",
-      permohonan: permohonan,
+      permohonan,
     });
   } catch (error) {
     next(error);
@@ -144,36 +153,43 @@ const submitPermohonanPindah = async (req, res, next) => {
 
 const deletePermohonan = async (req, res, next) => {
   try {
-    console.log("Request body:", req.body); // Log the request body to verify permohonanId presence
     const permohonanId = req.body.permohonanId;
     const permohonanBp = await PermohonanBp.findByPk(permohonanId);
     if (!permohonanId) {
       return res.status(400).json({ message: "permohonanId is required" });
     }
     const permohonan = await Permohonan.findByPk(permohonanId);
-    console.log("Found permohonan:", permohonan); // Log the found permohonan for debugging
-
     if (!permohonan) {
       return res.status(404).json({ message: "Permohonan tidak ditemukan" });
     }
-
     if (permohonan.mahasiswa_id !== req.userId) {
       return res.status(403).json({ message: "Akses ditolak" });
     }
+    if (permohonan.status === "selesai") {
+      return res.status(400).json({
+        message: "Permohonan sudah selesai dan tidak dapat dibatalkan",
+      });
+    }
+    if (!permohonanBp) {
+      console.log("PermohonanBp not found for permohonanId:", permohonanId);
+    }
+
     await permohonan.destroy();
     await permohonanBp.destroy();
     res.status(200).json({ message: "Permohonan berhasil dihapus" });
   } catch (error) {
-    console.error("Error deleting permohonan:", error); // Log any errors encountered
-    next(error);
+    console.error("Error deleting permohonan:", error);
+    res.status(500).json({ message: "Terjadi kesalahan saat membatalkan permohonan" });
   }
 };
+
 
 const editPermohonan = async (req, res, next) => {
   try {
     const { permohonanId, tahunAjaran, semester, alasan, departemen_tujuan } =
       req.body;
     const permohonan = await Permohonan.findByPk(permohonanId);
+
     if (!permohonan) {
       return res.status(404).json({ message: "Permohonan tidak ditemukan" });
     }
@@ -193,7 +209,6 @@ const editPermohonan = async (req, res, next) => {
     permohonan.alasan = alasan;
     permohonan.departemen_tujuan = departemen_tujuan;
     await permohonan.save();
-
     res.status(200).json({ message: "Permohonan berhasil diubah", permohonan });
   } catch (error) {
     next(error);
@@ -223,7 +238,6 @@ const getNotifications = async (req, res, next) => {
     next(error);
   }
 };
-
 
 function formatDate(dateString) {
   const date = new Date(dateString);

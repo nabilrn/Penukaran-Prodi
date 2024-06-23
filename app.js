@@ -5,7 +5,6 @@ const logger = require("morgan");
 const dotenv = require("dotenv");
 const http = require("http");
 const socketIo = require("socket.io");
-
 dotenv.config();
 
 const indexRouter = require("./routes/index");
@@ -46,7 +45,10 @@ app.use("/lptik", lptikRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
+app.use((req, res, next) => {
+  res.locals.encrypt = encrypt; // Make encrypt function available in EJS templates
+  next();
+});
 // error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

@@ -6,7 +6,6 @@ const {
   PermohonanBp,
   Feedback,
 } = require("../models/index");
-
 const sequelize = require("sequelize");
 const path = require("path");
 const fs = require("fs");
@@ -18,28 +17,6 @@ const ImageModule = require("docxtemplater-image-module-free");
 
 const listPermohonan = async (req, res, next) => {
   try {
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear();
-      return `${day} ${month} ${year}`;
-    }
-
     const permohonanList = await Permohonan.findAll({
       include: [
         {
@@ -59,7 +36,6 @@ const listPermohonan = async (req, res, next) => {
         "status",
       ],
     });
-
     res.render("./admin/request", {
       permohonanList,
       title: "Request",
@@ -73,11 +49,9 @@ const listPermohonan = async (req, res, next) => {
 const getPermohonanDetail = async (req, res, next) => {
   try {
     const id = req.params.id;
-
     if (!id) {
       return res.status(400).send("Invalid ID");
     }
-
     const permohonanDetail = await Permohonan.findOne({
       where: { id },
       include: [
@@ -104,7 +78,6 @@ const getPermohonanDetail = async (req, res, next) => {
     if (!permohonanDetail) {
       return res.status(404).send("Permohonan not found");
     }
-
     res.render("./admin/permohonanDetail", {
       permohonanDetail,
       permohonanId: id, // Pastikan permohonanId tersedia di template
@@ -118,11 +91,9 @@ const getPermohonanDetail = async (req, res, next) => {
 const dataSurat = async (req, res, next) => {
   try {
     const id = req.params.id;
-
     if (!id) {
       return res.status(400).send("Invalid ID");
     }
-
     const suratData = await Permohonan.findOne({
       where: { id },
       include: [
@@ -136,11 +107,9 @@ const dataSurat = async (req, res, next) => {
         },
       ],
     });
-
     if (!suratData) {
       return res.status(404).send("Permohonan not found");
     }
-
     res.render("./admin/buatsurat", {
       suratData,
       permohonanId: id,
@@ -189,46 +158,39 @@ const rejectPermohonan = async (req, res, next) => {
     next(error);
   }
 };
+
 const acceptPermohonan = async (req, res, next) => {
   try {
     const { permohonanId } = req.body;
     const userId = req.userId;
-
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-
     const permohonan = await Permohonan.findByPk(permohonanId);
     if (!permohonan) {
       return res.status(404).json({ message: "Permohonan tidak ditemukan." });
     }
-
     permohonan.status = "diterima";
     await permohonan.save();
-
     const mahasiswa = await Mahasiswa.findByPk(permohonan.mahasiswa_id);
     if (!mahasiswa) {
       return res.status(404).json({ message: "Mahasiswa tidak ditemukan." });
     }
-
-    // Create a new PermohonanBp record using mahasiswa.userId
     const permohonanBp = await PermohonanBp.create({
-      mahasiswaId: mahasiswa.id, // Use mahasiswa's id to establish the relationship
+      mahasiswaId: mahasiswa.id,
+      permohonan_id: permohonan.id,  // Corrected this line
       status: "diajukan",
     });
-
     const notification = await Notification.create({
       userId: mahasiswa.userId,
       judul: "Permohonan diterima",
       detail: `Permohonan anda telah diterima.`,
     });
-
     const io = req.app.get("io");
     io.to(mahasiswa.userId.toString()).emit("newNotification", notification);
-
     res.status(200).json({
       message: "Permohonan telah diterima dan notifikasi telah dikirim.",
-      permohonanBpId: permohonanBp.id, // Include the id of the new PermohonanBp record
+      permohonanBpId: permohonanBp.id,
     });
   } catch (error) {
     next(error);
@@ -245,20 +207,15 @@ const getDashboardData = async (req, res, next) => {
       ],
       group: ["status"],
     });
-
-    // Initialize statusCounts with default values
     const statusCounts = {
       diajukan: 0,
       diterima: 0,
       ditolak: 0,
       selesai: 0,
     };
-
-    // Update statusCounts with actual values from the database
     countByStatus.forEach((record) => {
       statusCounts[record.status] = record.getDataValue("count");
     });
-
     res.render("./admin/admin", {
       title: "Dashboard",
       statusCounts,
@@ -268,23 +225,21 @@ const getDashboardData = async (req, res, next) => {
   }
 };
 
-
 const getNotif = async (req, res) => {
   try {
-    const userId = req.user ? req.user.id : null; // Pastikan req.user tersedia atau null jika tidak ada
-
+    const userId = req.user ? req.user.id : null;
     const notifications = await Notification.findAll({
       where: {
         judul: "Pemberitahuan Nim Baru Mahasiswa",
       },
-      order: [["createdAt", "DESC"]], // Order by creation date descending
+      order: [["createdAt", "DESC"]],
     });
     res.render("./admin/notif", {
       notifications,
       title: "Notification",
       formatDate,
       formatTime,
-      userId, // Kirim userId ke template
+      userId,
     });
   } catch (error) {
     console.error("Error fetching notifications: ", error);
@@ -298,18 +253,7 @@ const getAllPermohonanBp = async (req, res, next) => {
       const date = new Date(dateString);
       const day = String(date.getDate()).padStart(2, "0");
       const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
       ];
       const month = monthNames[date.getMonth()];
       const year = date.getFullYear();
@@ -323,100 +267,76 @@ const getAllPermohonanBp = async (req, res, next) => {
           include: [
             {
               model: Permohonan,
-              attributes: ["departemen_tujuan", "createdAt", "updatedAt"],
+              attributes: ['departemen_tujuan', 'createdAt', 'updatedAt', 'status'],
+              separate: true,
+              order: [['createdAt', 'DESC']],
+              limit: 1,  // Fetch only the latest Permohonan
             },
             {
               model: User,
-              attributes: ["nama", "username"],
+              attributes: ['nama', 'username'],
             },
           ],
         },
+        {
+          model: Permohonan,
+          attributes: ['departemen_tujuan'],
+        }
       ],
-      attributes: [
-        "id",
-        "mahasiswaId",
-        "createdAt",
-        "updatedAt",
-        "bpBaru",
-        "status",
-      ],
+      attributes: ['id', 'bpBaru', 'createdAt', 'updatedAt', 'status'],
     });
 
-    res.render("./admin/history", {
-      permohonanBps,
-      title: "History",
-      formatDate,
-    });
+    res.render('admin/history', { permohonanBps, title: 'History', formatDate });
   } catch (error) {
     next(error);
   }
 };
+
+
 const updateUsername = async (req, res, next) => {
   try {
     let { permohonanBpId, nimBaru } = req.body;
-
-    // Log the incoming permohonanBpId and nimBaru for debugging
     console.log("Received permohonanBpId:", permohonanBpId);
     console.log("Received nimBaru:", nimBaru);
-
-    // Convert permohonanBpId to integer if necessary
     permohonanBpId = parseInt(permohonanBpId, 10);
 
     if (isNaN(permohonanBpId)) {
       return res.status(400).json({ message: "Invalid permohonanBpId" });
     }
-
-    // Find the corresponding PermohonanBp record with Mahasiswa and User included
     const permohonanBp = await PermohonanBp.findByPk(permohonanBpId, {
       include: [{ model: Mahasiswa, include: User }],
     });
-
     if (!permohonanBp) {
       return res.status(404).json({ message: "Permohonan BP not found" });
     }
-
-    // Check if permohonanBp.Mahasiswa and permohonanBp.Mahasiswa.User are defined
     if (!permohonanBp.Mahasiswa || !permohonanBp.Mahasiswa.User) {
       return res.status(404).json({ message: "Mahasiswa or User not found" });
     }
-
-    // Update the username (NIM Baru) of the associated User
     await permohonanBp.Mahasiswa.User.update({ username: nimBaru });
-
-    // Find Permohonan associated with Mahasiswa
     const permohonan = await Permohonan.findOne({
       where: { mahasiswa_id: permohonanBp.Mahasiswa.id },
     });
-
     if (!permohonan) {
       return res.status(404).json({ message: "Permohonan not found" });
     }
-
-    // Update status in Permohonan model to 'selesai' and departemen in Mahasiswa model
     await permohonan.update({
       status: "selesai",
     });
-
     await permohonanBp.Mahasiswa.update({
       departemen: permohonan.departemen_tujuan,
     });
-
-    // Create a new notification for the user
     const notification = await Notification.create({
       userId: permohonanBp.Mahasiswa.User.id,
       judul: "Nomor BP Anda Telah Berubah",
       detail:
         "Selamat Anda Telah Pindah Ke Prodi Yang Baru. Silahkan Ambil Surat Keterangan Pindah Prodi ke admin Departemen Bersangkutan.",
     });
-
-    // Emit the notification event via socket
     const io = req.app.get("io");
     io.to(permohonanBp.Mahasiswa.User.id.toString()).emit("newNotification", {
       judul: notification.judul,
       detail: notification.detail,
       createdAt: notification.createdAt,
     });
-
     res
       .status(200)
       .json({ message: "NIM successfully updated and notification sent" });
@@ -435,6 +355,102 @@ const getAllFeedback = async (req, res, next) => {
   }
 };
 
+const generatePdf = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const permohonanBp = await PermohonanBp.findOne({
+      where: { id },
+      include: [
+        {
+          model: Mahasiswa,
+          include: [User],
+        },
+      ],
+    });
+    if (!permohonanBp) {
+      return res.status(404).send("PermohonanBp not found");
+    }
+    const user = permohonanBp.Mahasiswa.User;
+    const suratData = {
+      id: permohonanBp.id,
+      nama: user.nama,
+      nim: user.username,
+      departemen: permohonanBp.Mahasiswa.departemen,
+    };
+    const templatePath = path.join(__dirname, "../template.docx");
+    const content = fs.readFileSync(templatePath, "binary");
+    const zip = new PizZip(content);
+    const qrCodePath = path.join(
+      __dirname,
+      "../document/qrCode",
+      `${user.nama}.png`
+    );
+    await QRCode.toFile(
+      qrCodePath,
+      `http://localhost:3000/pdf/${user.nama}.pdf`
+    );
+    const imageOpts = {
+      centered: false,
+      getImage: (tagValue) => fs.readFileSync(tagValue),
+      getSize: () => [120, 120],
+    };
+    const imageModule = new ImageModule(imageOpts);
+    const doc = new Docxtemplater(zip, {
+      modules: [imageModule],
+      paragraphLoop: true,
+      linebreaks: true,
+    });
+    doc.setData({
+      nama: suratData.nama,
+      nim: suratData.nim,
+      departemen: suratData.departemen,
+      qrCode: qrCodePath,
+    });
+    try {
+      doc.render();
+    } catch (error) {
+      console.error("Error rendering document:", error);
+      return res.status(500).send(`Error rendering document: ${error.message}`);
+    }
+    const buf = doc.getZip().generate({ type: "nodebuffer" });
+    libre.convert(buf, ".pdf", undefined, async (err, done) => {
+      if (err) {
+        console.error("Error converting document to PDF:", err);
+        return res
+          .status(500)
+          .send(`Error converting document to PDF: ${err.message}`);
+      }
+      const pdfPath = path.join(
+        __dirname,
+        "../document/pdf",
+        `${user.nama}.pdf`
+      );
+      fs.writeFileSync(pdfPath, done);
+      try {
+        const notificationDetail = `${user.nama}.pdf`;
+        await Notification.create({
+          userId: user.id,
+          judul: "Surat Keterangan Pindah Prodi",
+          detail: notificationDetail,
+        });
+      } catch (notificationError) {
+        console.error("Error creating notification:", notificationError);
+        return res
+          .status(500)
+          .send(`Error creating notification: ${notificationError.message}`);
+      }
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${user.nama}.pdf`
+      );
+      res.send(done);
+    });
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    return res.status(500).send(`Error generating PDF: ${error.message}`);
+  }
+};
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -478,7 +494,4 @@ module.exports = {
   acceptPermohonan,
   rejectPermohonan,
   getPermohonanDetail,
-  getNotif,
-  updateUsername,
-  getAllFeedback,
 };

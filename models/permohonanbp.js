@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, ENUM } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class PermohonanBp extends Model {
     static associate(models) {

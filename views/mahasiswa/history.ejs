@@ -60,7 +60,6 @@
               <tbody class="divide-y divide-gray-200">
                 <% permohonan.forEach((permohonan, index) => { %>
                   <tr>
-                    
                     <td class="px-4 py-2">
                       <span class="text-gray-800"><%= user.username %></span>
                     </td>
@@ -90,7 +89,6 @@
                         </button>
                         <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-10 bg-white shadow-2xl rounded-lg p-2 mt-2">
                           <input type="hidden" name="permohonanId" value="<%= permohonan.id %>">
-              
                           <div class="py-2">
                             <input type="hidden" name="permohonanId" value="<%= permohonan.id %>">
                             <button type="button" class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-black hover:bg-gray-100 focus:ring-2 focus:ring-blue-500" data-hs-overlay="#hs-modal-signin" onclick="openEditModal('<%= permohonan.id %>', '<%= permohonan.tahunAjaran %>', '<%= permohonan.semester %>', '<%= permohonan.alasan %>', '<%= permohonan.departemen_tujuan %>')">
@@ -98,10 +96,7 @@
                             </button>
                           </div>
                           <div class="py-2">
-                            <form action="/mahasiswa/deletePermohonan" method="post">
-                              <input type="hidden" name="permohonanId" value="<%= permohonan.id %>">
-                              <button class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500" type="submit">Batalkan</button>
-                            </form>
+                            <button class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500" type="button" onclick="confirmDelete('<%= permohonan.id %>')">Batalkan</button>
                           </div>
                         </div>
                       </div>
@@ -109,8 +104,6 @@
                   </tr>
                 <% }) %>
               </tbody>
-              
-            </table>
             <!-- End Table -->
           </div>
         </div>
@@ -181,19 +174,127 @@
   <!-- end modal -->
 
 </main>
+<script src="/sweetalert2.all.min.js"></script>
 <script>
-  function openEditModal(id, tahunAjaran, semester, alasan, departemenTujuan) {
-    document.getElementById('edit-permohonan-id').value = id;
+  function confirmDelete(permohonanId) {
+    Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, batalkan!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePermohonan(permohonanId);
+      }
+    })
+  }
+
+  function deletePermohonan(permohonanId) {
+    fetch('/mahasiswa/deletePermohonan', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ permohonanId })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === "Permohonan berhasil dibatalkan") {
+        Swal.fire(
+          'Dibatalkan!',
+          data.message,
+          'success'
+        ).then(() => {
+          location.reload(); // Reload the page to update the table
+        });
+      } else if (data.message === "Permohonan sudah selesai dan tidak dapat dibatalkan") {
+        Swal.fire(
+          'Error!',
+          data.message,
+          'error'
+        );
+      } else {
+        Swal.fire(
+          'Error!',
+          'Terjadi kesalahan saat membatalkan permohonan',
+          'error'
+        );
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire(
+        'Error!',
+        'Terjadi kesalahan saat membatalkan permohonan',
+        'error'
+      );
+    });
+  }
+</script>
+
+<script>
+  document.getElementById('edit-permohonan-form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const permohonanId = document.getElementById('edit-permohonan-id').value;
+    const tahunAjaran = document.getElementById('edit-tahunAjaran').value;
+    const semester = document.getElementById('edit-semester').value;
+    const departemen_tujuan = document.getElementById('edit-departemen_tujuan').value;
+    const alasan = document.getElementById('edit-alasan').value;
+
+    fetch('/mahasiswa/permohonan/edit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ permohonanId, tahunAjaran, semester, departemen_tujuan, alasan })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === "Permohonan berhasil diubah") {
+        Swal.fire({
+          title: 'Berhasil!',
+          text: data.message,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          location.reload(); // Reload the page to update the table
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: data.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Terjadi kesalahan saat mengubah permohonan',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    });
+  });
+
+  function openEditModal(permohonanId, tahunAjaran, semester, alasan, departemen_tujuan) {
+    document.getElementById('edit-permohonan-id').value = permohonanId;
     document.getElementById('edit-tahunAjaran').value = tahunAjaran;
     document.getElementById('edit-semester').value = semester;
     document.getElementById('edit-alasan').value = alasan;
-    document.getElementById('edit-departemen_tujuan').value = departemenTujuan;
+    document.getElementById('edit-departemen_tujuan').value = departemen_tujuan;
   }
-  function back() {
-    document.getElementById('hs-modal-signin').classList.add('hidden');
-  }
-    
 </script>
+
+
+
+
 
 
 <script src="/preline.js"></script>

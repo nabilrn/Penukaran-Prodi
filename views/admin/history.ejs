@@ -37,10 +37,11 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                   <% permohonanBps.forEach(permohonanBp => { %>
+                    <% permohonanBp.Mahasiswa.Permohonans.forEach(permohonan => { %>
                     <tr>
                       <td class="px-4 py-2"><span class="text-gray-800"><%= permohonanBp.Mahasiswa.User.nama %></span></td>
                       <td class="px-4 py-2"><span class="text-gray-800"><%= permohonanBp.Mahasiswa.User.username %></span></td>
-                      <td class="px-4 py-2"><span class="text-gray-800"><%= permohonanBp.departemen_tujuan %></span></td>
+                      <td class="px-4 py-2"><span class="text-gray-800"><%= permohonanBp.Permohonan.departemen_tujuan %></span></td>
                       <td class="px-4 py-2"><span class="text-gray-800"><%= permohonanBp.bpBaru %></span></td>
                       <td class="px-4 py-2"><span class="text-gray-600"><%= formatDate(permohonanBp.createdAt) %></span></td>
                       <td class="px-4 py-2"><span class="text-gray-600"><%= formatDate(permohonanBp.updatedAt) %></span></td>
@@ -77,6 +78,7 @@
                       </td>
                     </tr>
                   <% }) %>
+                  <% }) %>
                 </tbody>
               </table>
               
@@ -97,10 +99,9 @@
                 <h2 class="block text-2xl font-bold text-gray-800">Ubah No Bp Mahasiswa</h2>
               </div>
               <div class="mt-5">
-                <form action="/admin/updateNim" method="POST" id="nim-form">
+                <form id="nim-form" action="/admin/updateNim" method="post">
                   <input type="hidden" name="permohonanBpId" id="permohonanBpId">
                   <div class="grid gap-y-4">
-                    <input type="hidden" name="permohonanBpId" id="permohonanBpId">
                     <div class="relative">
                       <label for="bpLama" class="block text-sm font-medium text-gray-700">BP Lama</label>
                       <input type="text" id="bpLama" name="bpLama" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required />
@@ -109,12 +110,10 @@
                       <label for="nimBaru" class="block text-sm font-medium text-gray-700">NIM Baru</label>
                       <input type="text" id="nimBaru" name="nimBaru" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required />
                     </div>
-                    
-                    </div>
-                    <div class="flex justify-end items-center gap-x-2 p-4 sm:px-7">
-                      <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-modal-recover-account">Cancel</button>
-                      <button class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none" type="submit">Submit</button>
-                    </div>
+                  </div>
+                  <div class="flex justify-end items-center gap-x-2 p-4 sm:px-7">
+                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-modal-recover-account">Cancel</button>
+                    <button id="submitBtn" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none" type="submit">Submit</button>
                   </div>
                 </form>
                 
@@ -125,6 +124,67 @@
       </div>
 
       <script src="/preline.js"></script>
+      <script src="/sweetalert2.all.min.js"></script>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const form = document.getElementById('nim-form');
+          
+          form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+        
+            const permohonanBpId = document.getElementById('permohonanBpId').value;
+            const nimBaru = document.getElementById('nimBaru').value;
+        
+            // Initial confirmation
+            const result = await Swal.fire({
+              title: 'Are you sure?',
+              text: "You're about to update the NIM. This action cannot be undone.",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, update it!'
+            });
+        
+            if (result.isConfirmed) {
+              try {
+                const response = await fetch('/admin/updateNim', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ permohonanBpId, nimBaru }),
+                });
+        
+                const data = await response.json();
+        
+                if (response.ok) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message,
+                    confirmButtonText: 'OK'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      // Redirect to admin home or refresh the page
+                      window.location.href = '/admin/request';
+                    }
+                  });
+                } else {
+                  throw new Error(data.message || 'An error occurred');
+                }
+              } catch (error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: error.message,
+                });
+              }
+            }
+          });
+        });
+        </script>
       <script>
         function openModal(button) {
           const permohonanId = button.getAttribute('data-permohonan-id');

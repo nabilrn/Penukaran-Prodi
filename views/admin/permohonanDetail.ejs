@@ -60,36 +60,50 @@
             </button>
           </a>
 
-          <!-- Message for permohonan selesai -->
-          <% if (permohonanDetail.status === "selesai") { %>
-            <span class="text-green-600 font-semibold">
-              Permohonan selesai
-            </span>
-          <% } %>
+                    <!-- Message for permohonan selesai -->
+                    <% if (permohonanDetail.status === "selesai") { %>
+                      <span class="text-green-600 font-semibold">
+                        Permohonan selesai
+                      </span>
+                    <% } %>
+                    
+                    <% if (permohonanDetail.status === "ditolak") { %>
+                      <span class="text-red-600 font-semibold">
+                        Permohonan ditolak
+                      </span>
+                    <% } %>
 
-          <!-- Conditionally render Tolak and Terima buttons based on status -->
-          <% if (permohonanDetail.status !== "selesai") { %>
-            <!-- Tolak Button -->
-            <button
-              type="button"
-              class="bg-red-600 text-white py-2 px-4 rounded font-semibold hover:bg-red-700 focus:outline-none"
-              data-hs-overlay="#hs-modal-upgrade-to-pro"
-            >
-              Tolak
-            </button>
-
-            <!-- Terima Button -->
-            <form action="/admin/accept" method="post">
-              <!-- Tambahkan input tersembunyi untuk menyimpan permohonanId -->
-              <input type="hidden" name="permohonanId" value="<%= permohonanId %>">
-              <button
-                type="submit"
-                class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
-              >
-                Terima
-              </button>
-            </form>
-          <% } %>
+                    <% if (permohonanDetail.status === "diterima") { %>
+                      <span class="text-green-600 font-semibold">
+                        Permohonan telah diterima
+                      </span>
+                    <% } %>
+                    
+                    <!-- Conditionally render Tolak and Terima buttons based on status -->
+                    <% if (permohonanDetail.status !== "selesai" &&  permohonanDetail.status !== "ditolak"  &&  permohonanDetail.status !== "diterima" ) { %>
+                      <!-- Tolak Button -->
+                      <button
+                        type="button"
+                        class="bg-red-600 text-white py-2 px-4 rounded font-semibold hover:bg-red-700 focus:outline-none"
+                        data-hs-overlay="#hs-modal-upgrade-to-pro"
+                      >
+                        Tolak
+                      </button>
+                    
+                      <!-- Terima Button -->
+                      <form id="accept-form" action="/admin/accept" method="post">
+                        <!-- Tambahkan input tersembunyi untuk menyimpan permohonanId -->
+                        <input type="hidden" name="permohonanId" value="<%= permohonanId %>">
+                        <button
+                          type="submit"
+                          class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
+                        >
+                          Terima
+                        </button>
+                      </form>
+                      
+                    <% } %>
+                    
         </div>
       </div>
     </dl>
@@ -132,6 +146,114 @@
   </div>
 </div>
 <!-- End Modal -->
+<script src="/sweetalert2.all.min.js"></script>
+
+<script>
+document.getElementById('reject-form').addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const permohonanId = document.querySelector('input[name="permohonanId"]').value;
+  const alasanPenolakan = document.querySelector('select[name="alasanPenolakan"]').value;
+
+  if (!alasanPenolakan) {
+    Swal.fire({
+      title: 'Error!',
+      text: 'Alasan penolakan harus dipilih',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+
+  fetch('/admin/reject', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ permohonanId, alasanPenolakan })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message === "Permohonan telah ditolak dan notifikasi telah dikirim.") {
+      Swal.fire({
+        title: 'Berhasil!',
+        text: data.message,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        location.reload(); // Reload the page to update the table
+      });
+    } else {
+      Swal.fire({
+        title: 'Error!',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire({
+      title: 'Error!',
+      text: 'Terjadi kesalahan saat menolak permohonan',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  });
+
+  // Hide Tolak and Terima buttons and show the success message
+  document.querySelector('.text-green-600').style.display = 'block';
+  document.querySelector('.bg-red-600').style.display = 'none';
+  document.querySelector('.bg-green-600').style.display = 'none';
+});
+
+</script>
+<script>
+  document.getElementById('accept-form').addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const permohonanId = document.querySelector('input[name="permohonanId"]').value;
+
+  fetch('/admin/accept', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ permohonanId })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message === "Permohonan telah diterima dan notifikasi telah dikirim.") {
+      Swal.fire({
+        title: 'Berhasil!',
+        text: data.message,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        location.reload(); // Reload the page to update the table or other content
+      });
+    } else {
+      Swal.fire({
+        title: 'Error!',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire({
+      title: 'Error!',
+      text: 'Terjadi kesalahan saat memproses permohonan',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  });
+});
+
+</script>
 
 <script src="/preline.js"></script>
 </body>

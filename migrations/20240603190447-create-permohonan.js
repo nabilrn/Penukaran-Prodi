@@ -16,6 +16,8 @@ module.exports = {
           model: 'Mahasiswas',
           key: 'id'
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       departemen_tujuan: {
         type: Sequelize.STRING,
@@ -33,8 +35,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      
-
       status: {
         type: Sequelize.ENUM('diajukan', 'diterima', 'ditolak', 'selesai'),
         allowNull: false

@@ -1,9 +1,7 @@
 <%- include("../head.ejs") %>
 <main id="content">
   <div class="max-w-[85rem] mx-auto py-10 px-4 sm:px-6 lg:px-8">
-  
     <section id="form">
-      <!-- form permohonan -->
       <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         <div class="mx-auto max-w-2xl">
           <div class="text-center">
@@ -11,13 +9,14 @@
               Isikan Data Pengajuan Pindah Prodi
             </h2>
           </div>
-
-          <!-- Card -->
-
           <div
             class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
           >
-            <form action="/mahasiswa/permohonan" method="POST">
+            <form
+              id="permohonanForm"
+              action="/mahasiswa/permohonan"
+              method="POST"
+            >
               <div class="mb-4 sm:mb-8">
                 <label for="tahunAjaran">Tahun Ajaran</label>
                 <select
@@ -25,6 +24,7 @@
                   id="tahunAjaran"
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                 >
+                  <option value="">Pilih Tahun Ajaran</option>
                   <option value="2020/2021">2020/2021</option>
                   <option value="2021/2022">2021/2022</option>
                   <option value="2022/2023">2022/2023</option>
@@ -32,18 +32,24 @@
                 </select>
               </div>
               <div class="mb-4 sm:mb-8">
+                <input
+                  type="hidden"
+                  name="departemen"
+                  id="departemen"
+                  value="<%= mahasiswa.departemen %>"
+                />
                 <label for="semester" class="block mb-2 text-sm font-medium"
                   >Semester</label
                 >
                 <input
-                  type="Number"
+                  type="number"
                   id="semester"
                   class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                   placeholder="Semester"
                   name="semester"
+                  min="1"
                 />
               </div>
-
               <div class="mb-4 sm:mb-8">
                 <label for="departemen_tujuan">Pilih Jurusan Tujuan</label>
                 <select
@@ -57,8 +63,6 @@
                   <option value="Informatika">Informatika</option>
                 </select>
               </div>
-              <!-- end pilih fakultas tujuan -->
-
               <div>
                 <label for="alasan" class="block mb-2 text-sm font-medium"
                   >Alasan</label
@@ -69,11 +73,10 @@
                     name="alasan"
                     rows="3"
                     class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                    placeholder="masukan alasan pindah prodi"
+                    placeholder="Masukkan alasan pindah prodi"
                   ></textarea>
                 </div>
               </div>
-
               <div class="mt-6 grid">
                 <button
                   type="submit"
@@ -84,12 +87,106 @@
               </div>
             </form>
           </div>
-          <!-- End Card -->
         </div>
       </div>
-      <!-- end form permohonan -->
     </section>
   </div>
-</main>
 
+  <script src="/sweetalert2.all.min.js"></script>
+
+  <script>
+    document
+      .getElementById("permohonanForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const tahunAjaran = document.getElementById("tahunAjaran").value;
+        const semester = parseInt(
+          document.getElementById("semester").value,
+          10
+        );
+        const departemenTujuan =
+          document.getElementById("departemen_tujuan").value;
+        const alasan = document.getElementById("alasan").value;
+        const departemen = document.getElementById("departemen").value;
+
+        if (!tahunAjaran || !semester || !departemenTujuan || !alasan) {
+          showError("Semua kolom harus diisi!");
+          return;
+        }
+
+        if (semester <= 2) {
+          showError("Semester harus lebih besar dari 2");
+          return;
+        }
+
+        if (departemen === departemenTujuan) {
+          showError(
+            "Tidak bisa melakukan permohonan pindah ke jurusan yang sama dengan saat ini"
+          );
+          return;
+        }
+
+        try {
+          const response = await fetch("/mahasiswa/permohonan", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tahunAjaran,
+              semester,
+              alasan,
+              departemen_tujuan: departemenTujuan,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.message || "Gagal melakukan permohonan pindah"
+            );
+          }
+
+          showSuccess("Permohonan pindah prodi berhasil disimpan");
+          clearForm();
+          setTimeout(() => {
+            window.location.href = "/mahasiswa/history";
+          }, 1500);
+
+        } catch (error) {
+          console.error("Error:", error.message);
+          showError(error.message || "Gagal melakukan permohonan pindah");
+        }
+      });
+
+    document.getElementById("semester").addEventListener("input", function () {
+      this.value = Math.max(3, parseInt(this.value) || 3);
+    });
+
+    function showError(message) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message,
+      });
+    }
+
+    function showSuccess(message) {
+      Swal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+
+    function clearForm() {
+      document.getElementById("permohonanForm").reset();
+      // If you have any select elements or other inputs that need special handling, reset them here
+      // For example:
+      // document.getElementById("departemen_tujuan").selectedIndex = 0;
+    }
+  </script>
+</main>
 <%- include("../footer.ejs") %>
