@@ -6,6 +6,7 @@ const {
   PermohonanBp,
   Feedback,
 } = require("../models/index");
+
 const sequelize = require("sequelize");
 const path = require("path");
 const fs = require("fs");
@@ -234,6 +235,7 @@ const acceptPermohonan = async (req, res, next) => {
   }
 };
 
+
 const getDashboardData = async (req, res, next) => {
   try {
     const countByStatus = await Permohonan.findAll({
@@ -265,6 +267,7 @@ const getDashboardData = async (req, res, next) => {
     next(error);
   }
 };
+
 
 const getNotif = async (req, res) => {
   try {
@@ -432,101 +435,6 @@ const getAllFeedback = async (req, res, next) => {
   }
 };
 
-const generatePdf = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const permohonanBp = await PermohonanBp.findOne({
-      where: { id },
-      include: [
-        {
-          model: Mahasiswa,
-          include: [User],
-        },
-      ],
-    });
-    if (!permohonanBp) {
-      return res.status(404).send("PermohonanBp not found");
-    }
-
-    const user = permohonanBp.Mahasiswa.User;
-    const suratData = {
-      id: permohonanBp.id,
-      nama: user.nama,
-      nim: user.username,
-      departemen: permohonanBp.Mahasiswa.departemen,
-    };
-
-    const templatePath = path.join(__dirname, "../template.docx");
-    const content = fs.readFileSync(templatePath, "binary");
-    const zip = new PizZip(content);
-
-    const qrCodePath = path.join(__dirname, "../document/qrCode", `${user.nama}.png`);
-    await QRCode.toFile(qrCodePath, `http://localhost:3000/pdf/${user.nama}.pdf`);
-
-    const imageOpts = {
-      centered: false,
-      getImage: (tagValue) => fs.readFileSync(tagValue),
-      getSize: () => [80, 80],
-    };
-
-    const imageModule = new ImageModule(imageOpts);
-    const doc = new Docxtemplater(zip, {
-      modules: [imageModule],
-      paragraphLoop: true,
-      linebreaks: true,
-    });
-
-    doc.setData({
-      nama: suratData.nama,
-      nim: suratData.nim,
-      departemen: suratData.departemen,
-      qrCode: qrCodePath,
-    });
-
-    try {
-      doc.render();
-    } catch (error) {
-      console.error("Error rendering document:", error);
-      return res.status(500).send(`Error rendering document: ${error.message}`);
-    }
-
-    const buf = doc.getZip().generate({ type: "nodebuffer" });
-
-    libre.convert(buf, ".pdf", undefined, async (err, done) => {
-      if (err) {
-        console.error("Error converting document to PDF:", err);
-        return res.status(500).send(`Error converting document to PDF: ${err.message}`);
-      }
-
-      const pdfPath = path.join(__dirname, "../document/pdf", `${user.nama}.pdf`);
-      fs.writeFileSync(pdfPath, done);
-
-      try {
-        const downloadLink = `http://localhost:3000/download/${user.nama}.pdf`;
-        const notificationDetail = `${user.nama}.pdf`;
-
-        await Notification.create({
-          userId: user.id,
-          judul: "Surat Keterangan Pindah Prodi",
-          detail: notificationDetail,
-        });
-      } catch (notificationError) {
-        console.error("Error creating notification:", notificationError);
-        return res.status(500).send(`Error creating notification: ${notificationError.message}`);
-      }
-
-      res.setHeader("Content-Type", "application/pdf");
-      res.setHeader("Content-Disposition", `attachment; filename=${user.nama}.pdf`);
-      res.send(done);
-    });
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-    return res.status(500).send(`Error generating PDF: ${error.message}`);
-  }
-};
-
-
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -570,4 +478,7 @@ module.exports = {
   acceptPermohonan,
   rejectPermohonan,
   getPermohonanDetail,
+  getNotif,
+  updateUsername,
+  getAllFeedback,
 };

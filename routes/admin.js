@@ -14,17 +14,14 @@ router.get("/validasi", function (req, res, next) {
 router.get("/request", verifyToken, admin.listPermohonan);
 
 router.get("/feeback", verifyToken, admin.getAllFeedback);
-// Define route
 
 router.get("/notif", verifyToken, admin.getNotif);
 
 router.get("/request/:id", verifyToken, admin.getPermohonanDetail);
 
-router.get("/buatsurat/:id", verifyToken, admin.dataSurat);
 
-router.get("/surat", function (req, res, next) {
-  res.render("./admin/buatsurat", { title: "Buat Surat" });
-});
+
+
 router.get("/history", verifyToken, admin.getAllPermohonanBp);
 
 
@@ -32,6 +29,8 @@ router.get("/history", verifyToken, admin.getAllPermohonanBp);
 router.post("/reject", verifyToken, admin.rejectPermohonan);
 router.post("/accept", verifyToken, admin.acceptPermohonan);
 router.post("/updateNim", verifyToken, admin.updateUsername);
-router.post("/generateSurat/:id", verifyToken, admin.generatePdf);
+
+
+
 
 module.exports = router;

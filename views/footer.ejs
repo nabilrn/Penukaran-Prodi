@@ -27,27 +27,29 @@
           <p><a class="inline-flex gap-x-2 text-black hover:text-black" href="#">Manajemen Resiko</a> 
           <p><a class="inline-flex gap-x-2 text-black hover:text-black" href="#">Arsip</a></p>
         </div>
-      </div>
-      <!-- End Col -->
 
-      <div class="col-span-2">
-        <h4 class="font-semibold text-black">Feedback</h4>
-
-        <form action="/mahasiswa/send-feedback" method="post">
-          <div class="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-3 bg-white rounded-lg p-2">
-            <div class="w-full">
-              <label for="heroInput" class="sr-only">Search</label>
-              <textarea id="heroInput" name="heroInput" class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Kirim Feedback"></textarea>
+        <!-- End Col -->
+  
+        <div class="col-span-2">
+          <h4 class="font-semibold text-black">Feedback</h4>
+  
+          <form action="/mahasiswa/send-feedback" method="post">
+            <div class="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:gap-3 bg-white rounded-lg p-2">
+              <div class="w-full">
+                <label for="heroInput" class="sr-only">Search</label>
+                <textarea id="heroInput" name="heroInput" class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Kirim Feedback"></textarea>
+              </div>
+              <button class="w-full sm:w-auto whitespace-nowrap p-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none" type="submit">
+                Send
+              </button>
             </div>
-            <button class="w-full sm:w-auto whitespace-nowrap p-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none" type="submit">
-              Send
-            </button>
-          </div>
-          <p class="mt-3 text-sm text-black">
-            Berikan feedback anda tentang pelayanan sistem
-          </p>
-        </form>
-        
+            <p class="mt-3 text-sm text-black">
+              Berikan feedback anda tentang pelayanan sistem
+            </p>
+          </form>
+          
+        </div>
+
       </div>
       <!-- End Col -->
     </div>

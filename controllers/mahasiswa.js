@@ -1,3 +1,4 @@
+
 const {
   User,
   Mahasiswa,
@@ -6,6 +7,7 @@ const {
   Notification,
   Feedback,
 } = require("../models/index");
+
 const upload = require("../middleware/multerConfig");
 const { Op } = require('sequelize');
 
@@ -243,6 +245,7 @@ function formatTime(dateString) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
+
 const home = async (req, res) => {
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
@@ -277,5 +280,6 @@ module.exports = {
   uploadProfilePicture,
   submitPermohonanPindah,
   editPermohonan,
+  sendFeedback,
   home,
 };
