@@ -13,17 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Mahasiswas",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      permohonan_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: "Permohonans",
+          model: "Mahasiswa",
           key: "id",
         },
         onUpdate: "CASCADE",
@@ -31,8 +21,7 @@ module.exports = {
       },
       bpBaru: { 
         type: Sequelize.STRING,
-         allowNull: true 
-      },
+         allowNull: true },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
