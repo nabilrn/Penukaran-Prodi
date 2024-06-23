@@ -5,10 +5,8 @@
   document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
 
-    // Register the userId to the socket connection
     socket.emit('register', '<%= userId %>');
 
-    // Handle new notifications
     socket.on('newNotification', (notification) => {
       const notificationsContainer = document.querySelector('.notifications-container');
       

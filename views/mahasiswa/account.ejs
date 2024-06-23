@@ -1,190 +1,165 @@
 <%- include("sidebar.ejs") %>
 
-    <!-- profile -->
-    <div class="w-full lg:pl-64">
-      <div class="bg-white overflow-hidden shadow rounded-lg border">
-        <div class="px-4 py-5 sm:px-6">
-          <div class="flex items-center space-x-4">
-            <div class="flex gap-x-2">
-              <div class="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
-                <img
-                  id="profileImage"
-                  src="/user_<%= user.id %>/profile.jpg"
-                  alt=""
-                  class="object-cover w-full h-full"
-                />
-              </div>
-              <form action="/mahasiswa/upload" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center" id="uploadForm">
-                <div class="relative">
-                  <input type="file" id="profilePic" name="profilePic" class="hidden" onchange="previewProfilePicture(event); toggleUploadButton(event);">
-                  <label for="profilePic" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 cursor-pointer" id="uploadPhotoLabel">
-                    <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="17 8 12 3 7 8"/>
-                      <line x1="12" x2="12" y1="3" y2="15"/>
-                    </svg>
-                    Upload photo
-                  </label>
-                </div>
-                <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none mt-2 hidden" id="uploadButton">
-                  Upload
-                </button>
-              </form>
-            </div>
-            
-            
-            
-         
-            
+<div class="w-full lg:pl-64">
+  <div class="bg-white overflow-hidden shadow rounded-lg border">
+    <div class="px-4 py-5 sm:px-6"></div>
+      <div class="flex items-center space-x-4">
+        <div class="flex gap-x-2">
+          <div class="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
+            <img
+              id="profileImage"
+              src="/user_<%= user.id %>/profile.jpg"
+              alt=""
+              class="object-cover w-full h-full"
+            />
           </div>
-          
-          
+          <form action="/mahasiswa/upload" method="POST" enctype="multipart/form-data" class="flex flex-col justify-center" id="uploadForm">
+            <div class="relative">
+              <input type="file" id="profilePic" name="profilePic" class="hidden" onchange="previewProfilePicture(event); toggleUploadButton(event);">
+              <label for="profilePic" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 cursor-pointer" id="uploadPhotoLabel">
+                <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" x2="12" y1="3" y2="15"/>
+                </svg>
+                Upload photo
+              </label>
+            </div>
+            <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none mt-2 hidden" id="uploadButton">
+              Upload
+            </button>
+          </form>
         </div>
-        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-            <dl class="sm:divide-y sm:divide-gray-200">
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Nama
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <%= user.nama  %>
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        NIM
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <%= user.username  %>
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Status
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <%= user.role %>
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Fakultas
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <%= mahasiswa.fakultas  %>
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Departemen
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <%= mahasiswa.departemen  %>
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Alamat
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <%= mahasiswa.alamat  %>
-                    </dd>
-                </div>
-                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <a href="/mahasiswa/changeProfile">
-                    <button
-                      type="submit"
-                      class="w-1/2 bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
-                    >
-                      Edit Profile
-                    </button>
-                  </a>
-                </div>
-            </dl>
+      </div>
+    </div>
+    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <dl class="sm:divide-y sm:divide-gray-200">
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            Nama
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= user.nama  %>
+          </dd>
         </div>
-     
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            NIM
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= user.username  %>
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            Status
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= user.role %>
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            Fakultas
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= mahasiswa.fakultas  %>
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            Departemen
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= mahasiswa.departemen  %>
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">
+            Alamat
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= mahasiswa.alamat  %>
+          </dd>
+        </div>
+        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <a href="/mahasiswa/changeProfile">
+            <button
+              type="submit"
+              class="w-1/2 bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
+            >
+              Edit Profile
+            </button>
+          </a>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
 
-    </div>
-   
-    </div>
-    <h2>Upload File</h2>
-    <script>
-      function previewProfilePicture(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-          const profileImage = document.getElementById('profileImage');
-          profileImage.src = e.target.result;
-        };
-    
-        if (file) {
-          reader.readAsDataURL(file);
-        }
-      }
-    </script>
-    <script>function toggleUploadButton(event) {
-      const uploadButton = document.getElementById('uploadButton');
-      if (event.target.files.length > 0) {
-        uploadButton.classList.remove('hidden');
-      } else {
-        uploadButton.classList.add('hidden');
-      }
-    }</script>
-    
-   <script>
-   
-  
-    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-      event.preventDefault(); // Prevent the default form submission
-      
-      const formData = new FormData(this);
-      try {
-        const response = await fetch('/mahasiswa/upload', {
-          method: 'POST',
-          body: formData
+<script>
+  function previewProfilePicture(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      const profileImage = document.getElementById('profileImage');
+      profileImage.src = e.target.result;
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function toggleUploadButton(event) {
+    const uploadButton = document.getElementById('uploadButton');
+    if (event.target.files.length > 0) {
+      uploadButton.classList.remove('hidden');
+    } else {
+      uploadButton.classList.add('hidden');
+    }
+  }
+
+  document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    try {
+      const response = await fetch('/mahasiswa/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Upload Success',
+          text: data.message,
+          confirmButtonText: 'OK'
+        }).then(() => {
+          window.location.reload();
         });
-        const data = await response.json();
-  
-        // Handle the server response
-        if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Upload Success',
-            text: data.message,
-            confirmButtonText: 'OK'
-          }).then(() => {
-            // Reload the page after success
-            window.location.reload();
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Upload Error',
-            text: data.error || 'An error occurred during upload. Please try again later.',
-            confirmButtonText: 'OK'
-          });
-        }
-      } catch (error) {
-        console.error('Error:', error);
+      } else {
         Swal.fire({
           icon: 'error',
           title: 'Upload Error',
-          text: 'An error occurred during upload. Please try again later.',
+          text: data.error || 'An error occurred during upload. Please try again later.',
           confirmButtonText: 'OK'
         });
       }
-    });
-  </script>
-  
-  
-  
-   
-    
-    <script src="/sweetalert2.all.min.js"></script>
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Upload Error',
+        text: 'An error occurred during upload. Please try again later.',
+        confirmButtonText: 'OK'
+      });
+    }
+  });
+</script>
 
-    <!-- Profile-->
-    <!-- ========== END MAIN CONTENT ========== -->
-  </body>
-  <script src="/preline.js"></script>
-</html>
+<script src="/sweetalert2.all.min.js"></script>
+<script src="/preline.js"></script>

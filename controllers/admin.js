@@ -270,7 +270,7 @@ const getAllPermohonanBp = async (req, res, next) => {
               attributes: ['departemen_tujuan', 'createdAt', 'updatedAt', 'status'],
               separate: true,
               order: [['createdAt', 'DESC']],
-              limit: 1,  // Fetch only the latest Permohonan
+              limit: 1,  
             },
             {
               model: User,

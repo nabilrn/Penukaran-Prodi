@@ -6,56 +6,52 @@
         Finalisasi Permohonan Pindah Prodi
       </h2>
     </div>
-    <div
-      class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10"
-    > 
-    <form id="generateSuratForm">
-      <input type="hidden" id="suratId" value="<%= suratData.id %>">
-      <div class="mb-4 sm:mb-8">
-        <label for="nama" class="block text-sm mb-2">Nama</label>
-        <input
-          type="text"
-          id="nama"
-          name="nama"
-          value="<%= suratData.Mahasiswa.User.nama %>"
-          class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-          readonly
-        />
-      </div>
-      <div class="mb-4 sm:mb-8">
-        <label for="nim" class="block text-sm mb-2">NIM</label>
-        <input
-          type="text"
-          id="nim"
-          name="nim"
-          value="<%= suratData.Mahasiswa.User.username %>"
-          class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-          readonly
-        />
-      </div>
-      <div class="mb-4 sm:mb-8">
-        <label for="departemen" class="block text-sm mb-2">Departemen</label>
-        <input
-          type="text"
-          id="departemen"
-          name="departemen"
-          value="<%= suratData.Mahasiswa.departemen %>"
-          class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-          readonly
-        />
-      </div>
-      <div class="mt-6 grid grid-cols-2 gap-4">
-        <button
-          type="submit"
-          class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
-        >
-          Buat Surat
-        </button>
-        
-          
-      </div>
-    </form>
-
+    <div class="mt-5 p-4 relative z-10 bg-white border rounded-xl sm:mt-10 md:p-10">
+      <form id="generateSuratForm">
+        <input type="hidden" id="suratId" value="<%= suratData.id %>">
+        <div class="mb-4 sm:mb-8">
+          <label for="nama" class="block text-sm mb-2">Nama</label>
+          <input
+            type="text"
+            id="nama"
+            name="nama"
+            value="<%= suratData.Mahasiswa.User.nama %>"
+            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            readonly
+          />
+        </div>
+        <div class="mb-4 sm:mb-8">
+          <label for="nim" class="block text-sm mb-2">NIM</label>
+          <input
+            type="text"
+            id="nim"
+            name="nim"
+            value="<%= suratData.Mahasiswa.User.username %>"
+            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            readonly
+          />
+        </div>
+        <div class="mb-4 sm:mb-8">
+          <label for="departemen" class="block text-sm mb-2">Departemen</label>
+          <input
+            type="text"
+            id="departemen"
+            name="departemen"
+            value="<%= suratData.Mahasiswa.departemen %>"
+            class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            readonly
+          />
+        </div>
+        <div class="mt-6 grid gap-4">
+          <button
+            type="submit"
+            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
+          >
+            Buat Surat
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 </div>
@@ -70,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const suratId = document.getElementById('suratId').value;
 
-    // Initial confirmation
     const result = await Swal.fire({
       title: 'Are you sure?',
       text: "You're about to generate a PDF. This action cannot be undone.",
@@ -113,11 +108,10 @@ document.addEventListener('DOMContentLoaded', function() {
             text: 'PDF has been generated and downloaded.',
             confirmButtonText: 'OK'
           }).then((result) => {
-  if (result.isConfirmed) {
-    // Redirect to admin dashboard
-    window.location.href = '/admin/dashboard';
-  }
-});
+            if (result.isConfirmed) {
+              window.location.href = '/admin/dashboard';
+            }
+          });
         } else {
           const errorData = await response.text();
           throw new Error(errorData || 'Failed to generate PDF');
@@ -135,6 +129,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-        </body>
-      </html>
-    
+</body>
+</html>

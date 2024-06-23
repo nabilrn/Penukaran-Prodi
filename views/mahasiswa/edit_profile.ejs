@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Profile</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
   </head>
   <body class="font-poppins bg-customGray">
-    <!-- Comment Form -->
-    <!-- Card Section -->
     <div class="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto">
-      <!-- Card -->
       <div class="bg-white rounded-xl shadow p-4 sm:p-7">
         <div class="mb-8">
           <h2 class="text-xl font-bold text-gray-800">Profile</h2>
@@ -23,143 +17,73 @@
           </p>
         </div>
 
-        <form
-          id="changeProfileForm"
-          action="/ubahProfile"
-          method="POST"
-          enctype="multipart/form-data"
-        >
-          <!-- Grid -->
+        <form id="changeProfileForm" action="/ubahProfile" method="POST" enctype="multipart/form-data">
           <div class="grid sm:grid-cols-12 gap-2 sm:gap-6">
-            <!-- End Col -->
-
             <div class="sm:col-span-3">
-              <label
-                for="af-account-full-name"
-                class="inline-block text-sm text-gray-800 mt-2.5"
-              >
+              <label for="af-account-full-name" class="inline-block text-sm text-gray-800 mt-2.5">
                 Nama
               </label>
             </div>
-            <!-- End Col -->
 
             <div class="sm:col-span-9">
               <div class="sm:flex">
-                <input
-                  id="af-account-email"
-                  type="text"
-                  class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                  value="<%= user.nama %>"
-                  disabled
-                />
+                <input id="af-account-email" type="text" class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.nama %>" disabled />
               </div>
             </div>
-            <!-- End Col -->
 
             <div class="sm:col-span-3">
-              <label
-                for="af-account-email"
-                class="inline-block text-sm text-gray-800 mt-2.5"
-              >
+              <label for="af-account-email" class="inline-block text-sm text-gray-800 mt-2.5">
                 Username
               </label>
             </div>
-            <!-- End Col -->
 
             <div class="sm:col-span-9">
-              <input
-                id="af-account-email"
-                type="text"
-                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                value="<%= user.username %>"
-                disabled
-              />
+              <input id="af-account-email" type="text" class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= user.username %>" disabled />
             </div>
-            <!-- End Col -->
+
             <div class="sm:col-span-3">
-              <label
-                for="af-account-email"
-                class="inline-block text-sm text-gray-800 mt-2.5"
-              >
+              <label for="af-account-email" class="inline-block text-sm text-gray-800 mt-2.5">
                 Fakultas
               </label>
             </div>
-            <!-- End Col -->
 
             <div class="sm:col-span-9">
-              <input
-                id="af-account-email"
-                type="text"
-                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                value="<%= mahasiswa.fakultas %>"
-                disabled
-              />
+              <input id="af-account-email" type="text" class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.fakultas %>" disabled />
             </div>
-            <!-- End Col -->
+
             <div class="sm:col-span-3">
-              <label
-                for="af-account-email"
-                class="inline-block text-sm text-gray-800 mt-2.5"
-              >
+              <label for="af-account-email" class="inline-block text-sm text-gray-800 mt-2.5">
                 Departemen
               </label>
             </div>
-            <!-- End Col -->
 
             <div class="sm:col-span-9">
-              <input
-                id="af-account-email"
-                type="text"
-                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                value="<%= mahasiswa.departemen %>"
-                disabled
-              />
+              <input id="af-account-email" type="text" class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.departemen %>" disabled />
             </div>
-            <!-- End Col -->
+
             <div class="sm:col-span-3">
-              <label
-                for="af-account-email"
-                class="inline-block text-sm text-gray-800 mt-2.5"
-              >
+              <label for="af-account-email" class="inline-block text-sm text-gray-800 mt-2.5">
                 Alamat
               </label>
             </div>
-            <!-- End Col -->
 
             <div class="sm:col-span-9">
-              <input
-                id="alamat"
-                name="alamat"
-                type="text"
-                class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                value="<%= mahasiswa.alamat %>"
-              />
+              <input id="alamat" name="alamat" type="text" class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" value="<%= mahasiswa.alamat %>" />
             </div>
-            <!-- End Col -->
           </div>
-          <!-- End Grid -->
 
           <div class="mt-5 flex justify-end gap-x-2">
-            <button
-              onclick="back()"
-              type="button"
-              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-            >
+            <button onclick="back()" type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
               Cancel
             </button>
-            <button
-              type="submit"
-              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none"
-            >
+            <button type="submit" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">
               Save changes
             </button>
           </div>
         </form>
       </div>
-      <!-- End Card -->
     </div>
-    <!-- End Card Section -->
-    <!-- End Comment Form -->
+
     <script>
       function back() {
         window.history.back();
@@ -169,7 +93,7 @@
       const form = document.getElementById("changeProfileForm");
 
       form.addEventListener("submit", async (event) => {
-        event.preventDefault(); // Prevent the form from submitting by default
+        event.preventDefault();
 
         try {
           const response = await fetch("/mahasiswa/ubahProfile", {
@@ -183,14 +107,10 @@
           });
 
           if (response.ok) {
-            // Profile was successfully updated
-            Swal.fire("Sukses", "Profile berhasil diubah", "success").then(
-              () => {
-                window.location.href = "/mahasiswa/profile";
-              }
-            );
+            Swal.fire("Sukses", "Profile berhasil diubah", "success").then(() => {
+              window.location.href = "/mahasiswa/profile";
+            });
           } else {
-            // There was an error updating the profile
             const data = await response.json();
             Swal.fire("Gagal!", data.message, "error");
           }

@@ -22,7 +22,7 @@ const getAllPermohonanBp = async (req, res, next) => {
               attributes: ['departemen_tujuan', 'createdAt', 'updatedAt', 'status'],
               separate: true,
               order: [['createdAt', 'DESC']],
-              limit: 1,  // Fetch only the latest Permohonan
+              limit: 1,  
             },
             {
               model: User,
@@ -50,7 +50,7 @@ const updateNim = async (req, res) => {
   const { nimBaru, permohonanBpId } = req.body;
   const io = req.app.get("io"); 
   try {
-    // Check if the new NIM is the same as an existing username
+    
     const existingUser = await User.findOne({ where: { username: nimBaru } });
     if (existingUser) {
       return res.status(400).json({ error: 'NIM cannot be the same as an existing username' });
