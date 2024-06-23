@@ -14,11 +14,9 @@ const lptikRouter = require("./routes/lptik");
 
 const app = express();
 
-// Create HTTP server and integrate Socket.IO
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// view engine setup
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
@@ -41,15 +39,14 @@ app.use("/mahasiswa", mahasiswaRouter);
 app.use("/admin", adminRouter);
 app.use("/lptik", lptikRouter);
 
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 app.use((req, res, next) => {
-  res.locals.encrypt = encrypt; // Make encrypt function available in EJS templates
+  res.locals.encrypt = encrypt; 
   next();
 });
-// error handler
+
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -57,10 +54,8 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-// Pass Socket.IO instance to controllers
 app.set("io", io);
 
-// WebSocket connection handler
 io.on("connection", (socket) => {
   console.log("a user connected");
 

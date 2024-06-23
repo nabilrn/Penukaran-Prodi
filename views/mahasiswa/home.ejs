@@ -1,9 +1,7 @@
 <%- include("../head.ejs") %>
 <main id="content">
   <div class="max-w-[85rem] mx-auto py-10 px-4 sm:px-6 lg:px-8">
-    <!-- Hero -->
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Grid -->
       <div class="grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12 lg:items-center">
         <div class="lg:col-span-3">
           <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl lg:text-6xl">
@@ -14,22 +12,14 @@
           </p>
           <div class="mt-5 lg:mt-8 flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
             <div class="w-full sm:w-auto">
-              <!-- Button or other elements can go here -->
             </div>
           </div>
         </div>
-        <!-- End Col -->
-
         <div class="lg:col-span-4 mt-10 lg:mt-0">
           <img class="w-full rounded-xl" src="/images/homefti.jpg" alt="Image Description" />
         </div>
-        <!-- End Col -->
       </div>
-      <!-- End Grid -->
     </div>
-    <!-- End Hero -->
-
-    <!-- Notification Container -->
     <div id="notification-pop-up" class="fixed top-16 right-4 max-w-xs w-full bg-white shadow-lg rounded-lg border border-gray-200 p-4 z-50 hidden">
       <h3 class="notification-title text-lg font-semibold text-gray-800"></h3>
       <p class="notification-meta text-sm text-gray-600">
@@ -48,31 +38,22 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
-
-    // Register the userId to the socket connection
     socket.emit('register', '<%= userId %>');
-
-    // Handle new notifications
     socket.on('newNotification', (notification) => {
       const notificationPopUp = document.getElementById('notification-pop-up');
       const notificationTitle = notificationPopUp.querySelector('.notification-title');
       const notificationDate = notificationPopUp.querySelector('.notification-date');
       const notificationTime = notificationPopUp.querySelector('.notification-time');
       const notificationDetail = notificationPopUp.querySelector('.notification-detail');
-
       notificationTitle.textContent = notification.judul;
       notificationDate.textContent = formatDate(notification.createdAt);
       notificationTime.textContent = formatTime(notification.createdAt);
       notificationDetail.textContent = notification.detail;
-
       notificationPopUp.classList.remove('hidden');
-      
-      // Auto-hide notification after 5 seconds
       setTimeout(() => {
         notificationPopUp.classList.add('hidden');
       }, 5000);
     });
-
     function formatDate(dateString) {
       const date = new Date(dateString);
       const day = String(date.getDate()).padStart(2, "0");
@@ -84,7 +65,6 @@
       const year = date.getFullYear();
       return day + " " + month + " " + year;
     }
-
     function formatTime(dateString) {
       const date = new Date(dateString);
       const hours = String(date.getHours()).padStart(2, '0');
@@ -95,5 +75,5 @@
   });
 </script>
 <script src="/preline.js"></script>
-  </body>
+</body>
 </html>

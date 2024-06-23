@@ -50,7 +50,6 @@
       </div>
       <div class="py-3 sm:py-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6">
         <div class="flex justify-start space-x-2">
-          <!-- Back Button -->
           <a href="javascript:history.back()">
             <button
               type="button"
@@ -59,57 +58,44 @@
               Back
             </button>
           </a>
-
-                    <!-- Message for permohonan selesai -->
-                    <% if (permohonanDetail.status === "selesai") { %>
-                      <span class="text-green-600 font-semibold">
-                        Permohonan selesai
-                      </span>
-                    <% } %>
-                    
-                    <% if (permohonanDetail.status === "ditolak") { %>
-                      <span class="text-red-600 font-semibold">
-                        Permohonan ditolak
-                      </span>
-                    <% } %>
-
-                    <% if (permohonanDetail.status === "diterima") { %>
-                      <span class="text-green-600 font-semibold">
-                        Permohonan telah diterima
-                      </span>
-                    <% } %>
-                    
-                    <!-- Conditionally render Tolak and Terima buttons based on status -->
-                    <% if (permohonanDetail.status !== "selesai" &&  permohonanDetail.status !== "ditolak"  &&  permohonanDetail.status !== "diterima" ) { %>
-                      <!-- Tolak Button -->
-                      <button
-                        type="button"
-                        class="bg-red-600 text-white py-2 px-4 rounded font-semibold hover:bg-red-700 focus:outline-none"
-                        data-hs-overlay="#hs-modal-upgrade-to-pro"
-                      >
-                        Tolak
-                      </button>
-                    
-                      <!-- Terima Button -->
-                      <form id="accept-form" action="/admin/accept" method="post">
-                        <!-- Tambahkan input tersembunyi untuk menyimpan permohonanId -->
-                        <input type="hidden" name="permohonanId" value="<%= permohonanId %>">
-                        <button
-                          type="submit"
-                          class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
-                        >
-                          Terima
-                        </button>
-                      </form>
-                      
-                    <% } %>
-                    
+          <% if (permohonanDetail.status === "selesai") { %>
+            <span class="text-green-600 font-semibold">
+              Permohonan selesai
+            </span>
+          <% } %>
+          <% if (permohonanDetail.status === "ditolak") { %>
+            <span class="text-red-600 font-semibold">
+              Permohonan ditolak
+            </span>
+          <% } %>
+          <% if (permohonanDetail.status === "diterima") { %>
+            <span class="text-green-600 font-semibold">
+              Permohonan telah diterima
+            </span>
+          <% } %>
+          <% if (permohonanDetail.status !== "selesai" &&  permohonanDetail.status !== "ditolak"  &&  permohonanDetail.status !== "diterima" ) { %>
+            <button
+              type="button"
+              class="bg-red-600 text-white py-2 px-4 rounded font-semibold hover:bg-red-700 focus:outline-none"
+              data-hs-overlay="#hs-modal-upgrade-to-pro"
+            >
+              Tolak
+            </button>
+            <form id="accept-form" action="/admin/accept" method="post">
+              <input type="hidden" name="permohonanId" value="<%= permohonanId %>">
+              <button
+                type="submit"
+                class="bg-green-600 text-white py-2 px-4 rounded font-semibold hover:bg-green-700 focus:outline-none"
+              >
+                Terima
+              </button>
+            </form>
+          <% } %>
         </div>
       </div>
     </dl>
   </div>
 </div>
-<!-- modal -->
 
 <div id="hs-modal-upgrade-to-pro" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
   <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
@@ -128,9 +114,7 @@
               </select>
             </div>
           </div>
-          <input type="hidden" name="permohonanId" value="<%= permohonanId %>"> <!-- Pastikan untuk meneruskan ID yang sesuai -->
-
-          <!-- Footer -->
+          <input type="hidden" name="permohonanId" value="<%= permohonanId %>">
           <div class="flex justify-end items-center gap-x-2 p-4 sm:px-7 border-t">
             <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-modal-upgrade-to-pro">
               Cancel
@@ -139,18 +123,17 @@
               Submit
             </button>
           </div>
-          <!-- End Footer -->
         </form>
       </div>
     </div>
   </div>
 </div>
-<!-- End Modal -->
+
 <script src="/sweetalert2.all.min.js"></script>
 
 <script>
 document.getElementById('reject-form').addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent the default form submission
+  event.preventDefault();
 
   const permohonanId = document.querySelector('input[name="permohonanId"]').value;
   const alasanPenolakan = document.querySelector('select[name="alasanPenolakan"]').value;
@@ -181,7 +164,7 @@ document.getElementById('reject-form').addEventListener('submit', function (even
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
-        location.reload(); // Reload the page to update the table
+        location.reload();
       });
     } else {
       Swal.fire({
@@ -202,7 +185,6 @@ document.getElementById('reject-form').addEventListener('submit', function (even
     });
   });
 
-  // Hide Tolak and Terima buttons and show the success message
   document.querySelector('.text-green-600').style.display = 'block';
   document.querySelector('.bg-red-600').style.display = 'none';
   document.querySelector('.bg-green-600').style.display = 'none';
@@ -211,7 +193,7 @@ document.getElementById('reject-form').addEventListener('submit', function (even
 </script>
 <script>
   document.getElementById('accept-form').addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent the default form submission
+  event.preventDefault();
 
   const permohonanId = document.querySelector('input[name="permohonanId"]').value;
 
@@ -231,7 +213,7 @@ document.getElementById('reject-form').addEventListener('submit', function (even
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
-        location.reload(); // Reload the page to update the table or other content
+        location.reload();
       });
     } else {
       Swal.fire({

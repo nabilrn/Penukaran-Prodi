@@ -80,10 +80,6 @@
                   </tr>
                 <% }); %>
               </tbody>
-              
-              
-              
-              
             </table>
           </div>
         </div>
@@ -113,7 +109,6 @@
                 </div>
               </div>
             </form>
-            
           </div>
         </div>
       </div>
@@ -128,16 +123,11 @@
      button.addEventListener('click', function () {
        const permohonanId = this.getAttribute('data-permohonan-id');
        permohonanBpIdInput.value = permohonanId;
-       console.log('Setting permohonanBpId:', permohonanId); // Log untuk memeriksa nilai permohonanBpId
      });
    });
  });
- 
- 
    </script>
    <script src="/sweetalert2.all.min.js"></script>
-
-
    <script>
     document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('nim-form');
@@ -148,7 +138,6 @@
         const permohonanBpId = document.getElementById('permohonanBpId').value;
         const nimBaru = document.getElementById('nimBaru').value;
     
-        // Initial confirmation
         const result = await Swal.fire({
           title: 'Are you sure?',
           text: "You're about to update the NIM. This action cannot be undone.",
@@ -179,7 +168,6 @@
                 confirmButtonText: 'OK'
               }).then((result) => {
                 if (result.isConfirmed) {
-                  // Redirect to lptik/home
                   window.location.href = '/lptik/home';
                 }
               });
@@ -197,8 +185,6 @@
       });
     });
     </script>
-
-
   <script src="/preline.js"></script>
 </div>
 </body>

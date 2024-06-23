@@ -5,10 +5,9 @@ const fs = require('fs-extra');
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => {
     try {
-      const userId = req.userId; // Make sure this is set correctly
+      const userId = req.userId; 
       const dir = path.join(__dirname, '../data', `user_${userId}`);
       
-      // Ensure directory exists
       await fs.ensureDir(dir);
       
       cb(null, dir);
@@ -35,10 +34,10 @@ function checkFileType(file, cb) {
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  limits: { fileSize: 1000000 }, 
   fileFilter: (req, file, cb) => {
     checkFileType(file, cb);
   }
-}).single('profilePic'); // 'profilePic' is the name attribute in the form
+}).single('profilePic'); 
 
 module.exports = upload;
