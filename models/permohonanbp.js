@@ -7,13 +7,20 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "mahasiswaId",
         onDelete: "CASCADE",
       });
+      PermohonanBp.belongsTo(models.Permohonan, {
+        foreignKey: "permohonan_id",
+        onDelete: "CASCADE",
+      });
     }
   }
   PermohonanBp.init(
     {
       mahasiswaId: DataTypes.INTEGER,
+      permohonan_id: DataTypes.INTEGER,
       bpBaru: DataTypes.STRING,
-      status: DataTypes.ENUM("diajukan", "selesai"),
+      status: {
+        type: ENUM("diajukan", "selesai"),
+      },
     },
     {
       sequelize,

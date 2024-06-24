@@ -6,9 +6,8 @@ const {
   Notification,
   Feedback,
 } = require("../models/index");
-
 const upload = require("../middleware/multerConfig");
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 const changeProfile = async (req, res) => {
   const user = await User.findByPk(req.userId);
@@ -34,28 +33,6 @@ const dataPermohonan = async (req, res) => {
 };
 
 const history = async (req, res) => {
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const month = monthNames[date.getMonth()]; // January is 0!
-    const year = date.getFullYear();
-
-    return day + " " + month + " " + year;
-  }
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
   const permohonan = await Permohonan.findAll({
@@ -154,7 +131,6 @@ const submitPermohonanPindah = async (req, res, next) => {
 const deletePermohonan = async (req, res, next) => {
   try {
     const permohonanId = req.body.permohonanId;
-    const permohonanBp = await PermohonanBp.findByPk(permohonanId);
     if (!permohonanId) {
       return res.status(400).json({ message: "permohonanId is required" });
     }
@@ -170,13 +146,18 @@ const deletePermohonan = async (req, res, next) => {
         message: "Permohonan sudah selesai dan tidak dapat dibatalkan",
       });
     }
+
+    const permohonanBp = await PermohonanBp.findByPk(permohonanId);
     if (!permohonanBp) {
       console.log("PermohonanBp not found for permohonanId:", permohonanId);
     }
 
     await permohonan.destroy();
-    await permohonanBp.destroy();
-    res.status(200).json({ message: "Permohonan berhasil dihapus" });
+    if (permohonanBp) {
+      await permohonanBp.destroy();
+    }
+
+    res.status(200).json({ message: "Permohonan berhasil dibatalkan" });
   } catch (error) {
     console.error("Error deleting permohonan:", error);
     res.status(500).json({ message: "Terjadi kesalahan saat membatalkan permohonan" });
@@ -218,18 +199,16 @@ const editPermohonan = async (req, res, next) => {
 const getNotifications = async (req, res, next) => {
   try {
     const userId = req.userId;
-
     const notifications = await Notification.findAll({
-      where: { 
+      where: {
         userId: userId,
-        judul: { [Op.not]: 'Pemberitahuan Nim Baru Mahasiswa' } // Tambahkan kondisi untuk tidak memuat notifikasi dengan judul ini
+        judul: { [Op.not]: "Pemberitahuan Nim Baru Mahasiswa" },
       },
       order: [["createdAt", "DESC"]],
     });
-
     res.render("./mahasiswa/notification", {
       notifications,
-      userId,  // Pass userId to the template
+      userId,
       title: "Notification",
       formatDate,
       formatTime,
@@ -243,8 +222,18 @@ function formatDate(dateString) {
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
   const monthNames = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
@@ -253,31 +242,31 @@ function formatDate(dateString) {
 
 function formatTime(dateString) {
   const date = new Date(dateString);
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${hours}:${minutes}:${seconds}`;
 }
-
 
 const home = async (req, res) => {
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
-  res.render("./mahasiswa/home", { user, mahasiswa, userId: req.userId, title: "Home"});
+  res.render("./mahasiswa/home", {
+    user,
+    mahasiswa,
+    userId: req.userId,
+    title: "Home",
+  });
 };
 
 const sendFeedback = async (req, res, next) => {
   try {
-    console.log('Body Request:', req.body); // Log data body request
-
-    const { heroInput } = req.body; // Mengambil input dari form dengan nama 'hero-input'
-
-    // Membuat entri baru untuk feedback ke dalam database
+    console.log("Body Request:", req.body);
+    const { heroInput } = req.body;
     const feedback = await Feedback.create({
       pesan: heroInput,
     });
-
-    res.status(201).json({ message: 'Feedback successfully sent', feedback });
+    res.status(201).json({ message: "Feedback successfully sent", feedback });
   } catch (error) {
     next(error);
   }
@@ -294,6 +283,6 @@ module.exports = {
   uploadProfilePicture,
   submitPermohonanPindah,
   editPermohonan,
-  sendFeedback,
   home,
+  dataPermohonan,
 };
