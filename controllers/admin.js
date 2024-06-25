@@ -176,11 +176,6 @@ const acceptPermohonan = async (req, res, next) => {
     if (!mahasiswa) {
       return res.status(404).json({ message: "Mahasiswa tidak ditemukan." });
     }
-    const permohonanBp = await PermohonanBp.create({
-      mahasiswaId: mahasiswa.id,
-      permohonan_id: permohonan.id,  // Corrected this line
-      status: "diajukan",
-    });
     const notification = await Notification.create({
       userId: mahasiswa.userId,
       judul: "Permohonan diterima",
@@ -190,7 +185,6 @@ const acceptPermohonan = async (req, res, next) => {
     io.to(mahasiswa.userId.toString()).emit("newNotification", notification);
     res.status(200).json({
       message: "Permohonan telah diterima dan notifikasi telah dikirim.",
-      permohonanBpId: permohonanBp.id,
     });
   } catch (error) {
     next(error);
@@ -304,7 +298,7 @@ const updateUsername = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid permohonanBpId" });
     }
     const permohonanBp = await PermohonanBp.findByPk(permohonanBpId, {
-      include: [{ model: Mahasiswa, include: User }],
+      include: [{ model: Mahasiswa, include: User }, Permohonan],
     });
     if (!permohonanBp) {
       return res.status(404).json({ message: "Permohonan BP not found" });
@@ -313,17 +307,15 @@ const updateUsername = async (req, res, next) => {
       return res.status(404).json({ message: "Mahasiswa or User not found" });
     }
     await permohonanBp.Mahasiswa.User.update({ username: nimBaru });
-    const permohonan = await Permohonan.findOne({
-      where: { mahasiswa_id: permohonanBp.Mahasiswa.id },
-    });
-    if (!permohonan) {
+    
+    if (!permohonanBp.Permohonan) {
       return res.status(404).json({ message: "Permohonan not found" });
     }
-    await permohonan.update({
+    await permohonanBp.Permohonan.update({
       status: "selesai",
     });
     await permohonanBp.Mahasiswa.update({
-      departemen: permohonan.departemen_tujuan,
+      departemen: permohonanBp.Permohonan.departemen_tujuan,
     });
     const notification = await Notification.create({
       userId: permohonanBp.Mahasiswa.User.id,
@@ -345,6 +337,7 @@ const updateUsername = async (req, res, next) => {
     next(error);
   }
 };
+
 
 const getAllFeedback = async (req, res, next) => {
   try {
