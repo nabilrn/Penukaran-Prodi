@@ -21,7 +21,6 @@ const detail = async (req, res) => {
   res.render("./mahasiswa/account", { user, mahasiswa });
 };
 
-
 const dataPermohonan = async (req, res) => {
   const user = await User.findByPk(req.userId);
   const mahasiswa = await Mahasiswa.findOne({ where: { userId: req.userId } });
@@ -79,19 +78,25 @@ const submitPermohonanPindah = async (req, res, next) => {
   try {
     const { tahunAjaran, semester, alasan, departemen_tujuan } = req.body;
     const userId = req.userId;
-
     let mahasiswa = await Mahasiswa.findOne({ where: { userId: userId } });
 
     if (!mahasiswa) {
-      return res.status(404).json({ message: "Data mahasiswa tidak ditemukan" });
+      return res
+        .status(404)
+        .json({ message: "Data mahasiswa tidak ditemukan" });
     }
 
     if (semester <= 2) {
-      return res.status(400).json({ message: "Belum menyelesaikan 2 semester perkuliahan" });
+      return res
+        .status(400)
+        .json({ message: "Belum menyelesaikan 2 semester perkuliahan" });
     }
 
     if (mahasiswa.departemen === departemen_tujuan) {
-      return res.status(400).json({ message: "Tidak bisa melakukan permohonan pindah ke jurusan yang sama dengan saat ini" });
+      return res.status(400).json({
+        message:
+          "Tidak bisa melakukan permohonan pindah ke jurusan yang sama dengan saat ini",
+      });
     }
 
     let previousPermohonan = await Permohonan.findOne({
@@ -100,7 +105,9 @@ const submitPermohonanPindah = async (req, res, next) => {
     });
 
     if (previousPermohonan && previousPermohonan.status !== "selesai") {
-      return res.status(400).json({ message: "Permohonan sebelumnya belum selesai" });
+      return res
+        .status(400)
+        .json({ message: "Permohonan sebelumnya belum selesai" });
     }
 
     const permohonan = await Permohonan.create({
@@ -111,23 +118,14 @@ const submitPermohonanPindah = async (req, res, next) => {
       departemen_tujuan,
     });
 
-    const permohonanBp = await PermohonanBp.create({
-      mahasiswaId: mahasiswa.id,
-      permohonan_id: permohonan.id,
-      status: 'diajukan', 
-        });
-
     res.status(201).json({
       message: "Permohonan pindah berhasil disimpan",
       permohonan,
-      permohonanBp, 
     });
   } catch (error) {
     next(error);
   }
 };
-
-
 
 const deletePermohonan = async (req, res, next) => {
   try {
@@ -161,10 +159,11 @@ const deletePermohonan = async (req, res, next) => {
     res.status(200).json({ message: "Permohonan berhasil dibatalkan" });
   } catch (error) {
     console.error("Error deleting permohonan:", error);
-    res.status(500).json({ message: "Terjadi kesalahan saat membatalkan permohonan" });
+    res
+      .status(500)
+      .json({ message: "Terjadi kesalahan saat membatalkan permohonan" });
   }
 };
-
 
 const editPermohonan = async (req, res, next) => {
   try {

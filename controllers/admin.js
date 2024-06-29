@@ -176,6 +176,12 @@ const acceptPermohonan = async (req, res, next) => {
     if (!mahasiswa) {
       return res.status(404).json({ message: "Mahasiswa tidak ditemukan." });
     }
+    const permohonanBp = await PermohonanBp.create({
+      id: permohonan.id, // Mengatur id sama dengan id permohonan
+      mahasiswaId: mahasiswa.id,
+      permohonan_id: permohonan.id,
+      status: "diajukan",
+    });
     const notification = await Notification.create({
       userId: mahasiswa.userId,
       judul: "Permohonan diterima",
@@ -185,6 +191,7 @@ const acceptPermohonan = async (req, res, next) => {
     io.to(mahasiswa.userId.toString()).emit("newNotification", notification);
     res.status(200).json({
       message: "Permohonan telah diterima dan notifikasi telah dikirim.",
+      permohonanBpId: permohonanBp.id,
     });
   } catch (error) {
     next(error);
@@ -247,7 +254,18 @@ const getAllPermohonanBp = async (req, res, next) => {
       const date = new Date(dateString);
       const day = String(date.getDate()).padStart(2, "0");
       const monthNames = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
       ];
       const month = monthNames[date.getMonth()];
       const year = date.getFullYear();
@@ -261,31 +279,39 @@ const getAllPermohonanBp = async (req, res, next) => {
           include: [
             {
               model: Permohonan,
-              attributes: ['departemen_tujuan', 'createdAt', 'updatedAt', 'status'],
+              attributes: [
+                "departemen_tujuan",
+                "createdAt",
+                "updatedAt",
+                "status",
+              ],
               separate: true,
-              order: [['createdAt', 'DESC']],
-              limit: 1,  
+              order: [["createdAt", "DESC"]],
+              limit: 1,
             },
             {
               model: User,
-              attributes: ['nama', 'username'],
+              attributes: ["nama", "username"],
             },
           ],
         },
         {
           model: Permohonan,
-          attributes: ['departemen_tujuan'],
-        }
+          attributes: ["departemen_tujuan"],
+        },
       ],
-      attributes: ['id', 'bpBaru', 'createdAt', 'updatedAt', 'status'],
+      attributes: ["id", "bpBaru", "createdAt", "updatedAt", "status"],
     });
 
-    res.render('admin/history', { permohonanBps, title: 'History', formatDate });
+    res.render("admin/history", {
+      permohonanBps,
+      title: "History",
+      formatDate,
+    });
   } catch (error) {
     next(error);
   }
 };
-
 
 const updateUsername = async (req, res, next) => {
   try {
@@ -307,7 +333,7 @@ const updateUsername = async (req, res, next) => {
       return res.status(404).json({ message: "Mahasiswa or User not found" });
     }
     await permohonanBp.Mahasiswa.User.update({ username: nimBaru });
-    
+
     if (!permohonanBp.Permohonan) {
       return res.status(404).json({ message: "Permohonan not found" });
     }
@@ -337,7 +363,6 @@ const updateUsername = async (req, res, next) => {
     next(error);
   }
 };
-
 
 const getAllFeedback = async (req, res, next) => {
   try {
